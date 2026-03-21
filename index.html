@@ -1,7 +1,19 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"/></head>
+<html lang="ka">
+<head>
+<meta charset="UTF-8"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
 <body>
-<h1 style="color:green;padding:40px">გამარჯობა!</h1>
+<div id="root"></div>
+<script>
+const { createClient } = supabase;
+const sb = createClient('https://eihsnldqfjpvhozzytjb.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpaHNubGRxZmpwdmhvenp5dGpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMTMyNDEsImV4cCI6MjA4OTY4OTI0MX0.fdQt15rRPvXeqMnrbOckYTlMoHVexTyXnnReWoxyQMY');
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement('h1', {style:{color:'green',padding:'40px'}}, '✅ React + Supabase მუშაობს!'));
+</script>
 </body>
 </html>
