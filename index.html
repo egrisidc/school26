@@ -52,7 +52,7 @@ function LoginScreen(){
 const [email,setEmail]=useState(’’);const[password,setPassword]=useState(’’);const[error,setError]=useState(’’);const[loading,setLoading]=useState(false);
 const submit=async()=>{if(!email||!password){setError(‘შეავსეთ ყველა ველი’);return;}setLoading(true);setError(’’);const{error:err}=await db.signIn(email,password);if(err){setError(‘არასწორი email ან პაროლი’);setLoading(false);}};
 const IS={width:‘100%’,padding:‘11px 14px’,border:‘1px solid #E5E7EB’,borderRadius:10,fontSize:14,outline:‘none’,fontFamily:‘inherit’};
-return(React.createElement(‘div’, { style: {display:‘flex’,alignItems:‘center’,justifyContent:‘center’,minHeight:‘100vh’,background:‘linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%)’,fontFamily:‘Noto Sans Georgian,sans-serif’}}, React.createElement(‘div’, { style: {background:’#fff’,borderRadius:24,padding:‘40px 36px’,width:‘min(400px,90vw)’,boxShadow:‘0 30px 80px rgba(0,0,0,0.4)’}}, React.createElement(‘div’, { style: {textAlign:‘center’,marginBottom:32}}, React.createElement(‘div’, { style: {fontSize:11,color:’#94A3B8’,letterSpacing:3,marginBottom:6}}, “სახელოვნებო”), React.createElement(‘div’, { style: {fontSize:48,fontWeight:900,color:’#0F172A’,lineHeight:1}}, “N26”), React.createElement(‘div’, { style: {fontSize:13,color:’#64748B’,marginTop:8}}, “მართვის სისტემა” )), React.createElement(‘div’, { style: {marginBottom:14}}, React.createElement(‘label’, { style: {display:‘block’,fontSize:12,fontWeight:600,color:’#6B7280’,marginBottom:5}}, “Email”), React.createElement(‘input’, { value: email, onChange: e=>setEmail(e.target.value), onKeyDown: e=>e.key===‘Enter’&&submit(), placeholder: “admin@school26.ge”, style: IS})), React.createElement(‘div’, { style: {marginBottom:20}}, React.createElement(‘label’, { style: {display:‘block’,fontSize:12,fontWeight:600,color:’#6B7280’,marginBottom:5}}, “პაროლი”), React.createElement(‘input’, { type: “password”, value: password, onChange: e=>setPassword(e.target.value), onKeyDown: e=>e.key===‘Enter’&&submit(), placeholder: “••••••••”, style: IS})), error&&React.createElement(‘div’, { style: {background:’#FEF2F2’,border:‘1px solid #FECACA’,borderRadius:8,padding:‘9px 13px’,fontSize:13,color:’#DC2626’,marginBottom:14}}, error), React.createElement(‘button’, { onClick: submit, disabled: loading, style: {width:‘100%’,padding:‘13px’,background:loading?’#94A3B8’:’#0F172A’,border:‘none’,borderRadius:11,color:’#fff’,fontWeight:700,fontSize:15,cursor:loading?‘default’:‘pointer’,fontFamily:‘inherit’}}, loading?‘⏳ შესვლა…’:‘🔐 შესვლა’))));
+return(React.createElement(‘div’, { style: {display:‘flex’,alignItems:‘center’,justifyContent:‘center’,minHeight:‘100vh’,background:‘linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%)’,fontFamily:‘Noto Sans Georgian,sans-serif’}}, React.createElement(‘div’, { style: {background:’#fff’,borderRadius:24,padding:‘40px 36px’,width:‘min(400px,90vw)’,boxShadow:‘0 30px 80px rgba(0,0,0,0.4)’}}, React.createElement(‘div’, { style: {textAlign:‘center’,marginBottom:32}}, React.createElement(‘div’, { style: {fontSize:11,color:’#94A3B8’,letterSpacing:3,marginBottom:6}}, “სახელოვნებო”), React.createElement(‘div’, { style: {fontSize:48,fontWeight:900,color:’#0F172A’,lineHeight:1}}, “N26”), React.createElement(‘div’, { style: {fontSize:13,color:’#64748B’,marginTop:8}}, “მართვის სისტემა” )), React.createElement(‘div’, { style: {marginBottom:14}}, React.createElement(‘label’, { style: {display:‘block’,fontSize:12,fontWeight:600,color:’#6B7280’,marginBottom:5}}, “Email”), React.createElement(‘input’, { value: email, onChange: e=>setEmail(e.target.value), onKeyDown: e=>e.key===‘Enter’&&submit(), placeholder: “admin@school26.ge”, style: IS})), React.createElement(‘div’, { style: {marginBottom:20}}, React.createElement(‘label’, { style: {display:‘block’,fontSize:12,fontWeight:600,color:’#6B7280’,marginBottom:5}}, “პაროლი”), React.createElement(‘input’, { type: “password”, value: password, onChange: e=>setPassword(e.target.value), onKeyDown: e=>e.key===‘Enter’&&submit(), placeholder: “\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022”, style: IS})), error&&React.createElement(‘div’, { style: {background:’#FEF2F2’,border:‘1px solid #FECACA’,borderRadius:8,padding:‘9px 13px’,fontSize:13,color:’#DC2626’,marginBottom:14}}, error), React.createElement(‘button’, { onClick: submit, disabled: loading, style: {width:‘100%’,padding:‘13px’,background:loading?’#94A3B8’:’#0F172A’,border:‘none’,borderRadius:11,color:’#fff’,fontWeight:700,fontSize:15,cursor:loading?‘default’:‘pointer’,fontFamily:‘inherit’}}, loading?’\u23F3 შესვლა…’:’\uD83D\uDD10 შესვლა’))));
 }
 
 function App(){
@@ -64,16 +64,16 @@ return React.createElement(AppMain, { user: user, onSignOut: ()=>db.signOut()});
 }
 
 const DIVISIONS = [
-{ id:“d1”,  emoji:“🎹”, name:“საფორტეპიანო”,                           color:”#7C3AED” },
-{ id:“d2”,  emoji:“🩰”, name:“ქართული ხალხური ცეკვა”,                  color:”#DB2777” },
-{ id:“d3”,  emoji:“🎭”, name:“თეატრალური განყოფილება”,                  color:”#D97706” },
-{ id:“d4”,  emoji:“🎸”, name:“გიტარა”,                                 color:”#059669” },
-{ id:“d5”,  emoji:“🎻”, name:“ვიოლინო”,                                color:”#2563EB” },
-{ id:“d6”,  emoji:“🪗”, name:“ხალხურ საკრავთა განყოფ.”,                color:”#DC2626” },
-{ id:“d7”,  emoji:“🎼”, name:“გალობა / ხალხური სიმღერა”,               color:”#0891B2” },
-{ id:“d8”,  emoji:“🎤”, name:“ვოკალურ-საესტრადო განყოფ.”,              color:”#C026D3” },
-{ id:“d9”,  emoji:“🎨”, name:“ფერწერა და გამოყენ. ხელოვნება”,          color:”#EA580C” },
-{ id:“d10”, emoji:“🎷”, name:“ჩასაბერი ინსტრუმენტები”,                 color:”#65A30D” },
+{ id:“d1”,  emoji:”\uD83C\uDFB9”, name:“საფორტეპიანო”,                           color:”#7C3AED” },
+{ id:“d2”,  emoji:”\uD83E\uDE70”, name:“ქართული ხალხური ცეკვა”,                  color:”#DB2777” },
+{ id:“d3”,  emoji:”\uD83C\uDFAD”, name:“თეატრალური განყოფილება”,                  color:”#D97706” },
+{ id:“d4”,  emoji:”\uD83C\uDFB8”, name:“გიტარა”,                                 color:”#059669” },
+{ id:“d5”,  emoji:”\uD83C\uDFBB”, name:“ვიოლინო”,                                color:”#2563EB” },
+{ id:“d6”,  emoji:”\uD83E\uDE97”, name:“ხალხურ საკრავთა განყოფ.”,                color:”#DC2626” },
+{ id:“d7”,  emoji:”\uD83C\uDFBC”, name:“გალობა / ხალხური სიმღერა”,               color:”#0891B2” },
+{ id:“d8”,  emoji:”\uD83C\uDFA4”, name:“ვოკალურ-საესტრადო განყოფ.”,              color:”#C026D3” },
+{ id:“d9”,  emoji:”\uD83C\uDFA8”, name:“ფერწერა და გამოყენ. ხელოვნება”,          color:”#EA580C” },
+{ id:“d10”, emoji:”\uD83C\uDFB7”, name:“ჩასაბერი ინსტრუმენტები”,                 color:”#65A30D” },
 ];
 
 const TEACHERS_INIT = [
@@ -170,8 +170,8 @@ React.createElement(‘span’, { style: {background:color+“20”,color,border
 }
 
 function GB({gender}) {
-if (gender === “female”) return React.createElement(‘span’, { style: {background:”#FDF2F8”,color:”#DB2777”,border:“1px solid #FBCFE8”,borderRadius:20,padding:“3px 12px”,fontSize:12,fontWeight:700,whiteSpace:“nowrap”}}, “♀ გოგო” );
-return React.createElement(‘span’, { style: {background:”#EFF6FF”,color:”#1D4ED8”,border:“1px solid #BFDBFE”,borderRadius:20,padding:“3px 12px”,fontSize:12,fontWeight:700,whiteSpace:“nowrap”}}, “♂ ბიჭი” );
+if (gender === “female”) return React.createElement(‘span’, { style: {background:”#FDF2F8”,color:”#DB2777”,border:“1px solid #FBCFE8”,borderRadius:20,padding:“3px 12px”,fontSize:12,fontWeight:700,whiteSpace:“nowrap”}}, “\u2640 გოგო” );
+return React.createElement(‘span’, { style: {background:”#EFF6FF”,color:”#1D4ED8”,border:“1px solid #BFDBFE”,borderRadius:20,padding:“3px 12px”,fontSize:12,fontWeight:700,whiteSpace:“nowrap”}}, “\u2642 ბიჭი” );
 }
 
 function Ini({name, size, color}) {
@@ -192,7 +192,7 @@ const ok = paid.has(m);
 return (
 React.createElement(‘div’, { key: m, style: {textAlign:“center”}}
 , React.createElement(‘div’, { style: {width:34,height:34,borderRadius:8,background:ok?”#10B981”:”#FEE2E2”,border:“2px solid “+(ok?”#059669”:”#FCA5A5”),display:“flex”,alignItems:“center”,justifyContent:“center”,fontSize:13,fontWeight:700,color:ok?”#fff”:”#DC2626”}}
-, ok ? “✓” : “✗”
+, ok ? “\u2713” : “\u2717”
 )
 , React.createElement(‘div’, { style: {fontSize:8,marginTop:2,color:”#6B7280”,width:34,lineHeight:1.2}}, m.slice(0,4))
 )
@@ -211,12 +211,12 @@ onMouseLeave: e => e.currentTarget.style.background = student.active ? “#fff�
 , React.createElement(‘div’, { style: {flex:1,minWidth:0}}
 , React.createElement(‘div’, { style: {fontWeight:700,fontSize:13,color:”#0F172A”}}, student.lastName, “ “ , student.firstName)
 , showMeta
-? React.createElement(‘div’, { style: {fontSize:11,color:”#94A3B8”}}, student.divisionEmoji, “ “ , student.division, “ · “  , student.className)
+? React.createElement(‘div’, { style: {fontSize:11,color:”#94A3B8”}}, student.divisionEmoji, “ “ , student.division, “ \u00B7 “  , student.className)
 : React.createElement(‘div’, { style: {fontSize:11,color:”#9CA3AF”}}, “ჩარ.: “ , student.enrollDate)
 )
 , React.createElement(GB, { gender: student.gender} )
 , !student.active && React.createElement(Badge, { color: “#DC2626”, small: true}, “გარ.”)
-, React.createElement(‘span’, { style: {color:”#D1D5DB”,fontSize:17}}, “›”)
+, React.createElement(‘span’, { style: {color:”#D1D5DB”,fontSize:17}}, “\u203A”)
 )
 );
 }
@@ -253,28 +253,28 @@ setMonth(””); setAmount(“60”); setDate(today); setDesc(””); setErr(�
 
 return (
 React.createElement(‘div’, { style: {background:”#F8FAFC”,borderRadius:12,padding:“14px 16px”,border:“1px solid #E2E8F0”}}
-, React.createElement(‘div’, { style: {fontSize:12,fontWeight:800,color:”#374151”,marginBottom:12}}, “➕ გადახდის დამატება”  )
+, React.createElement(‘div’, { style: {fontSize:12,fontWeight:800,color:”#374151”,marginBottom:12}}, “\u2795 გადახდის დამატება”  )
 , err && React.createElement(‘div’, { style: {fontSize:11,color:”#DC2626”,background:”#FEF2F2”,border:“1px solid #FECACA”,borderRadius:8,padding:“6px 10px”,marginBottom:10}}, err)
 , React.createElement(‘div’, { style: {display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:9}}
 , React.createElement(‘div’, null
 , React.createElement(‘label’, { style: LS}, “სასწ. წელი” )
 , React.createElement(‘select’, { value: year, onChange: e => { setYear(e.target.value); setMonth(””); }, style: IS}
-, React.createElement(‘option’, { value: “2026”}, “2025–2026”)
-, React.createElement(‘option’, { value: “2025”}, “2024–2025”)
+, React.createElement(‘option’, { value: “2026”}, “2025\u20132026”)
+, React.createElement(‘option’, { value: “2025”}, “2024\u20132025”)
 )
 )
 , React.createElement(‘div’, null
 , React.createElement(‘label’, { style: LS}, “თვე”)
 , React.createElement(‘select’, { value: month, onChange: e => setMonth(e.target.value), style: IS}
-, React.createElement(‘option’, { value: “”}, “— აირჩიეთ —”  )
+, React.createElement(‘option’, { value: “”}, “\u2014 აირჩიეთ \u2014”  )
 , months.map(m => {
 const paid = payments.find(p => p.year===Number(year) && p.month===m);
-return React.createElement(‘option’, { key: m, value: m, disabled: !!paid}, m, paid?” ✓”:””);
+return React.createElement(‘option’, { key: m, value: m, disabled: !!paid}, m, paid?” \u2713”:””);
 })
 )
 )
 , React.createElement(‘div’, null
-, React.createElement(‘label’, { style: LS}, “თანხა (₾)” )
+, React.createElement(‘label’, { style: LS}, “თანხა (\u20BE)” )
 , React.createElement(‘input’, { type: “number”, min: “1”, value: amount, onChange: e => setAmount(e.target.value), style: IS, placeholder: “60”} )
 )
 , React.createElement(‘div’, null
@@ -286,7 +286,7 @@ return React.createElement(‘option’, { key: m, value: m, disabled: !!paid}, 
 , React.createElement(‘input’, { value: desc, onChange: e => setDesc(e.target.value), style: IS, placeholder: “მაგ: ნაღდი, გადარიცხვა, ა.შ.”   } )
 )
 )
-, React.createElement(‘button’, { onClick: submit, style: {marginTop:10,width:“100%”,padding:“9px 0”,border:“none”,borderRadius:10,background:col,color:”#fff”,cursor:“pointer”,fontWeight:700,fontSize:13,fontFamily:“inherit”}}, “✅ გადახდის დამატება”
+, React.createElement(‘button’, { onClick: submit, style: {marginTop:10,width:“100%”,padding:“9px 0”,border:“none”,borderRadius:10,background:col,color:”#fff”,cursor:“pointer”,fontWeight:700,fontSize:13,fontFamily:“inherit”}}, “\u2705 გადახდის დამატება”
 
 ```
   )
@@ -346,10 +346,10 @@ const data = XLSX.utils.sheet_to_json(ws, {defval:””});
       if (!ln && !fn) return; // skip empty rows
 
       const month = normalizeMonth(mo);
-      if (!month) { errs.push(`სტრ.${i+2}: "${mo}" — თვე ვერ მოიძებნა`); return; }
+      if (!month) { errs.push(`სტრ.${i+2}: "${mo}" \u2014 თვე ვერ მოიძებნა`); return; }
 
       const year = parseInt(yr);
-      if (!year || year < 2020 || year > 2030) { errs.push(`სტრ.${i+2}: "${yr}" — არასწორი წელი`); return; }
+      if (!year || year < 2020 || year > 2030) { errs.push(`სტრ.${i+2}: "${yr}" \u2014 არასწორი წელი`); return; }
 
       // Find matching student
       const match = students.find(s =>
@@ -396,7 +396,7 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
         , React.createElement('div', { style: {fontSize:18,fontWeight:900}}, "Excel-დან გადახდების import"  )
         , React.createElement('div', { style: {fontSize:12,opacity:.8,marginTop:3}}, "xlsx / xls ფაილი"   )
       )
-      , React.createElement('button', { onClick: onClose, style: {background:"rgba(255,255,255,0.2)",border:"none",color:"#fff",borderRadius:10,width:32,height:32,cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center"}}, "✕")
+      , React.createElement('button', { onClick: onClose, style: {background:"rgba(255,255,255,0.2)",border:"none",color:"#fff",borderRadius:10,width:32,height:32,cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center"}}, "\u2715")
     )
 
     , React.createElement('div', { style: {overflowY:"auto",padding:20,flex:1}}
@@ -423,7 +423,7 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
         React.createElement('div', { onClick: ()=>fileRef.current.click(), style: {border:"2px dashed #10B981",borderRadius:12,padding:"28px 20px",textAlign:"center",cursor:"pointer",background:"#F0FDF4",marginBottom:16,transition:"all 0.2s"},
           onMouseEnter: e=>e.currentTarget.style.background="#D1FAE5",
           onMouseLeave: e=>e.currentTarget.style.background="#F0FDF4"}
-          , React.createElement('div', { style: {fontSize:36,marginBottom:8}}, "📂")
+          , React.createElement('div', { style: {fontSize:36,marginBottom:8}}, "\uD83D\uDCC2")
           , React.createElement('div', { style: {fontWeight:700,fontSize:14,color:"#059669"}}, "Excel ფაილი აარჩიეთ"  )
           , React.createElement('div', { style: {fontSize:12,color:"#6B7280",marginTop:4}}, ".xlsx ან .xls"  )
           , React.createElement('input', { ref: fileRef, type: "file", accept: ".xlsx,.xls", style: {display:"none"},
@@ -431,12 +431,12 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
         )
       )
 
-      , loading && React.createElement('div', { style: {textAlign:"center",padding:24,color:"#059669",fontSize:14,fontWeight:600}}, "⏳ ფაილი იკითხება..."  )
+      , loading && React.createElement('div', { style: {textAlign:"center",padding:24,color:"#059669",fontSize:14,fontWeight:600}}, "\u23F3 ფაილი იკითხება..."  )
 
       /* Errors */
       , errors.length > 0 && (
         React.createElement('div', { style: {background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:10,padding:"12px 16px",marginBottom:14}}
-          , React.createElement('div', { style: {fontWeight:700,fontSize:13,color:"#DC2626",marginBottom:6}}, "⚠️ " , errors.length, " პრობლემა:" )
+          , React.createElement('div', { style: {fontWeight:700,fontSize:13,color:"#DC2626",marginBottom:6}}, "\u26A0\uFE0F " , errors.length, " პრობლემა:" )
           , errors.map((e,i) => React.createElement('div', { key: i, style: {fontSize:11,color:"#B91C1C",marginBottom:2}}, e))
         )
       )
@@ -452,14 +452,14 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
           /* Matched preview */
           , matched.length > 0 && (
             React.createElement('div', { style: {marginBottom:14}}
-              , React.createElement('div', { style: {fontSize:12,fontWeight:700,color:"#059669",marginBottom:8}}, "✅ დაემატება ("  , matched.length, "):")
+              , React.createElement('div', { style: {fontSize:12,fontWeight:700,color:"#059669",marginBottom:8}}, "\u2705 დაემატება ("  , matched.length, "):")
               , React.createElement('div', { style: {maxHeight:200,overflowY:"auto",border:"1px solid #D1FAE5",borderRadius:10,background:"#F9FAFB"}}
                 , matched.map((r,i) => (
                   React.createElement('div', { key: i, style: {display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 12px",borderBottom:"1px solid #F1F5F9",fontSize:12}}
                     , React.createElement('span', { style: {fontWeight:600,color:"#0F172A"}}, r.lastName, " " , r.firstName)
                     , React.createElement('div', { style: {display:"flex",gap:10,color:"#6B7280"}}
                       , React.createElement('span', null, r.month, " " , r.year)
-                      , React.createElement('span', { style: {fontWeight:700,color:"#059669"}}, r.amount, "₾")
+                      , React.createElement('span', { style: {fontWeight:700,color:"#059669"}}, r.amount, "\u20BE")
                     )
                   )
                 ))
@@ -470,7 +470,7 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
           /* Unmatched */
           , unmatched.length > 0 && (
             React.createElement('div', { style: {marginBottom:14}}
-              , React.createElement('div', { style: {fontSize:12,fontWeight:700,color:"#DC2626",marginBottom:8}}, "❌ ვერ მოიძებნა ("   , unmatched.length, ") — გამოტოვდება:"  )
+              , React.createElement('div', { style: {fontSize:12,fontWeight:700,color:"#DC2626",marginBottom:8}}, "\u274C ვერ მოიძებნა ("   , unmatched.length, ") \u2014 გამოტოვდება:"  )
               , React.createElement('div', { style: {maxHeight:120,overflowY:"auto",border:"1px solid #FECACA",borderRadius:10,background:"#FFF5F5"}}
                 , unmatched.map((r,i) => (
                   React.createElement('div', { key: i, style: {display:"flex",justifyContent:"space-between",padding:"6px 12px",borderBottom:"1px solid #FEE2E2",fontSize:12}}
@@ -487,7 +487,7 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
       /* Done */
       , done && (
         React.createElement('div', { style: {textAlign:"center",padding:32}}
-          , React.createElement('div', { style: {fontSize:48,marginBottom:12}}, "✅")
+          , React.createElement('div', { style: {fontSize:48,marginBottom:12}}, "\u2705")
           , React.createElement('div', { style: {fontSize:18,fontWeight:900,color:"#059669",marginBottom:6}}, matched.length, " გადახდა დაემატა!"  )
           , React.createElement('div', { style: {fontSize:13,color:"#6B7280"}}, "მონაცემები განახლდა" )
         )
@@ -498,7 +498,7 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
     , !done && rows.length > 0 && matched.length > 0 && (
       React.createElement('div', { style: {padding:"13px 20px",borderTop:"1px solid #E5E7EB",display:"flex",justifyContent:"flex-end",gap:10,background:"#FAFAFA"}}
         , React.createElement('button', { onClick: onClose, style: {padding:"9px 18px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",cursor:"pointer",fontWeight:600,fontSize:13,color:"#6B7280",fontFamily:"inherit"}}, "გაუქმება")
-        , React.createElement('button', { onClick: doImport, style: {padding:"9px 22px",border:"none",borderRadius:10,background:"#059669",color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "✅ "
+        , React.createElement('button', { onClick: doImport, style: {padding:"9px 22px",border:"none",borderRadius:10,background:"#059669",color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "\u2705 "
            , matched.length, " გადახდის დამატება"
         )
       )
@@ -525,7 +525,7 @@ const p25  = data.payments.filter(p => p.year === 2025).reduce((a,p) => a + p.am
 const t26  = SM26.length * 60;
 const t25  = SM25.length * 60;
 const ac   = data.gender === “female” ? “#BE185D” : “#1E40AF”;
-const TABS = [“👤 მოსწავლე”, “👨‍👩‍👧 მშობლები”, “💳 გადასახადი”];
+const TABS = [”\uD83D\uDC64 მოსწავლე”, “\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67 მშობლები”, “\uD83D\uDCB3 გადასახადი”];
 
 const body = (
 React.createElement(React.Fragment, null
@@ -536,14 +536,14 @@ React.createElement(React.Fragment, null
 , React.createElement(‘div’, { style: {fontSize:19,fontWeight:900}}, data.lastName, “ “ , data.firstName)
 , React.createElement(‘div’, { style: {opacity:.75,fontSize:12,marginTop:3,display:“flex”,gap:6,flexWrap:“wrap”}}
 , React.createElement(‘span’, null, data.divisionEmoji, “ “ , data.division)
-, React.createElement(‘span’, null, “·”), React.createElement(‘span’, null, data.className)
-, React.createElement(‘span’, null, “·”), React.createElement(‘span’, null, data.teacher)
+, React.createElement(‘span’, null, “\u00B7”), React.createElement(‘span’, null, data.className)
+, React.createElement(‘span’, null, “\u00B7”), React.createElement(‘span’, null, data.teacher)
 )
 )
 )
 , React.createElement(‘div’, { style: {display:“flex”,gap:7,alignItems:“center”,flexShrink:0}}
 , React.createElement(GB, { gender: data.gender} )
-, React.createElement(‘button’, { onClick: onClose, style: {background:“rgba(255,255,255,0.2)”,border:“none”,color:”#fff”,borderRadius:10,width:32,height:32,cursor:“pointer”,fontSize:17,display:“flex”,alignItems:“center”,justifyContent:“center”}}, “✕”)
+, React.createElement(‘button’, { onClick: onClose, style: {background:“rgba(255,255,255,0.2)”,border:“none”,color:”#fff”,borderRadius:10,width:32,height:32,cursor:“pointer”,fontSize:17,display:“flex”,alignItems:“center”,justifyContent:“center”}}, “\u2715”)
 )
 )
 
@@ -564,14 +564,14 @@ React.createElement(React.Fragment, null
         ))
         , React.createElement('div', null, React.createElement('label', { style: LS}, "სქესი")
           , React.createElement('select', { value: data.gender, onChange: e => set("gender",e.target.value), style: IS}
-            , React.createElement('option', { value: "female"}, "♀ გოგო" )
-            , React.createElement('option', { value: "male"}, "♂ ბიჭი" )
+            , React.createElement('option', { value: "female"}, "\u2640 გოგო" )
+            , React.createElement('option', { value: "male"}, "\u2642 ბიჭი" )
           )
         )
         , React.createElement('div', null, React.createElement('label', { style: LS}, "სტატუსი")
           , React.createElement('select', { value: data.active?"1":"0", onChange: e => set("active",e.target.value==="1"), style: IS}
-            , React.createElement('option', { value: "1"}, "✅ აქტიური" )
-            , React.createElement('option', { value: "0"}, "🔴 გარიცხული" )
+            , React.createElement('option', { value: "1"}, "\u2705 აქტიური" )
+            , React.createElement('option', { value: "0"}, "\uD83D\uDD34 გარიცხული" )
           )
         )
         , React.createElement('div', null, React.createElement('label', { style: LS}, "ჩარიცხვა"), React.createElement('input', { type: "date", value: data.enrollDate, onChange: e => set("enrollDate",e.target.value), style: IS} ))
@@ -619,8 +619,8 @@ React.createElement(React.Fragment, null
           , [[2026,p26,t26,"#10B981","#F0FDF4","#D1FAE5"],[2025,p25,t25,"#3B82F6","#EFF6FF","#DBEAFE"]].map(([yr,paid,tot,col,bg,bar]) => (
             React.createElement('div', { key: yr, style: {background:bg,borderRadius:11,padding:"13px 15px",border:"1px solid "+col+"30"}}
               , React.createElement('div', { style: {fontSize:11,color:col,fontWeight:700}}, yr, " სასწ. წ."  )
-              , React.createElement('div', { style: {fontSize:26,fontWeight:900,color:col,lineHeight:1,marginTop:2}}, paid, "₾")
-              , React.createElement('div', { style: {fontSize:11,color:"#6B7280",marginBottom:6}}, "სულ: " , tot, "₾ · დარჩ.: "   , Math.max(0,tot-paid), "₾")
+              , React.createElement('div', { style: {fontSize:26,fontWeight:900,color:col,lineHeight:1,marginTop:2}}, paid, "\u20BE")
+              , React.createElement('div', { style: {fontSize:11,color:"#6B7280",marginBottom:6}}, "სულ: " , tot, "\u20BE \u00B7 დარჩ.: "   , Math.max(0,tot-paid), "\u20BE")
               , React.createElement('div', { style: {background:bar,borderRadius:5,height:7}}
                 , React.createElement('div', { style: {background:col,height:7,borderRadius:5,width:Math.min(100,tot>0?paid/tot*100:0)+"%"}} )
               )
@@ -631,11 +631,11 @@ React.createElement(React.Fragment, null
 
         /* Month grid */
         , React.createElement('div', { style: {marginBottom:12}}
-          , React.createElement('div', { style: {fontSize:12,fontWeight:800,color:"#374151",marginBottom:7}}, "2025–2026")
+          , React.createElement('div', { style: {fontSize:12,fontWeight:800,color:"#374151",marginBottom:7}}, "2025\u20132026")
           , React.createElement(PayRow, { months: SM26, payments: data.payments, year: 2026} )
         )
         , React.createElement('div', { style: {marginBottom:18}}
-          , React.createElement('div', { style: {fontSize:12,fontWeight:800,color:"#374151",marginBottom:7}}, "2024–2025")
+          , React.createElement('div', { style: {fontSize:12,fontWeight:800,color:"#374151",marginBottom:7}}, "2024\u20132025")
           , React.createElement(PayRow, { months: SM25, payments: data.payments, year: 2025} )
         )
 
@@ -643,7 +643,7 @@ React.createElement(React.Fragment, null
         , React.createElement(PayForm, { payments: data.payments, onAdd: newPay => set("payments",[...data.payments, newPay]), accentColor: ac} )
 
         /* History */
-        , React.createElement('div', { style: {fontSize:12,fontWeight:800,color:"#374151",marginBottom:8,marginTop:18}}, "📋 გადახდის ისტორია"  )
+        , React.createElement('div', { style: {fontSize:12,fontWeight:800,color:"#374151",marginBottom:8,marginTop:18}}, "\uD83D\uDCCB გადახდის ისტორია"  )
         , data.payments.length === 0 && (
           React.createElement('div', { style: {textAlign:"center",padding:20,color:"#94A3B8",fontSize:12}}, "გადახდები არ მოიძებნა"  )
         )
@@ -652,15 +652,15 @@ React.createElement(React.Fragment, null
             , React.createElement('div', { style: {flex:1,minWidth:0}}
               , React.createElement('div', { style: {display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}
                 , React.createElement('span', { style: {fontSize:12,fontWeight:700,color:"#374151"}}, p.month, " " , p.year)
-                , React.createElement('span', { style: {fontWeight:900,color:"#10B981",fontSize:13}}, p.amount, "₾")
+                , React.createElement('span', { style: {fontWeight:900,color:"#10B981",fontSize:13}}, p.amount, "\u20BE")
                 , p.desc && React.createElement('span', { style: {fontSize:11,color:"#64748B",fontStyle:"italic"}}, p.desc)
               )
-              , React.createElement('div', { style: {fontSize:10,color:"#9CA3AF",marginTop:2}}, "📅 " , p.date)
+              , React.createElement('div', { style: {fontSize:10,color:"#9CA3AF",marginTop:2}}, "\uD83D\uDCC5 " , p.date)
             )
             , React.createElement('button', { onClick: () => set("payments", data.payments.filter(x => x.id !== p.id)),
               style: {background:"none",border:"none",cursor:"pointer",color:"#FDA4AF",fontSize:15,padding:"2px 4px",borderRadius:6,flexShrink:0,lineHeight:1},
               onMouseEnter: e=>e.currentTarget.style.color="#DC2626",
-              onMouseLeave: e=>e.currentTarget.style.color="#FDA4AF"}, "✕")
+              onMouseLeave: e=>e.currentTarget.style.color="#FDA4AF"}, "\u2715")
           )
         ))
       )
@@ -669,7 +669,7 @@ React.createElement(React.Fragment, null
 
   , React.createElement('div', { style: {padding:"12px 20px",borderTop:"1px solid #E5E7EB",display:"flex",justifyContent:"flex-end",gap:9,background:"#FAFAFA"}}
     , React.createElement('button', { onClick: onClose, style: {padding:"8px 16px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",cursor:"pointer",fontWeight:600,color:"#6B7280",fontFamily:"inherit"}}, "გაუქმება")
-    , React.createElement('button', { onClick: () => { onSave(data); onClose(); }, style: {padding:"8px 22px",border:"none",borderRadius:10,background:ac,color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "💾 შენახვა" )
+    , React.createElement('button', { onClick: () => { onSave(data); onClose(); }, style: {padding:"8px 22px",border:"none",borderRadius:10,background:ac,color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "\uD83D\uDCBE შენახვა" )
   )
 )
 ```
@@ -698,7 +698,7 @@ const myS    = allStudents.filter(s => s.teacherId === teacher.id && s.active);
 const color  = _optionalChain([div, ‘optionalAccess’, _9 => _9.color]) || “#2563EB”;
 const girls  = […myS.filter(s => s.gender === “female”)].sort((a,b) => a.lastName.localeCompare(b.lastName));
 const boys   = […myS.filter(s => s.gender === “male”)].sort((a,b)   => a.lastName.localeCompare(b.lastName));
-const TABS   = [“✏️ რედაქტირება”, “👥 მოსწავლეები”];
+const TABS   = [”\u270F\uFE0F რედაქტირება”, “\uD83D\uDC65 მოსწავლეები”];
 
 return (
 React.createElement(React.Fragment, null
@@ -711,22 +711,22 @@ React.createElement(React.Fragment, null
           , React.createElement(Ini, { name: data.name, size: 50, color: "#fff"} )
           , React.createElement('div', null
             , React.createElement('div', { style: {fontSize:19,fontWeight:900}}, data.name)
-            , React.createElement('div', { style: {opacity:.8,fontSize:12,marginTop:3}}, _optionalChain([div, 'optionalAccess', _10 => _10.emoji]), " " , _optionalChain([div, 'optionalAccess', _11 => _11.name]), " · "  , data.subject)
+            , React.createElement('div', { style: {opacity:.8,fontSize:12,marginTop:3}}, _optionalChain([div, 'optionalAccess', _10 => _10.emoji]), " " , _optionalChain([div, 'optionalAccess', _11 => _11.name]), " \u00B7 "  , data.subject)
           )
         )
-        , React.createElement('button', { onClick: onClose, style: {background:"rgba(255,255,255,0.2)",border:"none",color:"#fff",borderRadius:10,width:32,height:32,cursor:"pointer",fontSize:17,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}, "✕")
+        , React.createElement('button', { onClick: onClose, style: {background:"rgba(255,255,255,0.2)",border:"none",color:"#fff",borderRadius:10,width:32,height:32,cursor:"pointer",fontSize:17,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}, "\u2715")
       )
 
       , React.createElement('div', { style: {display:"flex",borderBottom:"1px solid #E2E8F0",background:"#FAFAFA"}}
         , React.createElement('div', { onClick: () => setTab(1), style: {flex:1,padding:"10px 0",textAlign:"center",cursor:"pointer",borderRight:"1px solid #E2E8F0",transition:"all .15s"},
           onMouseEnter: e => e.currentTarget.style.background = color+"12",
           onMouseLeave: e => e.currentTarget.style.background = "transparent"}
-          , React.createElement('div', { style: {fontSize:15}}, "👥")
+          , React.createElement('div', { style: {fontSize:15}}, "\uD83D\uDC65")
           , React.createElement('div', { style: {fontSize:19,fontWeight:900,color,lineHeight:1}}, myS.length)
-          , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "მოსწ. →" )
+          , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "მოსწ. \u2192" )
         )
         , React.createElement('div', { style: {flex:1,padding:"10px 0",textAlign:"center",borderRight:"1px solid #E2E8F0"}}
-          , React.createElement('div', { style: {fontSize:15}}, "📋")
+          , React.createElement('div', { style: {fontSize:15}}, "\uD83D\uDCCB")
           , React.createElement('div', { style: {fontSize:19,fontWeight:900,color:"#64748B",lineHeight:1}}, cls.length)
           , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "ჯგუფი")
         )
@@ -762,11 +762,11 @@ React.createElement(React.Fragment, null
           React.createElement('div', null
             , React.createElement('div', { style: {display:"flex",gap:7,marginBottom:12,flexWrap:"wrap"}}
               , React.createElement('div', { style: {background:color+"10",border:"1px solid "+color+"25",borderRadius:8,padding:"6px 13px"}}, React.createElement('span', { style: {fontSize:13,fontWeight:700,color}}, "სულ: " , myS.length))
-              , React.createElement('div', { style: {background:"#FDF2F8",border:"1px solid #FBCFE8",borderRadius:8,padding:"6px 13px"}}, React.createElement('span', { style: {fontSize:13,fontWeight:700,color:"#DB2777"}}, "♀ " , girls.length))
-              , React.createElement('div', { style: {background:"#EFF6FF",border:"1px solid #BFDBFE",borderRadius:8,padding:"6px 13px"}}, React.createElement('span', { style: {fontSize:13,fontWeight:700,color:"#1D4ED8"}}, "♂ " , boys.length))
+              , React.createElement('div', { style: {background:"#FDF2F8",border:"1px solid #FBCFE8",borderRadius:8,padding:"6px 13px"}}, React.createElement('span', { style: {fontSize:13,fontWeight:700,color:"#DB2777"}}, "\u2640 " , girls.length))
+              , React.createElement('div', { style: {background:"#EFF6FF",border:"1px solid #BFDBFE",borderRadius:8,padding:"6px 13px"}}, React.createElement('span', { style: {fontSize:13,fontWeight:700,color:"#1D4ED8"}}, "\u2642 " , boys.length))
             )
             , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:13}}
-              , [["female","♀ გოგოები","#DB2777",girls],["male","♂ ბიჭები","#1D4ED8",boys]].map(([g,label,col,list]) => (
+              , [["female","\u2640 გოგოები","#DB2777",girls],["male","\u2642 ბიჭები","#1D4ED8",boys]].map(([g,label,col,list]) => (
                 React.createElement('div', { key: g}
                   , React.createElement('div', { style: {fontSize:13,fontWeight:800,color:col,marginBottom:7,display:"flex",gap:6,alignItems:"center"}}, label, React.createElement(Badge, { color: col}, list.length))
                   , list.map(s => (
@@ -778,7 +778,7 @@ React.createElement(React.Fragment, null
                         , React.createElement('div', { style: {fontWeight:700,fontSize:12,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}, s.lastName, " " , s.firstName)
                         , React.createElement('div', { style: {fontSize:10,color:"#94A3B8"}}, s.className)
                       )
-                      , React.createElement('span', { style: {color:"#D1D5DB",fontSize:14}}, "›")
+                      , React.createElement('span', { style: {color:"#D1D5DB",fontSize:14}}, "\u203A")
                     )
                   ))
                   , list.length === 0 && React.createElement('div', { style: {color:"#94A3B8",fontSize:12,padding:12,textAlign:"center",border:"1px dashed #E2E8F0",borderRadius:9}}, "ცარიელია")
@@ -791,7 +791,7 @@ React.createElement(React.Fragment, null
 
       , React.createElement('div', { style: {padding:"11px 20px",borderTop:"1px solid #E5E7EB",display:"flex",justifyContent:"flex-end",gap:9,background:"#FAFAFA"}}
         , React.createElement('button', { onClick: onClose, style: {padding:"8px 16px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",cursor:"pointer",fontWeight:600,color:"#6B7280",fontFamily:"inherit"}}, "გაუქმება")
-        , React.createElement('button', { onClick: () => { onSave(data); onClose(); }, style: {padding:"8px 22px",border:"none",borderRadius:10,background:color,color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "💾 შენახვა" )
+        , React.createElement('button', { onClick: () => { onSave(data); onClose(); }, style: {padding:"8px 22px",border:"none",borderRadius:10,background:color,color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "\uD83D\uDCBE შენახვა" )
       )
     )
   )
@@ -835,7 +835,7 @@ return (
 React.createElement(‘div’, null
 /* Header */
 , React.createElement(‘div’, { style: {display:“flex”,alignItems:“center”,gap:12,marginBottom:22,flexWrap:“wrap”}}
-, React.createElement(‘button’, { onClick: onBack, style: {background:”#F1F5F9”,border:“none”,borderRadius:10,padding:“7px 15px”,cursor:“pointer”,fontWeight:600,fontSize:13,color:”#374151”,fontFamily:“inherit”}}, “← ღონისძიებები” )
+, React.createElement(‘button’, { onClick: onBack, style: {background:”#F1F5F9”,border:“none”,borderRadius:10,padding:“7px 15px”,cursor:“pointer”,fontWeight:600,fontSize:13,color:”#374151”,fontFamily:“inherit”}}, “\u2190 ღონისძიებები” )
 , React.createElement(‘div’, { style: {flex:1}}
 , React.createElement(‘input’, { value: data.title, onChange: e=>set(“title”,e.target.value),
 style: {width:“100%”,fontSize:20,fontWeight:900,color:”#0F172A”,border:“none”,background:“transparent”,outline:“none”,fontFamily:“inherit”,padding:“2px 0”}} )
@@ -843,11 +843,11 @@ style: {width:“100%”,fontSize:20,fontWeight:900,color:”#0F172A”,border:�
 , React.createElement(‘div’, { style: {display:“flex”,gap:8}}
 , React.createElement(‘select’, { value: data.status, onChange: e=>set(“status”,e.target.value),
 style: {width:“auto”,padding:“6px 12px”,fontSize:12,fontWeight:600,border:“1px solid #E5E7EB”,borderRadius:9,fontFamily:“inherit”,background:”#fff”}}
-, React.createElement(‘option’, { value: “upcoming”}, “📅 მომავალი” )
-, React.createElement(‘option’, { value: “past”}, “✅ ჩატარებული” )
+, React.createElement(‘option’, { value: “upcoming”}, “\uD83D\uDCC5 მომავალი” )
+, React.createElement(‘option’, { value: “past”}, “\u2705 ჩატარებული” )
 )
-, React.createElement(‘button’, { onClick: onDelete, style: {background:”#FEF2F2”,border:“1px solid #FECACA”,borderRadius:10,padding:“7px 14px”,cursor:“pointer”,color:”#DC2626”,fontWeight:600,fontSize:12,fontFamily:“inherit”}}, “🗑 წაშლა” )
-, React.createElement(‘button’, { onClick: ()=>onSave(data), style: {background:”#059669”,border:“none”,borderRadius:10,padding:“7px 16px”,cursor:“pointer”,color:”#fff”,fontWeight:700,fontSize:12,fontFamily:“inherit”}}, “💾 შენახვა” )
+, React.createElement(‘button’, { onClick: onDelete, style: {background:”#FEF2F2”,border:“1px solid #FECACA”,borderRadius:10,padding:“7px 14px”,cursor:“pointer”,color:”#DC2626”,fontWeight:600,fontSize:12,fontFamily:“inherit”}}, “\uD83D\uDDD1 წაშლა” )
+, React.createElement(‘button’, { onClick: ()=>onSave(data), style: {background:”#059669”,border:“none”,borderRadius:10,padding:“7px 16px”,cursor:“pointer”,color:”#fff”,fontWeight:700,fontSize:12,fontFamily:“inherit”}}, “\uD83D\uDCBE შენახვა” )
 )
 )
 
@@ -875,20 +875,20 @@ style: {width:“auto”,padding:“6px 12px”,fontSize:12,fontWeight:600,borde
     , React.createElement('div', { style: {display:"flex",gap:8,marginTop:14,flexWrap:"wrap"}}
       , React.createElement(Badge, { color: "#7C3AED"}, data.program.length, " ნომერი" )
       , React.createElement(Badge, { color: "#059669"}, allSIds.length, " მოსწავლე" )
-      , isPast  && React.createElement(Badge, { color: "#059669"}, "✅ ჩატარებული" )
-      , !isPast && data.date && React.createElement(Badge, { color: "#7C3AED"}, "📅 მომავალი" )
+      , isPast  && React.createElement(Badge, { color: "#059669"}, "\u2705 ჩატარებული" )
+      , !isPast && data.date && React.createElement(Badge, { color: "#7C3AED"}, "\uD83D\uDCC5 მომავალი" )
     )
   )
 
   /* Program */
   , React.createElement('div', { style: {background:"#fff",borderRadius:16,padding:20,border:"1px solid #E2E8F0"}}
     , React.createElement('div', { style: {display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}}
-      , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A"}}, "🎼 საკონცერტო პროგრამა"  )
-      , React.createElement('button', { type: "button", onClick: addNum, style: {background:"#0F172A",border:"none",borderRadius:9,padding:"7px 14px",cursor:"pointer",color:"#fff",fontWeight:700,fontSize:12,fontFamily:"inherit"}}, "➕ ნომრის დამატება"  )
+      , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A"}}, "\uD83C\uDFBC საკონცერტო პროგრამა"  )
+      , React.createElement('button', { type: "button", onClick: addNum, style: {background:"#0F172A",border:"none",borderRadius:9,padding:"7px 14px",cursor:"pointer",color:"#fff",fontWeight:700,fontSize:12,fontFamily:"inherit"}}, "\u2795 ნომრის დამატება"  )
     )
 
     , data.program.length===0 && (
-      React.createElement('div', { style: {textAlign:"center",padding:32,color:"#94A3B8",fontSize:13,border:"1px dashed #E2E8F0",borderRadius:12}}, "პროგრამა ცარიელია — დაამატეთ ნომრები"
+      React.createElement('div', { style: {textAlign:"center",padding:32,color:"#94A3B8",fontSize:13,border:"1px dashed #E2E8F0",borderRadius:12}}, "პროგრამა ცარიელია \u2014 დაამატეთ ნომრები"
 
       )
     )
@@ -908,11 +908,11 @@ style: {width:“auto”,padding:“6px 12px”,fontSize:12,fontWeight:600,borde
               style: {...IS,fontWeight:700,fontSize:14,flex:1,background:"transparent",border:"1px solid #E2E8F0"}} )
             , React.createElement('div', { style: {display:"flex",gap:5,flexShrink:0}}
               , React.createElement('button', { type: "button", onClick: ()=>moveNum(num.id,-1), disabled: idx===0,
-                style: {background:idx===0?"transparent":"#F1F5F9",border:"none",borderRadius:6,width:26,height:26,cursor:idx===0?"default":"pointer",color:idx===0?"#D1D5DB":"#374151",fontSize:12}}, "↑")
+                style: {background:idx===0?"transparent":"#F1F5F9",border:"none",borderRadius:6,width:26,height:26,cursor:idx===0?"default":"pointer",color:idx===0?"#D1D5DB":"#374151",fontSize:12}}, "\u2191")
               , React.createElement('button', { type: "button", onClick: ()=>moveNum(num.id,1), disabled: idx===data.program.length-1,
-                style: {background:idx===data.program.length-1?"transparent":"#F1F5F9",border:"none",borderRadius:6,width:26,height:26,cursor:idx===data.program.length-1?"default":"pointer",color:idx===data.program.length-1?"#D1D5DB":"#374151",fontSize:12}}, "↓")
+                style: {background:idx===data.program.length-1?"transparent":"#F1F5F9",border:"none",borderRadius:6,width:26,height:26,cursor:idx===data.program.length-1?"default":"pointer",color:idx===data.program.length-1?"#D1D5DB":"#374151",fontSize:12}}, "\u2193")
               , React.createElement('button', { type: "button", onClick: ()=>delNum(num.id),
-                style: {background:"#FEF2F2",border:"none",borderRadius:6,width:26,height:26,cursor:"pointer",color:"#DC2626",fontSize:13}}, "✕")
+                style: {background:"#FEF2F2",border:"none",borderRadius:6,width:26,height:26,cursor:"pointer",color:"#DC2626",fontSize:13}}, "\u2715")
             )
           )
 
@@ -925,7 +925,7 @@ style: {width:“auto”,padding:“6px 12px”,fontSize:12,fontWeight:600,borde
               , (num.composer||num.title) && (
                 React.createElement('div', { style: {fontSize:11,color:"#64748B",padding:"4px 0"}}
                   , num.composer && React.createElement('span', { style: {fontWeight:700,color:"#0F172A"}}, num.composer)
-                  , num.composer && num.title && React.createElement('span', null, " — "  )
+                  , num.composer && num.title && React.createElement('span', null, " \u2014 "  )
                   , num.title && React.createElement('span', null, num.title)
                 )
               )
@@ -937,7 +937,7 @@ style: {width:“auto”,padding:“6px 12px”,fontSize:12,fontWeight:600,borde
             )
             , React.createElement('div', null, React.createElement('label', { style: LS}, "პედაგოგი")
               , React.createElement('select', { value: num.teacherId||"", onChange: e=>setNum(num.id,"teacherId",e.target.value), style: IS}
-                , React.createElement('option', { value: ""}, "— არ არის მითითებული —"    )
+                , React.createElement('option', { value: ""}, "\u2014 არ არის მითითებული \u2014"    )
                 , tList.map(t=>React.createElement('option', { key: t.id, value: t.id}, t.name))
               )
             )
@@ -990,7 +990,7 @@ const [selPayMonth, setSelPayMonth] = useState(null);
 const [pmView,      setPmView]      = useState(null);
 const [collapsed,   setCollapsed]   = useState(false);
 const EVENTS_INIT = [
-{id:“ev1”,status:“past”,title:“გაზაფხულის კონცერტი”,venue:“სახელოვნებო სკოლა N26, საკონცერტო დარბაზი”,date:“2025-04-15”,time:“18:00”,program:[{id:“n1”,num:“1”,title:“ბახი — ინვენცია No.1”,composer:“ბახი”,divisionId:“d1”,teacherId:“t1”,studentIds:[“s1”,“s2”]},{id:“n2”,num:“2”,title:“მრავალჟამიერ”,composer:“ხალხური”,divisionId:“d2”,teacherId:“t4”,studentIds:[“s22”,“s23”]},{id:“n3”,num:“3”,title:“ელიზასთვის”,composer:“ბეთჰოვენი”,divisionId:“d1”,teacherId:“t2”,studentIds:[“s8”]}],notes:“პირველი გაზაფხულის კონცერტი. 120 მაყურებელი.”},
+{id:“ev1”,status:“past”,title:“გაზაფხულის კონცერტი”,venue:“სახელოვნებო სკოლა N26, საკონცერტო დარბაზი”,date:“2025-04-15”,time:“18:00”,program:[{id:“n1”,num:“1”,title:“ბახი \u2014 ინვენცია No.1”,composer:“ბახი”,divisionId:“d1”,teacherId:“t1”,studentIds:[“s1”,“s2”]},{id:“n2”,num:“2”,title:“მრავალჟამიერ”,composer:“ხალხური”,divisionId:“d2”,teacherId:“t4”,studentIds:[“s22”,“s23”]},{id:“n3”,num:“3”,title:“ელიზასთვის”,composer:“ბეთჰოვენი”,divisionId:“d1”,teacherId:“t2”,studentIds:[“s8”]}],notes:“პირველი გაზაფხულის კონცერტი. 120 მაყურებელი.”},
 {id:“ev2”,status:“past”,title:“საშობაო კონცერტი 2024”,venue:“ახალგაზრდობის სასახლე”,date:“2024-12-20”,time:“17:00”,program:[{id:“n4”,num:“1”,title:“ახალი წლის მელოდიები”,composer:“სხვადასხვა”,divisionId:“d1”,teacherId:“t3”,studentIds:[“s3”,“s4”,“s5”]},{id:“n5”,num:“2”,title:“ქართული”,composer:“ხალხური”,divisionId:“d2”,teacherId:“t5”,studentIds:[“s25”,“s26”]}],notes:“ახალი წლის ზეიმი. სრული დარბაზი.”},
 {id:“ev3”,status:“upcoming”,title:“საბოლოო კონცერტი 2025-2026”,venue:“სახელოვნებო სკოლა N26, საკონცერტო დარბაზი”,date:“2026-05-28”,time:“18:30”,program:[{id:“n6”,num:“1”,title:“სასწავლო წლის დახურვა”,composer:””,divisionId:“d1”,teacherId:“t1”,studentIds:[]},{id:“n7”,num:“2”,title:“ქართული ცეკვები”,composer:””,divisionId:“d2”,teacherId:“t4”,studentIds:[]}],notes:“სასწავლო წლის დამამთავრებელი კონცერტი.”},
 ];
@@ -1067,13 +1067,13 @@ return true;
 }), [students, sf]);
 
 const NAV = [
-{icon:“🏠”, label:“მთავარი”,       p:“home”},
-{icon:“🎨”, label:“განყოფილებები”, p:“divisions”},
-{icon:“👤”, label:“მოსწავლეები”,   p:“all_students”},
-{icon:“👨‍🏫”,label:“პედაგოგები”,   p:“teachers”},
-{icon:“🎭”, label:“ღონისძიებები”,  p:“events”},
-{icon:“💳”, label:“გადახდები”,     p:“payments”},
-{icon:“📊”, label:“სტატისტიკა”,    p:“stats”},
+{icon:”\uD83C\uDFE0”, label:“მთავარი”,       p:“home”},
+{icon:”\uD83C\uDFA8”, label:“განყოფილებები”, p:“divisions”},
+{icon:”\uD83D\uDC64”, label:“მოსწავლეები”,   p:“all_students”},
+{icon:”\uD83D\uDC68\u200D\uD83C\uDFEB”,label:“პედაგოგები”,   p:“teachers”},
+{icon:”\uD83C\uDFAD”, label:“ღონისძიებები”,  p:“events”},
+{icon:”\uD83D\uDCB3”, label:“გადახდები”,     p:“payments”},
+{icon:”\uD83D\uDCCA”, label:“სტატისტიკა”,    p:“stats”},
 ];
 
 const inDiv   = [“division”,“class”].includes(page);
@@ -1082,7 +1082,7 @@ const navW    = collapsed ? 58 : 235;
 
 const hdr = (title, back) => (
 React.createElement(‘div’, { style: {display:“flex”,alignItems:“center”,gap:13,marginBottom:22}}
-, back && React.createElement(‘button’, { onClick: back, style: {background:”#F3F4F6”,border:“none”,borderRadius:10,padding:“7px 15px”,cursor:“pointer”,fontWeight:600,fontSize:13,color:”#374151”,fontFamily:“inherit”}}, “← უკან” )
+, back && React.createElement(‘button’, { onClick: back, style: {background:”#F3F4F6”,border:“none”,borderRadius:10,padding:“7px 15px”,cursor:“pointer”,fontWeight:600,fontSize:13,color:”#374151”,fontFamily:“inherit”}}, “\u2190 უკან” )
 , React.createElement(‘h2’, { style: {margin:0,fontSize:21,fontWeight:900,color:”#0F172A”}}, title)
 )
 );
@@ -1104,7 +1104,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         , React.createElement('button', { onClick: () => setCollapsed(c => !c), style: {background:"rgba(255,255,255,0.1)",border:"none",color:"rgba(255,255,255,0.7)",borderRadius:8,width:28,height:28,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,flexShrink:0},
           onMouseEnter: e => e.currentTarget.style.background="rgba(255,255,255,0.2)",
           onMouseLeave: e => e.currentTarget.style.background="rgba(255,255,255,0.1)"}
-          , collapsed ? "›" : "‹"
+          , collapsed ? "\u203A" : "\u2039"
         )
       )
       , React.createElement('div', { style: {padding:collapsed?"8px 5px":"11px 8px",flex:1}}
@@ -1135,7 +1135,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
           : React.createElement(React.Fragment, null
               , React.createElement('div', { style: {fontSize:9,color:"rgba(255,255,255,0.35)"}}, "სულ მოსწ." )
               , React.createElement('div', { style: {fontSize:20,fontWeight:900,color:"#38BDF8"}}, active.length)
-              , React.createElement('div', { style: {fontSize:9,color:"rgba(255,255,255,0.25)",marginTop:1}}, DIVISIONS.length, " განყ. · "   , teachers.length, " პედ." )
+              , React.createElement('div', { style: {fontSize:9,color:"rgba(255,255,255,0.25)",marginTop:1}}, DIVISIONS.length, " განყ. \u00B7 "   , teachers.length, " პედ." )
             )
         
       )
@@ -1149,7 +1149,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         React.createElement('div', null
           , React.createElement('div', { style: {marginBottom:22}}
             , React.createElement('h1', { style: {margin:0,fontSize:26,fontWeight:900,color:"#0F172A"}}, "მთავარი პანელი" )
-            , React.createElement('p', { style: {margin:"4px 0 0",color:"#64748B",fontSize:13}}, "სახელოვნებო სკოლა N26 · "    , new Date().getFullYear())
+            , React.createElement('p', { style: {margin:"4px 0 0",color:"#64748B",fontSize:13}}, "სახელოვნებო სკოლა N26 \u00B7 "    , new Date().getFullYear())
           )
           , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(148px,1fr))",gap:11,marginBottom:24}}
             , [
@@ -1163,7 +1163,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                 onMouseLeave: e => action && (e.currentTarget.style.transform="none")}
                 , React.createElement('div', { style: {fontSize:24,fontWeight:900,color,lineHeight:1}}, val)
                 , React.createElement('div', { style: {fontSize:11,color:"#64748B",fontWeight:600,marginTop:3}}, lab)
-                , action && React.createElement('div', { style: {fontSize:10,color,marginTop:2}}, "→")
+                , action && React.createElement('div', { style: {fontSize:10,color,marginTop:2}}, "\u2192")
               )
             ))
           )
@@ -1219,7 +1219,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
           React.createElement('div', null
             , hdr(selDiv.emoji + " " + selDiv.name, () => go("divisions"))
             , React.createElement('div', { style: {display:"flex",gap:10,marginBottom:18,flexWrap:"wrap"}}
-              , [["სულ",divS.length,selDiv.color],["ჯგ.",divC.length,"#64748B"],["პედ.",divT.length,"#64748B"],["♀",divS.filter(s=>s.gender==="female").length,"#DB2777"],["♂",divS.filter(s=>s.gender==="male").length,"#1D4ED8"]].map(([l,v,c]) => (
+              , [["სულ",divS.length,selDiv.color],["ჯგ.",divC.length,"#64748B"],["პედ.",divT.length,"#64748B"],["\u2640",divS.filter(s=>s.gender==="female").length,"#DB2777"],["\u2642",divS.filter(s=>s.gender==="male").length,"#1D4ED8"]].map(([l,v,c]) => (
                 React.createElement('div', { key: l, style: {background:"#fff",borderRadius:10,padding:"10px 15px",border:"1px solid "+c+"22",minWidth:75,textAlign:"center"}}
                   , React.createElement('div', { style: {fontSize:18,fontWeight:900,color:c}}, v)
                   , React.createElement('div', { style: {fontSize:10,color:"#64748B",fontWeight:600,marginTop:2}}, l)
@@ -1238,8 +1238,8 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                     , React.createElement('div', { style: {fontSize:17,fontWeight:900,color:selDiv.color,marginBottom:2}}, cls.name)
                     , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",marginBottom:7}}, _optionalChain([teach, 'optionalAccess', _25 => _25.name]))
                     , React.createElement('div', { style: {display:"flex",gap:6}}
-                      , React.createElement('span', { style: {fontSize:11,background:"#FDF2F8",color:"#DB2777",borderRadius:5,padding:"1px 7px",fontWeight:700}}, "♀", clS.filter(s=>s.gender==="female").length)
-                      , React.createElement('span', { style: {fontSize:11,background:"#EFF6FF",color:"#1D4ED8",borderRadius:5,padding:"1px 7px",fontWeight:700}}, "♂", clS.filter(s=>s.gender==="male").length)
+                      , React.createElement('span', { style: {fontSize:11,background:"#FDF2F8",color:"#DB2777",borderRadius:5,padding:"1px 7px",fontWeight:700}}, "\u2640", clS.filter(s=>s.gender==="female").length)
+                      , React.createElement('span', { style: {fontSize:11,background:"#EFF6FF",color:"#1D4ED8",borderRadius:5,padding:"1px 7px",fontWeight:700}}, "\u2642", clS.filter(s=>s.gender==="male").length)
                     )
                   )
                 );
@@ -1257,7 +1257,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         const boys  = [...clS.filter(s => s.gender === "male")].sort((a,b)   => a.lastName.localeCompare(b.lastName));
         return (
           React.createElement('div', null
-            , hdr(selDiv.emoji + " " + selDiv.name + " — " + selClass.name, () => go("division",selDiv))
+            , hdr(selDiv.emoji + " " + selDiv.name + " \u2014 " + selClass.name, () => go("division",selDiv))
             , React.createElement('div', { style: {background:"#fff",borderRadius:12,padding:"12px 16px",marginBottom:16,border:"1px solid #E2E8F0",display:"flex",gap:18,flexWrap:"wrap",alignItems:"center"}}
               , React.createElement('div', null
                 , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "პედაგოგი")
@@ -1265,12 +1265,12 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                 , React.createElement('div', { style: {fontSize:10,color:"#94A3B8"}}, _optionalChain([teach, 'optionalAccess', _27 => _27.subject]))
               )
               , React.createElement('div', { style: {width:1,height:35,background:"#E2E8F0"}} )
-              , [["სულ",clS.length,"#0F172A"],["♀",girls.length,"#DB2777"],["♂",boys.length,"#1D4ED8"]].map(([l,v,c]) => (
+              , [["სულ",clS.length,"#0F172A"],["\u2640",girls.length,"#DB2777"],["\u2642",boys.length,"#1D4ED8"]].map(([l,v,c]) => (
                 React.createElement('div', { key: l}, React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, l), React.createElement('div', { style: {fontSize:22,fontWeight:900,color:c}}, v))
               ))
             )
             , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}
-              , [["female","♀ გოგოები","#DB2777",girls],["male","♂ ბიჭები","#1D4ED8",boys]].map(([g,label,color,list]) => (
+              , [["female","\u2640 გოგოები","#DB2777",girls],["male","\u2642 ბიჭები","#1D4ED8",boys]].map(([g,label,color,list]) => (
                 React.createElement('div', { key: g}
                   , React.createElement('div', { style: {fontSize:13,fontWeight:800,color,marginBottom:8,display:"flex",gap:7,alignItems:"center"}}, label, React.createElement(Badge, { color: color}, list.length))
                   , list.map(s => React.createElement(SRow, { key: s.id, student: s, onClick: () => setSelStudent(s), showMeta: false} ))
@@ -1282,7 +1282,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         );
       })()
 
-      /* TEACHERS — division picker */
+      /* TEACHERS \u2014 division picker */
       , page === "teachers" && (
         React.createElement('div', null
           , hdr("პედაგოგები")
@@ -1301,7 +1301,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                   , React.createElement('div', { style: {fontSize:14,fontWeight:900,color:"#0F172A",marginBottom:10,lineHeight:1.3}}, div.name)
                   , React.createElement('div', { style: {display:"flex",gap:9,flexWrap:"wrap",alignItems:"center"}}
                     , React.createElement(Badge, { color: div.color}, cnt, " მოსწ." )
-                    , React.createElement('span', { style: {fontSize:11,color:div.color,fontWeight:600}}, "პედ. სია →"  )
+                    , React.createElement('span', { style: {fontSize:11,color:div.color,fontWeight:600}}, "პედ. სია \u2192"  )
                   )
                 )
               );
@@ -1310,12 +1310,12 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         )
       )
 
-      /* TEACHER DIVISION — teacher list */
+      /* TEACHER DIVISION \u2014 teacher list */
       , page === "teacher_division" && selDiv && (
         React.createElement('div', null
-          , hdr(selDiv.emoji + " " + selDiv.name + " — პედაგოგები", () => go("teachers"))
+          , hdr(selDiv.emoji + " " + selDiv.name + " \u2014 პედაგოგები", () => go("teachers"))
           , React.createElement('div', { style: {display:"flex",gap:10,marginBottom:20,flexWrap:"wrap"}}
-            , [["პედ.",teachers.filter(t=>t.divisionId===selDiv.id).length,selDiv.color],["მოსწ.",active.filter(s=>s.divisionId===selDiv.id).length,"#64748B"],["♀",active.filter(s=>s.divisionId===selDiv.id&&s.gender==="female").length,"#DB2777"],["♂",active.filter(s=>s.divisionId===selDiv.id&&s.gender==="male").length,"#1D4ED8"]].map(([l,v,c]) => (
+            , [["პედ.",teachers.filter(t=>t.divisionId===selDiv.id).length,selDiv.color],["მოსწ.",active.filter(s=>s.divisionId===selDiv.id).length,"#64748B"],["\u2640",active.filter(s=>s.divisionId===selDiv.id&&s.gender==="female").length,"#DB2777"],["\u2642",active.filter(s=>s.divisionId===selDiv.id&&s.gender==="male").length,"#1D4ED8"]].map(([l,v,c]) => (
               React.createElement('div', { key: l, style: {background:"#fff",borderRadius:10,padding:"10px 15px",border:"1px solid "+c+"22",minWidth:80,textAlign:"center"}}
                 , React.createElement('div', { style: {fontSize:18,fontWeight:900,color:c}}, v)
                 , React.createElement('div', { style: {fontSize:10,color:"#64748B",fontWeight:600,marginTop:2}}, l)
@@ -1336,7 +1336,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                       , React.createElement('div', { style: {fontWeight:800,fontSize:14}}, t.name)
                       , React.createElement('div', { style: {fontSize:11,color:"#94A3B8"}}, t.subject)
                     )
-                    , React.createElement('span', { style: {color:"#D1D5DB",fontSize:16}}, "›")
+                    , React.createElement('span', { style: {color:"#D1D5DB",fontSize:16}}, "\u203A")
                   )
                   , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:11}}
                     , [["მოსწ.",cnt],["ჯგ.",cls.length]].map(([l,v]) => (
@@ -1363,15 +1363,15 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
           , hdr("სტატისტიკა")
           , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(148px,1fr))",gap:11,marginBottom:24}}
             , [["სულ მოს.",active.length,"#2563EB",() => { setSf({division:"",classId:"",teacherId:"",gender:""}); go("all_students"); }],
-              ["♀ გოგო",active.filter(s=>s.gender==="female").length,"#DB2777",() => { setSf({division:"",classId:"",teacherId:"",gender:"female"}); go("all_students"); }],
-              ["♂ ბიჭი",active.filter(s=>s.gender==="male").length,"#1D4ED8",() => { setSf({division:"",classId:"",teacherId:"",gender:"male"}); go("all_students"); }],
+              ["\u2640 გოგო",active.filter(s=>s.gender==="female").length,"#DB2777",() => { setSf({division:"",classId:"",teacherId:"",gender:"female"}); go("all_students"); }],
+              ["\u2642 ბიჭი",active.filter(s=>s.gender==="male").length,"#1D4ED8",() => { setSf({division:"",classId:"",teacherId:"",gender:"male"}); go("all_students"); }],
               ["გარ.",students.filter(s=>!s.active).length,"#DC2626",null]].map(([lab,val,color,action]) => (
               React.createElement('div', { key: lab, onClick: action||undefined, style: {background:"#fff",borderRadius:12,padding:"14px 16px",border:"1px solid #E2E8F0",cursor:action?"pointer":"default",transition:"all 0.2s"},
                 onMouseEnter: e => action && (e.currentTarget.style.boxShadow="0 5px 18px "+color+"20"),
                 onMouseLeave: e => action && (e.currentTarget.style.boxShadow="none")}
                 , React.createElement('div', { style: {fontSize:28,fontWeight:900,color,lineHeight:1}}, val)
                 , React.createElement('div', { style: {fontSize:11,color:"#64748B",fontWeight:600,marginTop:3}}, lab)
-                , action && React.createElement('div', { style: {fontSize:10,color,marginTop:3}}, "სია →" )
+                , action && React.createElement('div', { style: {fontSize:10,color,marginTop:3}}, "სია \u2192" )
               )
             ))
           )
@@ -1418,7 +1418,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         const selSfDiv   = sf.division;
         const selSfTeach = sf.teacherId;
 
-        // LEVEL 3 — student list (when teacher selected)
+        // LEVEL 3 \u2014 student list (when teacher selected)
         if (selSfDiv && selSfTeach) {
           const div     = DIVISIONS.find(d => d.id === selSfDiv);
           const teach   = teachers.find(t => t.id === selSfTeach);
@@ -1429,10 +1429,10 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             React.createElement('div', null
               /* breadcrumb */
               , React.createElement('div', { style: {display:"flex",alignItems:"center",gap:8,marginBottom:20,flexWrap:"wrap"}}
-                , React.createElement('button', { onClick: () => setSf(f => ({...f,division:"",teacherId:"",classId:""})), style: {background:"#F1F5F9",border:"none",borderRadius:8,padding:"5px 12px",cursor:"pointer",fontSize:12,fontWeight:600,color:"#475569",fontFamily:"inherit"}}, "👤 მოსწავლეები" )
-                , React.createElement('span', { style: {color:"#94A3B8"}}, "›")
+                , React.createElement('button', { onClick: () => setSf(f => ({...f,division:"",teacherId:"",classId:""})), style: {background:"#F1F5F9",border:"none",borderRadius:8,padding:"5px 12px",cursor:"pointer",fontSize:12,fontWeight:600,color:"#475569",fontFamily:"inherit"}}, "\uD83D\uDC64 მოსწავლეები" )
+                , React.createElement('span', { style: {color:"#94A3B8"}}, "\u203A")
                 , React.createElement('button', { onClick: () => setSf(f => ({...f,teacherId:"",classId:""})), style: {background:div.color+"15",border:"none",borderRadius:8,padding:"5px 12px",cursor:"pointer",fontSize:12,fontWeight:600,color:div.color,fontFamily:"inherit"}}, div.emoji, " " , div.name)
-                , React.createElement('span', { style: {color:"#94A3B8"}}, "›")
+                , React.createElement('span', { style: {color:"#94A3B8"}}, "\u203A")
                 , React.createElement('span', { style: {fontSize:12,fontWeight:700,color:"#0F172A"}}, teach.name)
               )
               , React.createElement('div', { style: {background:"#fff",borderRadius:12,padding:"12px 16px",marginBottom:18,border:"1px solid #E2E8F0",display:"flex",gap:18,flexWrap:"wrap",alignItems:"center"}}
@@ -1442,12 +1442,12 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                   , React.createElement('div', { style: {fontSize:11,color:"#94A3B8"}}, teach.subject)
                 )
                 , React.createElement('div', { style: {width:1,height:35,background:"#E2E8F0"}} )
-                , [["სულ",list.length,"#0F172A"],["♀",girls.length,"#DB2777"],["♂",boys.length,"#1D4ED8"]].map(([l,v,c]) => (
+                , [["სულ",list.length,"#0F172A"],["\u2640",girls.length,"#DB2777"],["\u2642",boys.length,"#1D4ED8"]].map(([l,v,c]) => (
                   React.createElement('div', { key: l}, React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, l), React.createElement('div', { style: {fontSize:22,fontWeight:900,color:c}}, v))
                 ))
               )
               , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}
-                , [["female","♀ გოგოები","#DB2777",girls],["male","♂ ბიჭები","#1D4ED8",boys]].map(([g,label,col,lst]) => (
+                , [["female","\u2640 გოგოები","#DB2777",girls],["male","\u2642 ბიჭები","#1D4ED8",boys]].map(([g,label,col,lst]) => (
                   React.createElement('div', { key: g}
                     , React.createElement('div', { style: {fontSize:13,fontWeight:800,color:col,marginBottom:8,display:"flex",gap:7,alignItems:"center"}}, label, React.createElement(Badge, { color: col}, lst.length))
                     , lst.map(s => React.createElement(SRow, { key: s.id, student: s, onClick: () => setSelStudent(s), showMeta: false} ))
@@ -1459,7 +1459,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
           );
         }
 
-        // LEVEL 2 — teacher list for selected division
+        // LEVEL 2 \u2014 teacher list for selected division
         if (selSfDiv && !selSfTeach) {
           const div    = DIVISIONS.find(d => d.id === selSfDiv);
           const divS   = active.filter(s => s.divisionId === selSfDiv);
@@ -1468,8 +1468,8 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             React.createElement('div', null
               /* breadcrumb */
               , React.createElement('div', { style: {display:"flex",alignItems:"center",gap:8,marginBottom:20}}
-                , React.createElement('button', { onClick: () => setSf(f => ({...f,division:"",teacherId:"",classId:""})), style: {background:"#F1F5F9",border:"none",borderRadius:8,padding:"5px 12px",cursor:"pointer",fontSize:12,fontWeight:600,color:"#475569",fontFamily:"inherit"}}, "👤 მოსწავლეები" )
-                , React.createElement('span', { style: {color:"#94A3B8"}}, "›")
+                , React.createElement('button', { onClick: () => setSf(f => ({...f,division:"",teacherId:"",classId:""})), style: {background:"#F1F5F9",border:"none",borderRadius:8,padding:"5px 12px",cursor:"pointer",fontSize:12,fontWeight:600,color:"#475569",fontFamily:"inherit"}}, "\uD83D\uDC64 მოსწავლეები" )
+                , React.createElement('span', { style: {color:"#94A3B8"}}, "\u203A")
                 , React.createElement('span', { style: {fontSize:12,fontWeight:700,color:div.color}}, div.emoji, " " , div.name)
               )
               /* division header */
@@ -1479,7 +1479,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                   , React.createElement('div', { style: {fontSize:19,fontWeight:900}}, div.name)
                 )
                 , React.createElement('div', { style: {display:"flex",gap:16}}
-                  , [["სულ",divS.length],["♀",divS.filter(s=>s.gender==="female").length],["♂",divS.filter(s=>s.gender==="male").length]].map(([l,v]) => (
+                  , [["სულ",divS.length],["\u2640",divS.filter(s=>s.gender==="female").length],["\u2642",divS.filter(s=>s.gender==="male").length]].map(([l,v]) => (
                     React.createElement('div', { key: l, style: {textAlign:"center"}}
                       , React.createElement('div', { style: {fontSize:22,fontWeight:900,lineHeight:1}}, v)
                       , React.createElement('div', { style: {fontSize:10,opacity:.75}}, l)
@@ -1507,11 +1507,11 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                             , tCls.map(c => React.createElement(Badge, { key: c.id, color: "#64748B", small: true}, c.name))
                           )
                           , React.createElement('div', { style: {marginTop:8,display:"flex",gap:10}}
-                            , React.createElement('span', { style: {fontSize:12,background:"#FDF2F8",color:"#DB2777",borderRadius:6,padding:"2px 8px",fontWeight:700}}, "♀ " , tS.filter(s=>s.gender==="female").length)
-                            , React.createElement('span', { style: {fontSize:12,background:"#EFF6FF",color:"#1D4ED8",borderRadius:6,padding:"2px 8px",fontWeight:700}}, "♂ " , tS.filter(s=>s.gender==="male").length)
+                            , React.createElement('span', { style: {fontSize:12,background:"#FDF2F8",color:"#DB2777",borderRadius:6,padding:"2px 8px",fontWeight:700}}, "\u2640 " , tS.filter(s=>s.gender==="female").length)
+                            , React.createElement('span', { style: {fontSize:12,background:"#EFF6FF",color:"#1D4ED8",borderRadius:6,padding:"2px 8px",fontWeight:700}}, "\u2642 " , tS.filter(s=>s.gender==="male").length)
                           )
                         )
-                        , React.createElement('span', { style: {color:"#D1D5DB",fontSize:18,alignSelf:"center"}}, "›")
+                        , React.createElement('span', { style: {color:"#D1D5DB",fontSize:18,alignSelf:"center"}}, "\u203A")
                       )
                     )
                   );
@@ -1521,10 +1521,10 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
           );
         }
 
-        // LEVEL 1 — division cards
+        // LEVEL 1 \u2014 division cards
         return (
           React.createElement('div', null
-            , React.createElement('h2', { style: {margin:"0 0 20px",fontSize:21,fontWeight:900,color:"#0F172A"}}, "👤 მოსწავლეები" )
+            , React.createElement('h2', { style: {margin:"0 0 20px",fontSize:21,fontWeight:900,color:"#0F172A"}}, "\uD83D\uDC64 მოსწავლეები" )
             , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))",gap:13}}
               , DIVISIONS.map(div => {
                 const divS  = active.filter(s => s.divisionId === div.id);
@@ -1540,10 +1540,10 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                     , React.createElement('div', { style: {fontSize:15,fontWeight:900,color:"#0F172A",marginBottom:12,lineHeight:1.3}}, div.name)
                     , React.createElement('div', { style: {display:"flex",gap:9,flexWrap:"wrap",alignItems:"center"}}
                       , React.createElement(Badge, { color: div.color}, divS.length, " მოსწ." )
-                      , React.createElement('span', { style: {fontSize:12,background:"#FDF2F8",color:"#DB2777",borderRadius:6,padding:"2px 8px",fontWeight:700}}, "♀ " , divS.filter(s=>s.gender==="female").length)
-                      , React.createElement('span', { style: {fontSize:12,background:"#EFF6FF",color:"#1D4ED8",borderRadius:6,padding:"2px 8px",fontWeight:700}}, "♂ " , divS.filter(s=>s.gender==="male").length)
+                      , React.createElement('span', { style: {fontSize:12,background:"#FDF2F8",color:"#DB2777",borderRadius:6,padding:"2px 8px",fontWeight:700}}, "\u2640 " , divS.filter(s=>s.gender==="female").length)
+                      , React.createElement('span', { style: {fontSize:12,background:"#EFF6FF",color:"#1D4ED8",borderRadius:6,padding:"2px 8px",fontWeight:700}}, "\u2642 " , divS.filter(s=>s.gender==="male").length)
                     )
-                    , React.createElement('div', { style: {marginTop:10,fontSize:11,color:"#94A3B8"}}, tCnt, " პედ. · "   , clCnt, " ჯგ. · →"   )
+                    , React.createElement('div', { style: {marginTop:10,fontSize:11,color:"#94A3B8"}}, tCnt, " პედ. \u00B7 "   , clCnt, " ჯგ. \u00B7 \u2192"   )
                   )
                 );
               })
@@ -1566,15 +1566,15 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
           React.createElement('div', null
             , React.createElement('div', { style: {display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:22,flexWrap:"wrap",gap:12}}
               , hdr("გადახდები")
-              , React.createElement('button', { onClick: ()=>setShowExcelImport(true), style: {display:"flex",alignItems:"center",gap:8,padding:"9px 18px",background:"#059669",border:"none",borderRadius:11,cursor:"pointer",color:"#fff",fontWeight:700,fontSize:13,fontFamily:"inherit",flexShrink:0}}, "📊 Excel-დან import"
+              , React.createElement('button', { onClick: ()=>setShowExcelImport(true), style: {display:"flex",alignItems:"center",gap:8,padding:"9px 18px",background:"#059669",border:"none",borderRadius:11,cursor:"pointer",color:"#fff",fontWeight:700,fontSize:13,fontFamily:"inherit",flexShrink:0}}, "\uD83D\uDCCA Excel-დან import"
 
               )
             )
             , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:11,marginBottom:24}}
               , [
-                ["სულ შეგ.",totPaid.toLocaleString()+"₾","#10B981","#F0FDF4"],
-                ["2025-26",paid26.toLocaleString()+"₾","#3B82F6","#EFF6FF"],
-                ["2024-25",paid25.toLocaleString()+"₾","#7C3AED","#F5F3FF"],
+                ["სულ შეგ.",totPaid.toLocaleString()+"\u20BE","#10B981","#F0FDF4"],
+                ["2025-26",paid26.toLocaleString()+"\u20BE","#3B82F6","#EFF6FF"],
+                ["2024-25",paid25.toLocaleString()+"\u20BE","#7C3AED","#F5F3FF"],
                 ["გადაუხდ.",unpaidMar.length+" მოს.","#DC2626","#FEF2F2"],
               ].map(([l,v,col,bg]) => (
                 React.createElement('div', { key: l, style: {background:bg,border:"1px solid "+col+"22",borderRadius:14,padding:"13px 16px"}}
@@ -1588,9 +1588,9 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:24}}
               , [[2026,paid26,tot26exp,"#3B82F6","#EFF6FF","#DBEAFE"],[2025,paid25,tot25exp,"#7C3AED","#F5F3FF","#EDE9FE"]].map(([yr,paid,exp,col,bg,bar]) => (
                 React.createElement('div', { key: yr, style: {background:bg,borderRadius:14,padding:"16px 18px",border:"1px solid "+col+"28"}}
-                  , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:col,marginBottom:8}}, yr==="2026"?"2025–2026":"2024–2025", " სასწ. წ."  )
-                  , React.createElement('div', { style: {fontSize:28,fontWeight:900,color:col,lineHeight:1}}, paid.toLocaleString(), "₾")
-                  , React.createElement('div', { style: {fontSize:11,color:"#64748B",margin:"4px 0 8px"}}, "მოსალოდ.: " , exp.toLocaleString(), "₾ · ვალი: "   , Math.max(0,exp-paid).toLocaleString(), "₾")
+                  , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:col,marginBottom:8}}, yr==="2026"?"2025\u20132026":"2024\u20132025", " სასწ. წ."  )
+                  , React.createElement('div', { style: {fontSize:28,fontWeight:900,color:col,lineHeight:1}}, paid.toLocaleString(), "\u20BE")
+                  , React.createElement('div', { style: {fontSize:11,color:"#64748B",margin:"4px 0 8px"}}, "მოსალოდ.: " , exp.toLocaleString(), "\u20BE \u00B7 ვალი: "   , Math.max(0,exp-paid).toLocaleString(), "\u20BE")
                   , React.createElement('div', { style: {background:bar,borderRadius:6,height:8}}
                     , React.createElement('div', { style: {background:col,height:8,borderRadius:6,width:Math.min(100,exp>0?paid/exp*100:0)+"%",transition:"width .5s"}} )
                   )
@@ -1599,9 +1599,9 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               ))
             )
 
-            /* Monthly payment status — 2025-26 */
+            /* Monthly payment status \u2014 2025-26 */
             , React.createElement('div', { style: {background:"#fff",borderRadius:14,padding:"16px 18px",border:"1px solid #E2E8F0",marginBottom:20}}
-              , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A",marginBottom:12}}, "ყოველთვიური — 2025–2026"  )
+              , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A",marginBottom:12}}, "ყოველთვიური \u2014 2025\u20132026"  )
               , React.createElement('div', { style: {display:"flex",gap:8,flexWrap:"wrap"}}
                 , SM26.map((m) => {
                   const cnt = active.filter(s => s.payments.find(p => p.year===2026 && p.month===m)).length;
@@ -1626,7 +1626,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
 
             /* By division */
             , React.createElement('div', { style: {marginBottom:20}}
-              , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A",marginBottom:12}}, "განყოფილებების მიხ. — 2025–2026"   )
+              , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A",marginBottom:12}}, "განყოფილებების მიხ. \u2014 2025\u20132026"   )
               , React.createElement('div', { style: {display:"flex",flexDirection:"column",gap:8}}
                 , DIVISIONS.map(div => {
                   const ds    = active.filter(s => s.divisionId === div.id);
@@ -1642,16 +1642,16 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                           , React.createElement('div', { style: {display:"flex",justifyContent:"space-between",marginBottom:4,gap:8}}
                             , React.createElement('span', { style: {fontSize:12,fontWeight:700,color:"#0F172A",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}, div.name)
                             , React.createElement('div', { style: {display:"flex",gap:8,flexShrink:0,alignItems:"center"}}
-                              , React.createElement('span', { style: {fontSize:12,fontWeight:800,color:"#10B981"}}, paid.toLocaleString(), "₾")
+                              , React.createElement('span', { style: {fontSize:12,fontWeight:800,color:"#10B981"}}, paid.toLocaleString(), "\u20BE")
                               , React.createElement('span', { style: {fontSize:11,color:"#9CA3AF"}}, "/")
-                              , React.createElement('span', { style: {fontSize:11,color:"#9CA3AF"}}, exp.toLocaleString(), "₾")
-                              , debt > 0 && React.createElement(Badge, { color: "#DC2626", small: true}, debt.toLocaleString(), "₾ ვალ." )
+                              , React.createElement('span', { style: {fontSize:11,color:"#9CA3AF"}}, exp.toLocaleString(), "\u20BE")
+                              , debt > 0 && React.createElement(Badge, { color: "#DC2626", small: true}, debt.toLocaleString(), "\u20BE ვალ." )
                             )
                           )
                           , React.createElement('div', { style: {background:"#F1F5F9",borderRadius:5,height:6}}
                             , React.createElement('div', { style: {background:div.color,height:6,borderRadius:5,width:pct+"%",transition:"width .5s"}} )
                           )
-                          , React.createElement('div', { style: {fontSize:10,color:"#64748B",marginTop:2}}, pct, "% · "  , ds.length, " მოს." )
+                          , React.createElement('div', { style: {fontSize:10,color:"#64748B",marginTop:2}}, pct, "% \u00B7 "  , ds.length, " მოს." )
                         )
                       )
                     )
@@ -1660,13 +1660,13 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               )
             )
 
-            /* Unpaid — current month */
+            /* Unpaid \u2014 current month */
             , React.createElement('div', { style: {background:"#fff",borderRadius:14,padding:"16px 18px",border:"1px solid #FECACA"}}
               , React.createElement('div', { style: {display:"flex",alignItems:"center",gap:10,marginBottom:12}}
-                , React.createElement('span', { style: {fontSize:20}}, "⚠️")
+                , React.createElement('span', { style: {fontSize:20}}, "\u26A0\uFE0F")
                 , React.createElement('div', null
-                  , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#DC2626"}}, unpaidMar.length, " მოსწ. — მარტი 2026 გადაუხდელი"     )
-                  , React.createElement('div', { style: {fontSize:11,color:"#B91C1C"}}, "ჯამ.: " , (unpaidMar.length*60).toLocaleString(), "₾")
+                  , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#DC2626"}}, unpaidMar.length, " მოსწ. \u2014 მარტი 2026 გადაუხდელი"     )
+                  , React.createElement('div', { style: {fontSize:11,color:"#B91C1C"}}, "ჯამ.: " , (unpaidMar.length*60).toLocaleString(), "\u20BE")
                 )
               )
               , DIVISIONS.map(div => {
@@ -1689,7 +1689,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                             , React.createElement('div', { style: {fontWeight:700,fontSize:11,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}, s.lastName, " " , s.firstName)
                             , React.createElement('div', { style: {fontSize:9,color:"#94A3B8"}}, s.className)
                           )
-                          , React.createElement('span', { style: {fontSize:10,fontWeight:800,color:"#DC2626",flexShrink:0}}, "60₾")
+                          , React.createElement('span', { style: {fontSize:10,fontWeight:800,color:"#DC2626",flexShrink:0}}, "60\u20BE")
                         )
                       ))
                     )
@@ -1715,7 +1715,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         // გადაუხდელი ამ თვეში ან აქვს წინა დავალიანება
         const unpaidList = active.filter(s => {
           const noThisMonth = !s.payments.find(p => p.year===year && p.month===month);
-          // წინა დავალიანება — ნებისმიერ წინა თვეში გამოტოვებული
+          // წინა დავალიანება \u2014 ნებისმიერ წინა თვეში გამოტოვებული
           const prevMonths = allMonths.slice(0, monthIdx);
           const hasDebt    = prevMonths.some(m => !s.payments.find(p => p.year===year && p.month===m));
           return noThisMonth || hasDebt;
@@ -1727,7 +1727,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         // pmView: null=overview, "paid"=გადახდილი სია, "unpaid"=გადაუხდელი სია
         const view = pmView;
 
-        // helper — student list grouped by division
+        // helper \u2014 student list grouped by division
         const StudentListByDiv = ({list, bgColor, borderColor, amountColor, showDebt}) => (
           React.createElement('div', null
             , DIVISIONS.map(div => {
@@ -1751,20 +1751,20 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                         , React.createElement(Ini, { name: s.lastName+" "+s.firstName, size: 32, color: amountColor} )
                         , React.createElement('div', { style: {flex:1,minWidth:0}}
                           , React.createElement('div', { style: {fontWeight:700,fontSize:13,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}, s.lastName, " " , s.firstName)
-                          , React.createElement('div', { style: {fontSize:10,color:"#94A3B8"}}, s.className, " · "  , s.teacher)
+                          , React.createElement('div', { style: {fontSize:10,color:"#94A3B8"}}, s.className, " \u00B7 "  , s.teacher)
                           , showDebt && prevDebt.length>0 && (
-                            React.createElement('div', { style: {fontSize:10,color:"#F59E0B",fontWeight:600,marginTop:1}}, "⚠️ ვალი: "
-                                , prevDebt.map(m=>m.slice(0,4)).join(", "), " (" , prevDebt.length*60, "₾)"
+                            React.createElement('div', { style: {fontSize:10,color:"#F59E0B",fontWeight:600,marginTop:1}}, "\u26A0\uFE0F ვალი: "
+                                , prevDebt.map(m=>m.slice(0,4)).join(", "), " (" , prevDebt.length*60, "\u20BE)"
                             )
                           )
                         )
                         , React.createElement('div', { style: {textAlign:"right",flexShrink:0}}
                           , thisMonthPaid
-                            ? React.createElement('span', { style: {fontSize:12,fontWeight:800,color:amountColor}}, thisMonthPaid.amount, "₾")
-                            : React.createElement('span', { style: {fontSize:12,fontWeight:800,color:"#DC2626"}}, "—")
+                            ? React.createElement('span', { style: {fontSize:12,fontWeight:800,color:amountColor}}, thisMonthPaid.amount, "\u20BE")
+                            : React.createElement('span', { style: {fontSize:12,fontWeight:800,color:"#DC2626"}}, "\u2014")
                           
                           , showDebt && prevDebt.length>0 && (
-                            React.createElement('div', { style: {fontSize:10,color:"#F59E0B",fontWeight:700}}, prevDebt.length*60, "₾ ვ." )
+                            React.createElement('div', { style: {fontSize:10,color:"#F59E0B",fontWeight:700}}, prevDebt.length*60, "\u20BE ვ." )
                           )
                         )
                       )
@@ -1781,29 +1781,29 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             /* Header */
             , React.createElement('div', { style: {display:"flex",alignItems:"center",gap:10,marginBottom:20,flexWrap:"wrap"}}
               , view
-                ? React.createElement('button', { onClick: ()=>setPmView(null), style: {background:"#F1F5F9",border:"none",borderRadius:10,padding:"7px 15px",cursor:"pointer",fontWeight:600,fontSize:13,color:"#374151",fontFamily:"inherit"}}, "← " , month, " " , year)
-                : React.createElement('button', { onClick: ()=>go("payments"), style: {background:"#F1F5F9",border:"none",borderRadius:10,padding:"7px 15px",cursor:"pointer",fontWeight:600,fontSize:13,color:"#374151",fontFamily:"inherit"}}, "← გადახდები" )
+                ? React.createElement('button', { onClick: ()=>setPmView(null), style: {background:"#F1F5F9",border:"none",borderRadius:10,padding:"7px 15px",cursor:"pointer",fontWeight:600,fontSize:13,color:"#374151",fontFamily:"inherit"}}, "\u2190 " , month, " " , year)
+                : React.createElement('button', { onClick: ()=>go("payments"), style: {background:"#F1F5F9",border:"none",borderRadius:10,padding:"7px 15px",cursor:"pointer",fontWeight:600,fontSize:13,color:"#374151",fontFamily:"inherit"}}, "\u2190 გადახდები" )
               
               , !view && (
                 React.createElement('div', { style: {display:"flex",alignItems:"center",gap:8,flex:1}}
-                  , React.createElement('button', { onClick: ()=>prevMonth&&setSelPayMonth({month:prevMonth,year}), disabled: !prevMonth, style: {background:prevMonth?"#F1F5F9":"transparent",border:"none",borderRadius:8,padding:"5px 10px",cursor:prevMonth?"pointer":"default",color:prevMonth?"#374151":"#D1D5DB",fontFamily:"inherit",fontSize:14}}, "‹")
+                  , React.createElement('button', { onClick: ()=>prevMonth&&setSelPayMonth({month:prevMonth,year}), disabled: !prevMonth, style: {background:prevMonth?"#F1F5F9":"transparent",border:"none",borderRadius:8,padding:"5px 10px",cursor:prevMonth?"pointer":"default",color:prevMonth?"#374151":"#D1D5DB",fontFamily:"inherit",fontSize:14}}, "\u2039")
                   , React.createElement('h2', { style: {margin:0,fontSize:21,fontWeight:900,color:"#0F172A"}}, month, " " , year)
-                  , React.createElement('button', { onClick: ()=>nextMonth&&setSelPayMonth({month:nextMonth,year}), disabled: !nextMonth, style: {background:nextMonth?"#F1F5F9":"transparent",border:"none",borderRadius:8,padding:"5px 10px",cursor:nextMonth?"pointer":"default",color:nextMonth?"#374151":"#D1D5DB",fontFamily:"inherit",fontSize:14}}, "›")
+                  , React.createElement('button', { onClick: ()=>nextMonth&&setSelPayMonth({month:nextMonth,year}), disabled: !nextMonth, style: {background:nextMonth?"#F1F5F9":"transparent",border:"none",borderRadius:8,padding:"5px 10px",cursor:nextMonth?"pointer":"default",color:nextMonth?"#374151":"#D1D5DB",fontFamily:"inherit",fontSize:14}}, "\u203A")
                 )
               )
-              , view && React.createElement('h2', { style: {margin:0,fontSize:21,fontWeight:900,color:"#0F172A"}}, view==="paid"?"✅ გადახდილი":"❌ გადაუხდელი / ვალი", " — "  , month, " " , year)
+              , view && React.createElement('h2', { style: {margin:0,fontSize:21,fontWeight:900,color:"#0F172A"}}, view==="paid"?"\u2705 გადახდილი":"\u274C გადაუხდელი / ვალი", " \u2014 "  , month, " " , year)
             )
 
             /* OVERVIEW */
             , !view && (
               React.createElement(React.Fragment, null
-                /* KPI — კლიკადი */
+                /* KPI \u2014 კლიკადი */
                 , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(130px,1fr))",gap:11,marginBottom:22}}
                   , [
                     ["სულ მოს.",  active.length,      "#64748B","#F8FAFC", null],
                     ["გადახდილი", paidList.length,    "#10B981","#F0FDF4", "paid"],
                     ["გადაუხდ./ვალი", unpaidList.length, "#DC2626","#FEF2F2", "unpaid"],
-                    ["შეგ. თანხა",(paidList.length*60).toLocaleString()+"₾","#3B82F6","#EFF6FF",null],
+                    ["შეგ. თანხა",(paidList.length*60).toLocaleString()+"\u20BE","#3B82F6","#EFF6FF",null],
                   ].map(([l,v,c,bg,action]) => (
                     React.createElement('div', { key: l, onClick: action?()=>setPmView(action):undefined,
                       style: {background:bg,border:"1px solid "+c+"22",borderRadius:13,padding:"12px 15px",cursor:action?"pointer":"default",transition:"all 0.2s"},
@@ -1811,7 +1811,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                       onMouseLeave: e=>action&&(e.currentTarget.style.transform="none")}
                       , React.createElement('div', { style: {fontSize:22,fontWeight:900,color:c,lineHeight:1}}, v)
                       , React.createElement('div', { style: {fontSize:11,color:"#64748B",fontWeight:600,marginTop:3}}, l)
-                      , action && React.createElement('div', { style: {fontSize:10,color:c,marginTop:2}}, "სია →" )
+                      , action && React.createElement('div', { style: {fontSize:10,color:c,marginTop:2}}, "სია \u2192" )
                     )
                   ))
                 )
@@ -1829,15 +1829,15 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
 
                 /* Two columns summary */
                 , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}
-                  /* UNPAID summary — clickable header */
+                  /* UNPAID summary \u2014 clickable header */
                   , React.createElement('div', { style: {background:"#fff",borderRadius:14,padding:"14px 16px",border:"1px solid #FECACA"}}
                     , React.createElement('div', { onClick: ()=>setPmView("unpaid"), style: {display:"flex",alignItems:"center",gap:8,marginBottom:12,cursor:"pointer",paddingBottom:8,borderBottom:"2px solid #FEE2E2"},
                       onMouseEnter: e=>e.currentTarget.style.opacity=".75",
                       onMouseLeave: e=>e.currentTarget.style.opacity="1"}
-                      , React.createElement('span', { style: {fontSize:15}}, "❌")
+                      , React.createElement('span', { style: {fontSize:15}}, "\u274C")
                       , React.createElement('span', { style: {fontWeight:900,fontSize:13,color:"#DC2626"}}, "გადაუხდელი / ვალი"  )
                       , React.createElement(Badge, { color: "#DC2626"}, unpaidList.length)
-                      , React.createElement('span', { style: {color:"#DC2626",marginLeft:"auto",fontSize:12}}, "→")
+                      , React.createElement('span', { style: {color:"#DC2626",marginLeft:"auto",fontSize:12}}, "\u2192")
                     )
                     , DIVISIONS.slice(0,4).map(div=>{
                       const n=unpaidList.filter(s=>s.divisionId===div.id).length;
@@ -1847,15 +1847,15 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                     , unpaidList.length===0&&React.createElement('div', { style: {textAlign:"center",color:"#10B981",fontWeight:700,fontSize:12,padding:8}}, "ყველამ გადაიხადა!" )
                   )
 
-                  /* PAID summary — clickable header */
+                  /* PAID summary \u2014 clickable header */
                   , React.createElement('div', { style: {background:"#fff",borderRadius:14,padding:"14px 16px",border:"1px solid #D1FAE5"}}
                     , React.createElement('div', { onClick: ()=>setPmView("paid"), style: {display:"flex",alignItems:"center",gap:8,marginBottom:12,cursor:"pointer",paddingBottom:8,borderBottom:"2px solid #D1FAE5"},
                       onMouseEnter: e=>e.currentTarget.style.opacity=".75",
                       onMouseLeave: e=>e.currentTarget.style.opacity="1"}
-                      , React.createElement('span', { style: {fontSize:15}}, "✅")
+                      , React.createElement('span', { style: {fontSize:15}}, "\u2705")
                       , React.createElement('span', { style: {fontWeight:900,fontSize:13,color:"#10B981"}}, "გადახდილი")
                       , React.createElement(Badge, { color: "#10B981"}, paidList.length)
-                      , React.createElement('span', { style: {color:"#10B981",marginLeft:"auto",fontSize:12}}, "→")
+                      , React.createElement('span', { style: {color:"#10B981",marginLeft:"auto",fontSize:12}}, "\u2192")
                     )
                     , DIVISIONS.slice(0,4).map(div=>{
                       const n=paidList.filter(s=>s.divisionId===div.id).length;
@@ -1872,7 +1872,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               React.createElement('div', null
                 , React.createElement('div', { style: {background:"#F0FDF4",borderRadius:12,padding:"11px 16px",marginBottom:18,border:"1px solid #D1FAE5",display:"flex",gap:12,alignItems:"center"}}
                   , React.createElement('span', { style: {fontSize:22,fontWeight:900,color:"#10B981"}}, paidList.length)
-                  , React.createElement('div', { style: {fontSize:12,color:"#065F46"}}, "მოსწ. გადაიხადა "  , month, " " , year, " · სულ "   , (paidList.length*60).toLocaleString(), "₾")
+                  , React.createElement('div', { style: {fontSize:12,color:"#065F46"}}, "მოსწ. გადაიხადა "  , month, " " , year, " \u00B7 სულ "   , (paidList.length*60).toLocaleString(), "\u20BE")
                 )
                 , React.createElement(StudentListByDiv, { list: paidList, bgColor: "#F0FDF4", borderColor: "#D1FAE5", amountColor: "#10B981", showDebt: false} )
                 , paidList.length===0 && React.createElement('div', { style: {textAlign:"center",padding:60,color:"#94A3B8",fontSize:14}}, "გადახდა ჯერ არ მოხდა"   )
@@ -1884,15 +1884,15 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               React.createElement('div', null
                 , React.createElement('div', { style: {background:"#FEF2F2",borderRadius:12,padding:"11px 16px",marginBottom:18,border:"1px solid #FECACA",display:"flex",gap:12,alignItems:"center",flexWrap:"wrap"}}
                   , React.createElement('span', { style: {fontSize:22,fontWeight:900,color:"#DC2626"}}, unpaidList.length)
-                  , React.createElement('div', { style: {fontSize:12,color:"#991B1B"}}, "მოსწ. — "  , month, " " , year, " გადაუხდელი ან წინა დავალიანება"    )
+                  , React.createElement('div', { style: {fontSize:12,color:"#991B1B"}}, "მოსწ. \u2014 "  , month, " " , year, " გადაუხდელი ან წინა დავალიანება"    )
                   , React.createElement(Badge, { color: "#DC2626"}, (unpaidList.reduce((a,s)=>{
                     const noThis = !s.payments.find(p=>p.year===year&&p.month===month)?60:0;
                     const prevD  = allMonths.slice(0,monthIdx).filter(m=>!s.payments.find(p=>p.year===year&&p.month===m)).length*60;
                     return a+noThis+prevD;
-                  },0)).toLocaleString(), "₾ ვალი" )
+                  },0)).toLocaleString(), "\u20BE ვალი" )
                 )
                 , React.createElement(StudentListByDiv, { list: unpaidList, bgColor: "#FFF5F5", borderColor: "#FEE2E2", amountColor: "#DC2626", showDebt: true} )
-                , unpaidList.length===0 && React.createElement('div', { style: {textAlign:"center",padding:60,color:"#10B981",fontWeight:800,fontSize:15}}, "✅ ყველამ გადაიხადა!"  )
+                , unpaidList.length===0 && React.createElement('div', { style: {textAlign:"center",padding:60,color:"#10B981",fontWeight:800,fontSize:15}}, "\u2705 ყველამ გადაიხადა!"  )
               )
             )
 
@@ -1913,9 +1913,9 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         };
 
         const EV_TABS = [
-          {k:"upcoming", label:"📅 მომავალი", cnt:upcoming.length},
-          {k:"past",      label:"✅ ჩატარებული", cnt:past.length},
-          {k:"archive",   label:"🗄 არქივი",    cnt:past.length},
+          {k:"upcoming", label:"\uD83D\uDCC5 მომავალი", cnt:upcoming.length},
+          {k:"past",      label:"\u2705 ჩატარებული", cnt:past.length},
+          {k:"archive",   label:"\uD83D\uDDC4 არქივი",    cnt:past.length},
         ];
 
         const EventCard = ({ev, accent}) => {
@@ -1930,9 +1930,9 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                 , React.createElement('div', { style: {flex:1}}
                   , React.createElement('div', { style: {fontSize:16,fontWeight:900,color:"#0F172A",marginBottom:4}}, ev.title)
                   , React.createElement('div', { style: {fontSize:12,color:"#64748B",display:"flex",gap:10,flexWrap:"wrap"}}
-                    , ev.date && React.createElement('span', null, "📅 " , ev.date)
-                    , ev.time && React.createElement('span', null, "🕐 " , ev.time)
-                    , ev.venue && React.createElement('span', null, "📍 " , ev.venue)
+                    , ev.date && React.createElement('span', null, "\uD83D\uDCC5 " , ev.date)
+                    , ev.time && React.createElement('span', null, "\uD83D\uDD50 " , ev.time)
+                    , ev.venue && React.createElement('span', null, "\uD83D\uDCCD " , ev.venue)
                   )
                 )
                 , React.createElement('div', { style: {display:"flex",gap:6,flexShrink:0,flexWrap:"wrap",justifyContent:"flex-end"}}
@@ -1948,8 +1948,8 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         return (
           React.createElement('div', null
             , React.createElement('div', { style: {display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20,gap:12,flexWrap:"wrap"}}
-              , React.createElement('h2', { style: {margin:0,fontSize:22,fontWeight:900,color:"#0F172A"}}, "🎭 ღონისძიებები" )
-              , React.createElement('button', { onClick: newEvent, style: {background:"#0F172A",border:"none",borderRadius:10,padding:"9px 18px",cursor:"pointer",color:"#fff",fontWeight:700,fontSize:13,fontFamily:"inherit",display:"flex",alignItems:"center",gap:7}}, "➕ ახალი ღონისძიება"
+              , React.createElement('h2', { style: {margin:0,fontSize:22,fontWeight:900,color:"#0F172A"}}, "\uD83C\uDFAD ღონისძიებები" )
+              , React.createElement('button', { onClick: newEvent, style: {background:"#0F172A",border:"none",borderRadius:10,padding:"9px 18px",cursor:"pointer",color:"#fff",fontWeight:700,fontSize:13,fontFamily:"inherit",display:"flex",alignItems:"center",gap:7}}, "\u2795 ახალი ღონისძიება"
 
               )
             )
@@ -1964,7 +1964,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               ))
               , evTab!=="archive" && (
                 React.createElement('button', { onClick: ()=>setEvTab("archive"),
-                  style: {padding:"8px 16px",border:"none",borderRadius:9,cursor:"pointer",fontWeight:500,background:"transparent",color:"#64748B",fontSize:12,fontFamily:"inherit",whiteSpace:"nowrap"}}, "🗄 არქივი ("
+                  style: {padding:"8px 16px",border:"none",borderRadius:9,cursor:"pointer",fontWeight:500,background:"transparent",color:"#64748B",fontSize:12,fontFamily:"inherit",whiteSpace:"nowrap"}}, "\uD83D\uDDC4 არქივი ("
                     , past.length, ")"
                 )
               )
@@ -1995,7 +1995,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             /* ARCHIVE */
             , evTab === "archive" && (
               React.createElement('div', null
-                , React.createElement('div', { style: {fontSize:13,color:"#64748B",marginBottom:16}}, "გასული ღონისძიებების სრული არქივი — "     , past.length, " ჩანაწერი" )
+                , React.createElement('div', { style: {fontSize:13,color:"#64748B",marginBottom:16}}, "გასული ღონისძიებების სრული არქივი \u2014 "     , past.length, " ჩანაწერი" )
                 , past.length===0
                   ? React.createElement('div', { style: {textAlign:"center",padding:60,color:"#94A3B8",fontSize:14}}, "არქივი ცარიელია" )
                   : past.map(ev => {
@@ -2005,19 +2005,19 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                           style: {display:"flex",alignItems:"center",gap:14,padding:"12px 16px",background:"#fff",borderRadius:12,border:"1px solid #E2E8F0",marginBottom:8,cursor:"pointer",transition:"all 0.15s"},
                           onMouseEnter: e=>e.currentTarget.style.background="#F8FAFC",
                           onMouseLeave: e=>e.currentTarget.style.background="#fff"}
-                          , React.createElement('div', { style: {width:44,height:44,borderRadius:10,background:"#F1F5F9",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}, "🎭")
+                          , React.createElement('div', { style: {width:44,height:44,borderRadius:10,background:"#F1F5F9",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}, "\uD83C\uDFAD")
                           , React.createElement('div', { style: {flex:1,minWidth:0}}
                             , React.createElement('div', { style: {fontWeight:800,fontSize:14,color:"#0F172A"}}, ev.title)
                             , React.createElement('div', { style: {fontSize:11,color:"#64748B",marginTop:2,display:"flex",gap:10,flexWrap:"wrap"}}
-                              , React.createElement('span', null, "📅 " , ev.date)
-                              , ev.venue && React.createElement('span', null, "📍 " , ev.venue)
+                              , React.createElement('span', null, "\uD83D\uDCC5 " , ev.date)
+                              , ev.venue && React.createElement('span', null, "\uD83D\uDCCD " , ev.venue)
                             )
                           )
                           , React.createElement('div', { style: {display:"flex",gap:6,flexShrink:0}}
                             , React.createElement(Badge, { color: "#059669"}, ev.program.length, " ნომ." )
                             , sIds.length>0 && React.createElement(Badge, { color: "#64748B"}, sIds.length, " მოს." )
                           )
-                          , React.createElement('span', { style: {color:"#D1D5DB",fontSize:18}}, "›")
+                          , React.createElement('span', { style: {color:"#D1D5DB",fontSize:18}}, "\u203A")
                         )
                       );
                     })
