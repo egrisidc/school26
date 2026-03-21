@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ხელოვნების სკოლა N26</title>
+<title>&#4334;&#4308;&#4314;&#4317;&#4309;&#4316;&#4308;&#4305;&#4312;&#4321; &#4321;&#4313;&#4317;&#4314;&#4304; N26</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -50,72 +50,72 @@ function appEvent(row){return{id:row.id,title:row.title,venue:row.venue||'',date
 
 function LoginScreen(){
 const [email,setEmail]=useState(’’);const[password,setPassword]=useState(’’);const[error,setError]=useState(’’);const[loading,setLoading]=useState(false);
-const submit=async()=>{if(!email||!password){setError(‘შეავსეთ ყველა ველი’);return;}setLoading(true);setError(’’);const{error:err}=await db.signIn(email,password);if(err){setError(‘არასწორი email ან პაროლი’);setLoading(false);}};
+const submit=async()=>{if(!email||!password){setError(’\u10E8\u10D4\u10D0\u10D5\u10E1\u10D4\u10D7 \u10E7\u10D5\u10D4\u10DA\u10D0 \u10D5\u10D4\u10DA\u10D8’);return;}setLoading(true);setError(’’);const{error:err}=await db.signIn(email,password);if(err){setError(’\u10D0\u10E0\u10D0\u10E1\u10EC\u10DD\u10E0\u10D8 email \u10D0\u10DC \u10DE\u10D0\u10E0\u10DD\u10DA\u10D8’);setLoading(false);}};
 const IS={width:‘100%’,padding:‘11px 14px’,border:‘1px solid #E5E7EB’,borderRadius:10,fontSize:14,outline:‘none’,fontFamily:‘inherit’};
-return(React.createElement(‘div’, { style: {display:‘flex’,alignItems:‘center’,justifyContent:‘center’,minHeight:‘100vh’,background:‘linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%)’,fontFamily:‘Noto Sans Georgian,sans-serif’}}, React.createElement(‘div’, { style: {background:’#fff’,borderRadius:24,padding:‘40px 36px’,width:‘min(400px,90vw)’,boxShadow:‘0 30px 80px rgba(0,0,0,0.4)’}}, React.createElement(‘div’, { style: {textAlign:‘center’,marginBottom:32}}, React.createElement(‘div’, { style: {fontSize:11,color:’#94A3B8’,letterSpacing:3,marginBottom:6}}, “სახელოვნებო”), React.createElement(‘div’, { style: {fontSize:48,fontWeight:900,color:’#0F172A’,lineHeight:1}}, “N26”), React.createElement(‘div’, { style: {fontSize:13,color:’#64748B’,marginTop:8}}, “მართვის სისტემა” )), React.createElement(‘div’, { style: {marginBottom:14}}, React.createElement(‘label’, { style: {display:‘block’,fontSize:12,fontWeight:600,color:’#6B7280’,marginBottom:5}}, “Email”), React.createElement(‘input’, { value: email, onChange: e=>setEmail(e.target.value), onKeyDown: e=>e.key===‘Enter’&&submit(), placeholder: “admin@school26.ge”, style: IS})), React.createElement(‘div’, { style: {marginBottom:20}}, React.createElement(‘label’, { style: {display:‘block’,fontSize:12,fontWeight:600,color:’#6B7280’,marginBottom:5}}, “პაროლი”), React.createElement(‘input’, { type: “password”, value: password, onChange: e=>setPassword(e.target.value), onKeyDown: e=>e.key===‘Enter’&&submit(), placeholder: “\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022”, style: IS})), error&&React.createElement(‘div’, { style: {background:’#FEF2F2’,border:‘1px solid #FECACA’,borderRadius:8,padding:‘9px 13px’,fontSize:13,color:’#DC2626’,marginBottom:14}}, error), React.createElement(‘button’, { onClick: submit, disabled: loading, style: {width:‘100%’,padding:‘13px’,background:loading?’#94A3B8’:’#0F172A’,border:‘none’,borderRadius:11,color:’#fff’,fontWeight:700,fontSize:15,cursor:loading?‘default’:‘pointer’,fontFamily:‘inherit’}}, loading?’\u23F3 შესვლა…’:’\uD83D\uDD10 შესვლა’))));
+return(React.createElement(‘div’, { style: {display:‘flex’,alignItems:‘center’,justifyContent:‘center’,minHeight:‘100vh’,background:‘linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%)’,fontFamily:‘Noto Sans Georgian,sans-serif’}}, React.createElement(‘div’, { style: {background:’#fff’,borderRadius:24,padding:‘40px 36px’,width:‘min(400px,90vw)’,boxShadow:‘0 30px 80px rgba(0,0,0,0.4)’}}, React.createElement(‘div’, { style: {textAlign:‘center’,marginBottom:32}}, React.createElement(‘div’, { style: {fontSize:11,color:’#94A3B8’,letterSpacing:3,marginBottom:6}}, “\u10E1\u10D0\u10EE\u10D4\u10DA\u10DD\u10D5\u10DC\u10D4\u10D1\u10DD”), React.createElement(‘div’, { style: {fontSize:48,fontWeight:900,color:’#0F172A’,lineHeight:1}}, “N26”), React.createElement(‘div’, { style: {fontSize:13,color:’#64748B’,marginTop:8}}, “\u10DB\u10D0\u10E0\u10D7\u10D5\u10D8\u10E1 \u10E1\u10D8\u10E1\u10E2\u10D4\u10DB\u10D0” )), React.createElement(‘div’, { style: {marginBottom:14}}, React.createElement(‘label’, { style: {display:‘block’,fontSize:12,fontWeight:600,color:’#6B7280’,marginBottom:5}}, “Email”), React.createElement(‘input’, { value: email, onChange: e=>setEmail(e.target.value), onKeyDown: e=>e.key===‘Enter’&&submit(), placeholder: “admin@school26.ge”, style: IS})), React.createElement(‘div’, { style: {marginBottom:20}}, React.createElement(‘label’, { style: {display:‘block’,fontSize:12,fontWeight:600,color:’#6B7280’,marginBottom:5}}, “\u10DE\u10D0\u10E0\u10DD\u10DA\u10D8”), React.createElement(‘input’, { type: “password”, value: password, onChange: e=>setPassword(e.target.value), onKeyDown: e=>e.key===‘Enter’&&submit(), placeholder: “\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022”, style: IS})), error&&React.createElement(‘div’, { style: {background:’#FEF2F2’,border:‘1px solid #FECACA’,borderRadius:8,padding:‘9px 13px’,fontSize:13,color:’#DC2626’,marginBottom:14}}, error), React.createElement(‘button’, { onClick: submit, disabled: loading, style: {width:‘100%’,padding:‘13px’,background:loading?’#94A3B8’:’#0F172A’,border:‘none’,borderRadius:11,color:’#fff’,fontWeight:700,fontSize:15,cursor:loading?‘default’:‘pointer’,fontFamily:‘inherit’}}, loading?’\u23F3 \u10E8\u10D4\u10E1\u10D5\u10DA\u10D0…’:’\uD83D\uDD10 \u10E8\u10D4\u10E1\u10D5\u10DA\u10D0’))));
 }
 
 function App(){
 const [user,setUser]=useState(null);const[authChecked,setAuthChecked]=useState(false);
 useEffect(()=>{db.getUser().then(({data})=>{setUser(_optionalChain([data, ‘optionalAccess’, _2 => *2.user])||null);setAuthChecked(true);});const{data:{subscription}}=db.onAuthChange((*,s)=>{setUser(_optionalChain([s, ‘optionalAccess’, _3 => _3.user])||null);});return()=>subscription.unsubscribe();},[]);
-if(!authChecked)return(React.createElement(‘div’, { style: {display:‘flex’,alignItems:‘center’,justifyContent:‘center’,minHeight:‘100vh’,background:‘linear-gradient(135deg,#0F172A,#1E3A8A)’,fontFamily:‘Noto Sans Georgian,sans-serif’,flexDirection:‘column’,gap:16}}, React.createElement(‘div’, { style: {fontSize:42,fontWeight:900,color:’#fff’}}, “N26”), React.createElement(‘div’, { style: {color:‘rgba(255,255,255,0.6)’,fontSize:13}}, “იტვირთება…”)));
+if(!authChecked)return(React.createElement(‘div’, { style: {display:‘flex’,alignItems:‘center’,justifyContent:‘center’,minHeight:‘100vh’,background:‘linear-gradient(135deg,#0F172A,#1E3A8A)’,fontFamily:‘Noto Sans Georgian,sans-serif’,flexDirection:‘column’,gap:16}}, React.createElement(‘div’, { style: {fontSize:42,fontWeight:900,color:’#fff’}}, “N26”), React.createElement(‘div’, { style: {color:‘rgba(255,255,255,0.6)’,fontSize:13}}, “\u10D8\u10E2\u10D5\u10D8\u10E0\u10D7\u10D4\u10D1\u10D0…”)));
 if(!user)return React.createElement(LoginScreen, null);
 return React.createElement(AppMain, { user: user, onSignOut: ()=>db.signOut()});
 }
 
 const DIVISIONS = [
-{ id:“d1”,  emoji:”\uD83C\uDFB9”, name:“საფორტეპიანო”,                           color:”#7C3AED” },
-{ id:“d2”,  emoji:”\uD83E\uDE70”, name:“ქართული ხალხური ცეკვა”,                  color:”#DB2777” },
-{ id:“d3”,  emoji:”\uD83C\uDFAD”, name:“თეატრალური განყოფილება”,                  color:”#D97706” },
-{ id:“d4”,  emoji:”\uD83C\uDFB8”, name:“გიტარა”,                                 color:”#059669” },
-{ id:“d5”,  emoji:”\uD83C\uDFBB”, name:“ვიოლინო”,                                color:”#2563EB” },
-{ id:“d6”,  emoji:”\uD83E\uDE97”, name:“ხალხურ საკრავთა განყოფ.”,                color:”#DC2626” },
-{ id:“d7”,  emoji:”\uD83C\uDFBC”, name:“გალობა / ხალხური სიმღერა”,               color:”#0891B2” },
-{ id:“d8”,  emoji:”\uD83C\uDFA4”, name:“ვოკალურ-საესტრადო განყოფ.”,              color:”#C026D3” },
-{ id:“d9”,  emoji:”\uD83C\uDFA8”, name:“ფერწერა და გამოყენ. ხელოვნება”,          color:”#EA580C” },
-{ id:“d10”, emoji:”\uD83C\uDFB7”, name:“ჩასაბერი ინსტრუმენტები”,                 color:”#65A30D” },
+{ id:“d1”,  emoji:”\uD83C\uDFB9”, name:”\u10E1\u10D0\u10E4\u10DD\u10E0\u10E2\u10D4\u10DE\u10D8\u10D0\u10DC\u10DD”,                           color:”#7C3AED” },
+{ id:“d2”,  emoji:”\uD83E\uDE70”, name:”\u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10EE\u10D0\u10DA\u10EE\u10E3\u10E0\u10D8 \u10EA\u10D4\u10D9\u10D5\u10D0”,                  color:”#DB2777” },
+{ id:“d3”,  emoji:”\uD83C\uDFAD”, name:”\u10D7\u10D4\u10D0\u10E2\u10E0\u10D0\u10DA\u10E3\u10E0\u10D8 \u10D2\u10D0\u10DC\u10E7\u10DD\u10E4\u10D8\u10DA\u10D4\u10D1\u10D0”,                  color:”#D97706” },
+{ id:“d4”,  emoji:”\uD83C\uDFB8”, name:”\u10D2\u10D8\u10E2\u10D0\u10E0\u10D0”,                                 color:”#059669” },
+{ id:“d5”,  emoji:”\uD83C\uDFBB”, name:”\u10D5\u10D8\u10DD\u10DA\u10D8\u10DC\u10DD”,                                color:”#2563EB” },
+{ id:“d6”,  emoji:”\uD83E\uDE97”, name:”\u10EE\u10D0\u10DA\u10EE\u10E3\u10E0 \u10E1\u10D0\u10D9\u10E0\u10D0\u10D5\u10D7\u10D0 \u10D2\u10D0\u10DC\u10E7\u10DD\u10E4.”,                color:”#DC2626” },
+{ id:“d7”,  emoji:”\uD83C\uDFBC”, name:”\u10D2\u10D0\u10DA\u10DD\u10D1\u10D0 / \u10EE\u10D0\u10DA\u10EE\u10E3\u10E0\u10D8 \u10E1\u10D8\u10DB\u10E6\u10D4\u10E0\u10D0”,               color:”#0891B2” },
+{ id:“d8”,  emoji:”\uD83C\uDFA4”, name:”\u10D5\u10DD\u10D9\u10D0\u10DA\u10E3\u10E0-\u10E1\u10D0\u10D4\u10E1\u10E2\u10E0\u10D0\u10D3\u10DD \u10D2\u10D0\u10DC\u10E7\u10DD\u10E4.”,              color:”#C026D3” },
+{ id:“d9”,  emoji:”\uD83C\uDFA8”, name:”\u10E4\u10D4\u10E0\u10EC\u10D4\u10E0\u10D0 \u10D3\u10D0 \u10D2\u10D0\u10DB\u10DD\u10E7\u10D4\u10DC. \u10EE\u10D4\u10DA\u10DD\u10D5\u10DC\u10D4\u10D1\u10D0”,          color:”#EA580C” },
+{ id:“d10”, emoji:”\uD83C\uDFB7”, name:”\u10E9\u10D0\u10E1\u10D0\u10D1\u10D4\u10E0\u10D8 \u10D8\u10DC\u10E1\u10E2\u10E0\u10E3\u10DB\u10D4\u10DC\u10E2\u10D4\u10D1\u10D8”,                 color:”#65A30D” },
 ];
 
 const TEACHERS_INIT = [
-{id:“t1”,  divisionId:“d1”,  name:“მარიამ გელაშვილი”,    subject:“ფორტეპიანო”,         phone:“595-11-22-33”, email:“m.gelashvili@s26.ge”},
-{id:“t2”,  divisionId:“d1”,  name:“ნინო ჩიქოვანი”,       subject:“ფორტეპიანო”,         phone:“599-44-55-66”, email:“n.chiqovani@s26.ge”},
-{id:“t3”,  divisionId:“d1”,  name:“თამარ კვარაცხელია”,   subject:“სოლფეჯიო”,           phone:“577-77-88-99”, email:“t.kvaratskh@s26.ge”},
-{id:“t4”,  divisionId:“d2”,  name:“გიორგი მელიქიძე”,     subject:“ქართული ცეკვა”,      phone:“591-22-33-44”, email:“g.melikidze@s26.ge”},
-{id:“t5”,  divisionId:“d2”,  name:“ელენე ბაგრატიონი”,    subject:“ქართული ცეკვა”,      phone:“593-55-66-77”, email:“e.bagrationi@s26.ge”},
-{id:“t6”,  divisionId:“d3”,  name:“დავით ჯაფარიძე”,      subject:“სცენური მეტყველება”, phone:“597-88-99-00”, email:“d.japaridze@s26.ge”},
-{id:“t7”,  divisionId:“d3”,  name:“ანა ხარებავა”,         subject:“სათეატრო ოსტატობა”,  phone:“598-11-22-33”, email:“a.kharebava@s26.ge”},
-{id:“t8”,  divisionId:“d4”,  name:“ლუკა ფხაკაძე”,        subject:“კლასიკური გიტარა”,   phone:“592-44-55-66”, email:“l.pkakadze@s26.ge”},
-{id:“t9”,  divisionId:“d4”,  name:“ზვიად ჩხეიძე”,        subject:“ესტრადული გიტარა”,   phone:“595-33-44-55”, email:“z.chkheidze@s26.ge”},
-{id:“t10”, divisionId:“d5”,  name:“სოფია ბერიძე”,        subject:“ვიოლინო”,            phone:“577-22-33-44”, email:“s.beridze@s26.ge”},
-{id:“t11”, divisionId:“d5”,  name:“ნათია კიკნაძე”,       subject:“ვიოლინო / ალტი”,     phone:“593-66-77-88”, email:“n.kiknadze@s26.ge”},
-{id:“t12”, divisionId:“d6”,  name:“ვახტანგ ასლანიშვილი”, subject:“პანდური / ჩონგური”,  phone:“591-55-66-77”, email:“v.aslanis@s26.ge”},
-{id:“t13”, divisionId:“d6”,  name:“ია გოგოლაძე”,         subject:“დუდუკი / სალამური”,  phone:“598-44-55-66”, email:“i.gogoladze@s26.ge”},
-{id:“t14”, divisionId:“d7”,  name:“შოთა სვანიძე”,        subject:“ხალხური სიმღერა”,    phone:“599-88-99-00”, email:“sh.svanidze@s26.ge”},
-{id:“t15”, divisionId:“d7”,  name:“მაკა ყიფიანი”,        subject:“გალობა”,             phone:“577-11-22-33”, email:“m.kipiani@s26.ge”},
-{id:“t16”, divisionId:“d8”,  name:“სალომე მახარობლიძე”,  subject:“ვოკალი / ესტრადა”,   phone:“592-55-66-77”, email:“s.makhar@s26.ge”},
-{id:“t17”, divisionId:“d8”,  name:“ნოდარ ნოზაძე”,        subject:“ვოკალი / ჯაზი”,      phone:“595-77-88-99”, email:“n.nozadze@s26.ge”},
-{id:“t18”, divisionId:“d9”,  name:“ხათია ქობულაძე”,      subject:“ფერწერა / ნახატი”,   phone:“598-22-33-44”, email:“kh.qobul@s26.ge”},
-{id:“t19”, divisionId:“d9”,  name:“ირაკლი ხიდაშელი”,     subject:“გამოყენ. ხელოვნება”, phone:“591-66-77-88”, email:“i.khidas@s26.ge”},
-{id:“t20”, divisionId:“d10”, name:“გოჩა ჯიქია”,          subject:“საქსოფონი”,           phone:“577-55-66-77”, email:“g.jiqia@s26.ge”},
-{id:“t21”, divisionId:“d10”, name:“ოთო კვირიკაშვილი”,    subject:“ფლეიტა / ობოე”,      phone:“593-11-22-33”, email:“o.kvirik@s26.ge”},
+{id:“t1”,  divisionId:“d1”,  name:”\u10DB\u10D0\u10E0\u10D8\u10D0\u10DB \u10D2\u10D4\u10DA\u10D0\u10E8\u10D5\u10D8\u10DA\u10D8”,    subject:”\u10E4\u10DD\u10E0\u10E2\u10D4\u10DE\u10D8\u10D0\u10DC\u10DD”,         phone:“595-11-22-33”, email:“m.gelashvili@s26.ge”},
+{id:“t2”,  divisionId:“d1”,  name:”\u10DC\u10D8\u10DC\u10DD \u10E9\u10D8\u10E5\u10DD\u10D5\u10D0\u10DC\u10D8”,       subject:”\u10E4\u10DD\u10E0\u10E2\u10D4\u10DE\u10D8\u10D0\u10DC\u10DD”,         phone:“599-44-55-66”, email:“n.chiqovani@s26.ge”},
+{id:“t3”,  divisionId:“d1”,  name:”\u10D7\u10D0\u10DB\u10D0\u10E0 \u10D9\u10D5\u10D0\u10E0\u10D0\u10EA\u10EE\u10D4\u10DA\u10D8\u10D0”,   subject:”\u10E1\u10DD\u10DA\u10E4\u10D4\u10EF\u10D8\u10DD”,           phone:“577-77-88-99”, email:“t.kvaratskh@s26.ge”},
+{id:“t4”,  divisionId:“d2”,  name:”\u10D2\u10D8\u10DD\u10E0\u10D2\u10D8 \u10DB\u10D4\u10DA\u10D8\u10E5\u10D8\u10EB\u10D4”,     subject:”\u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10EA\u10D4\u10D9\u10D5\u10D0”,      phone:“591-22-33-44”, email:“g.melikidze@s26.ge”},
+{id:“t5”,  divisionId:“d2”,  name:”\u10D4\u10DA\u10D4\u10DC\u10D4 \u10D1\u10D0\u10D2\u10E0\u10D0\u10E2\u10D8\u10DD\u10DC\u10D8”,    subject:”\u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10EA\u10D4\u10D9\u10D5\u10D0”,      phone:“593-55-66-77”, email:“e.bagrationi@s26.ge”},
+{id:“t6”,  divisionId:“d3”,  name:”\u10D3\u10D0\u10D5\u10D8\u10D7 \u10EF\u10D0\u10E4\u10D0\u10E0\u10D8\u10EB\u10D4”,      subject:”\u10E1\u10EA\u10D4\u10DC\u10E3\u10E0\u10D8 \u10DB\u10D4\u10E2\u10E7\u10D5\u10D4\u10DA\u10D4\u10D1\u10D0”, phone:“597-88-99-00”, email:“d.japaridze@s26.ge”},
+{id:“t7”,  divisionId:“d3”,  name:”\u10D0\u10DC\u10D0 \u10EE\u10D0\u10E0\u10D4\u10D1\u10D0\u10D5\u10D0”,         subject:”\u10E1\u10D0\u10D7\u10D4\u10D0\u10E2\u10E0\u10DD \u10DD\u10E1\u10E2\u10D0\u10E2\u10DD\u10D1\u10D0”,  phone:“598-11-22-33”, email:“a.kharebava@s26.ge”},
+{id:“t8”,  divisionId:“d4”,  name:”\u10DA\u10E3\u10D9\u10D0 \u10E4\u10EE\u10D0\u10D9\u10D0\u10EB\u10D4”,        subject:”\u10D9\u10DA\u10D0\u10E1\u10D8\u10D9\u10E3\u10E0\u10D8 \u10D2\u10D8\u10E2\u10D0\u10E0\u10D0”,   phone:“592-44-55-66”, email:“l.pkakadze@s26.ge”},
+{id:“t9”,  divisionId:“d4”,  name:”\u10D6\u10D5\u10D8\u10D0\u10D3 \u10E9\u10EE\u10D4\u10D8\u10EB\u10D4”,        subject:”\u10D4\u10E1\u10E2\u10E0\u10D0\u10D3\u10E3\u10DA\u10D8 \u10D2\u10D8\u10E2\u10D0\u10E0\u10D0”,   phone:“595-33-44-55”, email:“z.chkheidze@s26.ge”},
+{id:“t10”, divisionId:“d5”,  name:”\u10E1\u10DD\u10E4\u10D8\u10D0 \u10D1\u10D4\u10E0\u10D8\u10EB\u10D4”,        subject:”\u10D5\u10D8\u10DD\u10DA\u10D8\u10DC\u10DD”,            phone:“577-22-33-44”, email:“s.beridze@s26.ge”},
+{id:“t11”, divisionId:“d5”,  name:”\u10DC\u10D0\u10D7\u10D8\u10D0 \u10D9\u10D8\u10D9\u10DC\u10D0\u10EB\u10D4”,       subject:”\u10D5\u10D8\u10DD\u10DA\u10D8\u10DC\u10DD / \u10D0\u10DA\u10E2\u10D8”,     phone:“593-66-77-88”, email:“n.kiknadze@s26.ge”},
+{id:“t12”, divisionId:“d6”,  name:”\u10D5\u10D0\u10EE\u10E2\u10D0\u10DC\u10D2 \u10D0\u10E1\u10DA\u10D0\u10DC\u10D8\u10E8\u10D5\u10D8\u10DA\u10D8”, subject:”\u10DE\u10D0\u10DC\u10D3\u10E3\u10E0\u10D8 / \u10E9\u10DD\u10DC\u10D2\u10E3\u10E0\u10D8”,  phone:“591-55-66-77”, email:“v.aslanis@s26.ge”},
+{id:“t13”, divisionId:“d6”,  name:”\u10D8\u10D0 \u10D2\u10DD\u10D2\u10DD\u10DA\u10D0\u10EB\u10D4”,         subject:”\u10D3\u10E3\u10D3\u10E3\u10D9\u10D8 / \u10E1\u10D0\u10DA\u10D0\u10DB\u10E3\u10E0\u10D8”,  phone:“598-44-55-66”, email:“i.gogoladze@s26.ge”},
+{id:“t14”, divisionId:“d7”,  name:”\u10E8\u10DD\u10D7\u10D0 \u10E1\u10D5\u10D0\u10DC\u10D8\u10EB\u10D4”,        subject:”\u10EE\u10D0\u10DA\u10EE\u10E3\u10E0\u10D8 \u10E1\u10D8\u10DB\u10E6\u10D4\u10E0\u10D0”,    phone:“599-88-99-00”, email:“sh.svanidze@s26.ge”},
+{id:“t15”, divisionId:“d7”,  name:”\u10DB\u10D0\u10D9\u10D0 \u10E7\u10D8\u10E4\u10D8\u10D0\u10DC\u10D8”,        subject:”\u10D2\u10D0\u10DA\u10DD\u10D1\u10D0”,             phone:“577-11-22-33”, email:“m.kipiani@s26.ge”},
+{id:“t16”, divisionId:“d8”,  name:”\u10E1\u10D0\u10DA\u10DD\u10DB\u10D4 \u10DB\u10D0\u10EE\u10D0\u10E0\u10DD\u10D1\u10DA\u10D8\u10EB\u10D4”,  subject:”\u10D5\u10DD\u10D9\u10D0\u10DA\u10D8 / \u10D4\u10E1\u10E2\u10E0\u10D0\u10D3\u10D0”,   phone:“592-55-66-77”, email:“s.makhar@s26.ge”},
+{id:“t17”, divisionId:“d8”,  name:”\u10DC\u10DD\u10D3\u10D0\u10E0 \u10DC\u10DD\u10D6\u10D0\u10EB\u10D4”,        subject:”\u10D5\u10DD\u10D9\u10D0\u10DA\u10D8 / \u10EF\u10D0\u10D6\u10D8”,      phone:“595-77-88-99”, email:“n.nozadze@s26.ge”},
+{id:“t18”, divisionId:“d9”,  name:”\u10EE\u10D0\u10D7\u10D8\u10D0 \u10E5\u10DD\u10D1\u10E3\u10DA\u10D0\u10EB\u10D4”,      subject:”\u10E4\u10D4\u10E0\u10EC\u10D4\u10E0\u10D0 / \u10DC\u10D0\u10EE\u10D0\u10E2\u10D8”,   phone:“598-22-33-44”, email:“kh.qobul@s26.ge”},
+{id:“t19”, divisionId:“d9”,  name:”\u10D8\u10E0\u10D0\u10D9\u10DA\u10D8 \u10EE\u10D8\u10D3\u10D0\u10E8\u10D4\u10DA\u10D8”,     subject:”\u10D2\u10D0\u10DB\u10DD\u10E7\u10D4\u10DC. \u10EE\u10D4\u10DA\u10DD\u10D5\u10DC\u10D4\u10D1\u10D0”, phone:“591-66-77-88”, email:“i.khidas@s26.ge”},
+{id:“t20”, divisionId:“d10”, name:”\u10D2\u10DD\u10E9\u10D0 \u10EF\u10D8\u10E5\u10D8\u10D0”,          subject:”\u10E1\u10D0\u10E5\u10E1\u10DD\u10E4\u10DD\u10DC\u10D8”,           phone:“577-55-66-77”, email:“g.jiqia@s26.ge”},
+{id:“t21”, divisionId:“d10”, name:”\u10DD\u10D7\u10DD \u10D9\u10D5\u10D8\u10E0\u10D8\u10D9\u10D0\u10E8\u10D5\u10D8\u10DA\u10D8”,    subject:”\u10E4\u10DA\u10D4\u10D8\u10E2\u10D0 / \u10DD\u10D1\u10DD\u10D4”,      phone:“593-11-22-33”, email:“o.kvirik@s26.ge”},
 ];
 
 const CLASSES = [
-{id:“c1”, divisionId:“d1”, teacherId:“t1”, name:“I ჯგ.”},   {id:“c2”, divisionId:“d1”, teacherId:“t2”, name:“II ჯგ.”},
-{id:“c3”, divisionId:“d1”, teacherId:“t3”, name:“III ჯგ.”}, {id:“c4”, divisionId:“d2”, teacherId:“t4”, name:“I ჯგ.”},
-{id:“c5”, divisionId:“d2”, teacherId:“t5”, name:“II ჯგ.”},  {id:“c6”, divisionId:“d2”, teacherId:“t4”, name:“III ჯგ.”},
-{id:“c7”, divisionId:“d3”, teacherId:“t6”, name:“I ჯგ.”},   {id:“c8”, divisionId:“d3”, teacherId:“t7”, name:“II ჯგ.”},
-{id:“c9”, divisionId:“d4”, teacherId:“t8”, name:“I ჯგ.”},   {id:“c10”,divisionId:“d4”, teacherId:“t9”, name:“II ჯგ.”},
-{id:“c11”,divisionId:“d5”, teacherId:“t10”,name:“I ჯგ.”},   {id:“c12”,divisionId:“d5”, teacherId:“t11”,name:“II ჯგ.”},
-{id:“c13”,divisionId:“d6”, teacherId:“t12”,name:“I ჯგ.”},   {id:“c14”,divisionId:“d6”, teacherId:“t13”,name:“II ჯგ.”},
-{id:“c15”,divisionId:“d7”, teacherId:“t14”,name:“I ჯგ.”},   {id:“c16”,divisionId:“d7”, teacherId:“t15”,name:“II ჯგ.”},
-{id:“c17”,divisionId:“d8”, teacherId:“t16”,name:“I ჯგ.”},   {id:“c18”,divisionId:“d8”, teacherId:“t17”,name:“II ჯგ.”},
-{id:“c19”,divisionId:“d9”, teacherId:“t18”,name:“I ჯგ.”},   {id:“c20”,divisionId:“d9”, teacherId:“t19”,name:“II ჯგ.”},
-{id:“c21”,divisionId:“d10”,teacherId:“t20”,name:“I ჯგ.”},   {id:“c22”,divisionId:“d10”,teacherId:“t21”,name:“II ჯგ.”},
+{id:“c1”, divisionId:“d1”, teacherId:“t1”, name:“I \u10EF\u10D2.”},   {id:“c2”, divisionId:“d1”, teacherId:“t2”, name:“II \u10EF\u10D2.”},
+{id:“c3”, divisionId:“d1”, teacherId:“t3”, name:“III \u10EF\u10D2.”}, {id:“c4”, divisionId:“d2”, teacherId:“t4”, name:“I \u10EF\u10D2.”},
+{id:“c5”, divisionId:“d2”, teacherId:“t5”, name:“II \u10EF\u10D2.”},  {id:“c6”, divisionId:“d2”, teacherId:“t4”, name:“III \u10EF\u10D2.”},
+{id:“c7”, divisionId:“d3”, teacherId:“t6”, name:“I \u10EF\u10D2.”},   {id:“c8”, divisionId:“d3”, teacherId:“t7”, name:“II \u10EF\u10D2.”},
+{id:“c9”, divisionId:“d4”, teacherId:“t8”, name:“I \u10EF\u10D2.”},   {id:“c10”,divisionId:“d4”, teacherId:“t9”, name:“II \u10EF\u10D2.”},
+{id:“c11”,divisionId:“d5”, teacherId:“t10”,name:“I \u10EF\u10D2.”},   {id:“c12”,divisionId:“d5”, teacherId:“t11”,name:“II \u10EF\u10D2.”},
+{id:“c13”,divisionId:“d6”, teacherId:“t12”,name:“I \u10EF\u10D2.”},   {id:“c14”,divisionId:“d6”, teacherId:“t13”,name:“II \u10EF\u10D2.”},
+{id:“c15”,divisionId:“d7”, teacherId:“t14”,name:“I \u10EF\u10D2.”},   {id:“c16”,divisionId:“d7”, teacherId:“t15”,name:“II \u10EF\u10D2.”},
+{id:“c17”,divisionId:“d8”, teacherId:“t16”,name:“I \u10EF\u10D2.”},   {id:“c18”,divisionId:“d8”, teacherId:“t17”,name:“II \u10EF\u10D2.”},
+{id:“c19”,divisionId:“d9”, teacherId:“t18”,name:“I \u10EF\u10D2.”},   {id:“c20”,divisionId:“d9”, teacherId:“t19”,name:“II \u10EF\u10D2.”},
+{id:“c21”,divisionId:“d10”,teacherId:“t20”,name:“I \u10EF\u10D2.”},   {id:“c22”,divisionId:“d10”,teacherId:“t21”,name:“II \u10EF\u10D2.”},
 ];
 
-const SM25 = [“სექტემბერი”,“ოქტომბერი”,“ნოემბერი”,“დეკემბერი”,“იანვარი”,“თებერვალი”,“მარტი”,“აპრილი”,“მაისი”,“ივნისი”];
-const SM26 = [“სექტემბერი”,“ოქტომბერი”,“ნოემბერი”,“დეკემბერი”,“იანვარი”,“თებერვალი”,“მარტი”,“აპრილი”,“მაისი”,“ივნისი”];
+const SM25 = [”\u10E1\u10D4\u10E5\u10E2\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10DD\u10E5\u10E2\u10DD\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10DC\u10DD\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10D3\u10D4\u10D9\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10D8\u10D0\u10DC\u10D5\u10D0\u10E0\u10D8”,”\u10D7\u10D4\u10D1\u10D4\u10E0\u10D5\u10D0\u10DA\u10D8”,”\u10DB\u10D0\u10E0\u10E2\u10D8”,”\u10D0\u10DE\u10E0\u10D8\u10DA\u10D8”,”\u10DB\u10D0\u10D8\u10E1\u10D8”,”\u10D8\u10D5\u10DC\u10D8\u10E1\u10D8”];
+const SM26 = [”\u10E1\u10D4\u10E5\u10E2\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10DD\u10E5\u10E2\u10DD\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10DC\u10DD\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10D3\u10D4\u10D9\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10D8\u10D0\u10DC\u10D5\u10D0\u10E0\u10D8”,”\u10D7\u10D4\u10D1\u10D4\u10E0\u10D5\u10D0\u10DA\u10D8”,”\u10DB\u10D0\u10E0\u10E2\u10D8”,”\u10D0\u10DE\u10E0\u10D8\u10DA\u10D8”,”\u10DB\u10D0\u10D8\u10E1\u10D8”,”\u10D8\u10D5\u10DC\u10D8\u10E1\u10D8”];
 const PX25 = [“2025-09”,“2025-10”,“2025-11”,“2025-12”,“2025-01”,“2025-02”,“2025-03”,“2025-04”,“2025-05”,“2025-06”];
 const PX26 = [“2026-09”,“2026-10”,“2026-11”,“2026-12”,“2026-01”,“2026-02”,“2026-03”,“2026-04”,“2026-05”,“2026-06”];
 
@@ -127,9 +127,9 @@ SM26.forEach((m,i) => { if (Math.random() > 0.38) P.push({id:“p”+(n++), date
 return P;
 }
 
-const FNF = [“მარიამი”,“ნინო”,“თამარი”,“ანი”,“სოფია”,“ელენე”,“ნატა”,“ქეთი”,“ლიკა”,“სალომე”,“მაკა”,“ია”,“ნათია”,“ხათია”,“მარი”];
-const FNM = [“გიორგი”,“დავით”,“ლუკა”,“ნიკა”,“სანდრო”,“გაგა”,“ბექა”,“ლაშა”,“ზურა”,“გოჩა”,“ვახო”,“ოთო”,“ნოდარი”,“შოთა”,“ირაკლი”];
-const LN  = [“გელაშვილი”,“მელიქიძე”,“ბაგრატიონი”,“ჯაფარიძე”,“ხარებავა”,“პხაკაძე”,“კვარაცხელია”,“ჩიქოვანი”,“ბერიძე”,“კიკნაძე”,“ჯიქია”,“ჩხეიძე”,“ასლანიშვილი”,“გოგოლაძე”,“სვანიძე”,“ყიფიანი”,“მახარობლიძე”,“ნოზაძე”,“ქობულაძე”,“ხიდაშელი”,“წიკლაური”,“კაპანაძე”,“ლომიძე”,“თვალიაშვილი”,“გიორგაძე”];
+const FNF = [”\u10DB\u10D0\u10E0\u10D8\u10D0\u10DB\u10D8”,”\u10DC\u10D8\u10DC\u10DD”,”\u10D7\u10D0\u10DB\u10D0\u10E0\u10D8”,”\u10D0\u10DC\u10D8”,”\u10E1\u10DD\u10E4\u10D8\u10D0”,”\u10D4\u10DA\u10D4\u10DC\u10D4”,”\u10DC\u10D0\u10E2\u10D0”,”\u10E5\u10D4\u10D7\u10D8”,”\u10DA\u10D8\u10D9\u10D0”,”\u10E1\u10D0\u10DA\u10DD\u10DB\u10D4”,”\u10DB\u10D0\u10D9\u10D0”,”\u10D8\u10D0”,”\u10DC\u10D0\u10D7\u10D8\u10D0”,”\u10EE\u10D0\u10D7\u10D8\u10D0”,”\u10DB\u10D0\u10E0\u10D8”];
+const FNM = [”\u10D2\u10D8\u10DD\u10E0\u10D2\u10D8”,”\u10D3\u10D0\u10D5\u10D8\u10D7”,”\u10DA\u10E3\u10D9\u10D0”,”\u10DC\u10D8\u10D9\u10D0”,”\u10E1\u10D0\u10DC\u10D3\u10E0\u10DD”,”\u10D2\u10D0\u10D2\u10D0”,”\u10D1\u10D4\u10E5\u10D0”,”\u10DA\u10D0\u10E8\u10D0”,”\u10D6\u10E3\u10E0\u10D0”,”\u10D2\u10DD\u10E9\u10D0”,”\u10D5\u10D0\u10EE\u10DD”,”\u10DD\u10D7\u10DD”,”\u10DC\u10DD\u10D3\u10D0\u10E0\u10D8”,”\u10E8\u10DD\u10D7\u10D0”,”\u10D8\u10E0\u10D0\u10D9\u10DA\u10D8”];
+const LN  = [”\u10D2\u10D4\u10DA\u10D0\u10E8\u10D5\u10D8\u10DA\u10D8”,”\u10DB\u10D4\u10DA\u10D8\u10E5\u10D8\u10EB\u10D4”,”\u10D1\u10D0\u10D2\u10E0\u10D0\u10E2\u10D8\u10DD\u10DC\u10D8”,”\u10EF\u10D0\u10E4\u10D0\u10E0\u10D8\u10EB\u10D4”,”\u10EE\u10D0\u10E0\u10D4\u10D1\u10D0\u10D5\u10D0”,”\u10DE\u10EE\u10D0\u10D9\u10D0\u10EB\u10D4”,”\u10D9\u10D5\u10D0\u10E0\u10D0\u10EA\u10EE\u10D4\u10DA\u10D8\u10D0”,”\u10E9\u10D8\u10E5\u10DD\u10D5\u10D0\u10DC\u10D8”,”\u10D1\u10D4\u10E0\u10D8\u10EB\u10D4”,”\u10D9\u10D8\u10D9\u10DC\u10D0\u10EB\u10D4”,”\u10EF\u10D8\u10E5\u10D8\u10D0”,”\u10E9\u10EE\u10D4\u10D8\u10EB\u10D4”,”\u10D0\u10E1\u10DA\u10D0\u10DC\u10D8\u10E8\u10D5\u10D8\u10DA\u10D8”,”\u10D2\u10DD\u10D2\u10DD\u10DA\u10D0\u10EB\u10D4”,”\u10E1\u10D5\u10D0\u10DC\u10D8\u10EB\u10D4”,”\u10E7\u10D8\u10E4\u10D8\u10D0\u10DC\u10D8”,”\u10DB\u10D0\u10EE\u10D0\u10E0\u10DD\u10D1\u10DA\u10D8\u10EB\u10D4”,”\u10DC\u10DD\u10D6\u10D0\u10EB\u10D4”,”\u10E5\u10DD\u10D1\u10E3\u10DA\u10D0\u10EB\u10D4”,”\u10EE\u10D8\u10D3\u10D0\u10E8\u10D4\u10DA\u10D8”,”\u10EC\u10D8\u10D9\u10DA\u10D0\u10E3\u10E0\u10D8”,”\u10D9\u10D0\u10DE\u10D0\u10DC\u10D0\u10EB\u10D4”,”\u10DA\u10DD\u10DB\u10D8\u10EB\u10D4”,”\u10D7\u10D5\u10D0\u10DA\u10D8\u10D0\u10E8\u10D5\u10D8\u10DA\u10D8”,”\u10D2\u10D8\u10DD\u10E0\u10D2\u10D0\u10EB\u10D4”];
 
 let _sid = 1;
 const STUDENTS_INIT = [];
@@ -170,8 +170,8 @@ React.createElement(‘span’, { style: {background:color+“20”,color,border
 }
 
 function GB({gender}) {
-if (gender === “female”) return React.createElement(‘span’, { style: {background:”#FDF2F8”,color:”#DB2777”,border:“1px solid #FBCFE8”,borderRadius:20,padding:“3px 12px”,fontSize:12,fontWeight:700,whiteSpace:“nowrap”}}, “\u2640 გოგო” );
-return React.createElement(‘span’, { style: {background:”#EFF6FF”,color:”#1D4ED8”,border:“1px solid #BFDBFE”,borderRadius:20,padding:“3px 12px”,fontSize:12,fontWeight:700,whiteSpace:“nowrap”}}, “\u2642 ბიჭი” );
+if (gender === “female”) return React.createElement(‘span’, { style: {background:”#FDF2F8”,color:”#DB2777”,border:“1px solid #FBCFE8”,borderRadius:20,padding:“3px 12px”,fontSize:12,fontWeight:700,whiteSpace:“nowrap”}}, “\u2640 \u10D2\u10DD\u10D2\u10DD” );
+return React.createElement(‘span’, { style: {background:”#EFF6FF”,color:”#1D4ED8”,border:“1px solid #BFDBFE”,borderRadius:20,padding:“3px 12px”,fontSize:12,fontWeight:700,whiteSpace:“nowrap”}}, “\u2642 \u10D1\u10D8\u10ED\u10D8” );
 }
 
 function Ini({name, size, color}) {
@@ -212,10 +212,10 @@ onMouseLeave: e => e.currentTarget.style.background = student.active ? “#fff�
 , React.createElement(‘div’, { style: {fontWeight:700,fontSize:13,color:”#0F172A”}}, student.lastName, “ “ , student.firstName)
 , showMeta
 ? React.createElement(‘div’, { style: {fontSize:11,color:”#94A3B8”}}, student.divisionEmoji, “ “ , student.division, “ \u00B7 “  , student.className)
-: React.createElement(‘div’, { style: {fontSize:11,color:”#9CA3AF”}}, “ჩარ.: “ , student.enrollDate)
+: React.createElement(‘div’, { style: {fontSize:11,color:”#9CA3AF”}}, “\u10E9\u10D0\u10E0.: “ , student.enrollDate)
 )
 , React.createElement(GB, { gender: student.gender} )
-, !student.active && React.createElement(Badge, { color: “#DC2626”, small: true}, “გარ.”)
+, !student.active && React.createElement(Badge, { color: “#DC2626”, small: true}, “\u10D2\u10D0\u10E0.”)
 , React.createElement(‘span’, { style: {color:”#D1D5DB”,fontSize:17}}, “\u203A”)
 )
 );
@@ -234,11 +234,11 @@ const months = year === “2026” ? SM26 : SM25;
 const col    = accentColor || “#10B981”;
 
 const submit = () => {
-if (!month)  { setErr(“თვე სავალდებულოა”); return; }
-if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) { setErr(“სწორი თანხა შეიყვანეთ”); return; }
-if (!date)   { setErr(“თარიღი სავალდებულოა”); return; }
+if (!month)  { setErr(”\u10D7\u10D5\u10D4 \u10E1\u10D0\u10D5\u10D0\u10DA\u10D3\u10D4\u10D1\u10E3\u10DA\u10DD\u10D0”); return; }
+if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) { setErr(”\u10E1\u10EC\u10DD\u10E0\u10D8 \u10D7\u10D0\u10DC\u10EE\u10D0 \u10E8\u10D4\u10D8\u10E7\u10D5\u10D0\u10DC\u10D4\u10D7”); return; }
+if (!date)   { setErr(”\u10D7\u10D0\u10E0\u10D8\u10E6\u10D8 \u10E1\u10D0\u10D5\u10D0\u10DA\u10D3\u10D4\u10D1\u10E3\u10DA\u10DD\u10D0”); return; }
 const already = payments.find(p => p.year===Number(year) && p.month===month);
-if (already) { setErr(month+” “+year+” უკვე გადახდილია”); return; }
+if (already) { setErr(month+” “+year+” \u10E3\u10D9\u10D5\u10D4 \u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10DA\u10D8\u10D0”); return; }
 const newPay = {
 id:    “p” + Date.now(),
 year:  Number(year),
@@ -253,20 +253,20 @@ setMonth(””); setAmount(“60”); setDate(today); setDesc(””); setErr(�
 
 return (
 React.createElement(‘div’, { style: {background:”#F8FAFC”,borderRadius:12,padding:“14px 16px”,border:“1px solid #E2E8F0”}}
-, React.createElement(‘div’, { style: {fontSize:12,fontWeight:800,color:”#374151”,marginBottom:12}}, “\u2795 გადახდის დამატება”  )
+, React.createElement(‘div’, { style: {fontSize:12,fontWeight:800,color:”#374151”,marginBottom:12}}, “\u2795 \u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10E1 \u10D3\u10D0\u10DB\u10D0\u10E2\u10D4\u10D1\u10D0”  )
 , err && React.createElement(‘div’, { style: {fontSize:11,color:”#DC2626”,background:”#FEF2F2”,border:“1px solid #FECACA”,borderRadius:8,padding:“6px 10px”,marginBottom:10}}, err)
 , React.createElement(‘div’, { style: {display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:9}}
 , React.createElement(‘div’, null
-, React.createElement(‘label’, { style: LS}, “სასწ. წელი” )
+, React.createElement(‘label’, { style: LS}, “\u10E1\u10D0\u10E1\u10EC. \u10EC\u10D4\u10DA\u10D8” )
 , React.createElement(‘select’, { value: year, onChange: e => { setYear(e.target.value); setMonth(””); }, style: IS}
 , React.createElement(‘option’, { value: “2026”}, “2025\u20132026”)
 , React.createElement(‘option’, { value: “2025”}, “2024\u20132025”)
 )
 )
 , React.createElement(‘div’, null
-, React.createElement(‘label’, { style: LS}, “თვე”)
+, React.createElement(‘label’, { style: LS}, “\u10D7\u10D5\u10D4”)
 , React.createElement(‘select’, { value: month, onChange: e => setMonth(e.target.value), style: IS}
-, React.createElement(‘option’, { value: “”}, “\u2014 აირჩიეთ \u2014”  )
+, React.createElement(‘option’, { value: “”}, “\u2014 \u10D0\u10D8\u10E0\u10E9\u10D8\u10D4\u10D7 \u2014”  )
 , months.map(m => {
 const paid = payments.find(p => p.year===Number(year) && p.month===m);
 return React.createElement(‘option’, { key: m, value: m, disabled: !!paid}, m, paid?” \u2713”:””);
@@ -274,19 +274,19 @@ return React.createElement(‘option’, { key: m, value: m, disabled: !!paid}, 
 )
 )
 , React.createElement(‘div’, null
-, React.createElement(‘label’, { style: LS}, “თანხა (\u20BE)” )
+, React.createElement(‘label’, { style: LS}, “\u10D7\u10D0\u10DC\u10EE\u10D0 (\u20BE)” )
 , React.createElement(‘input’, { type: “number”, min: “1”, value: amount, onChange: e => setAmount(e.target.value), style: IS, placeholder: “60”} )
 )
 , React.createElement(‘div’, null
-, React.createElement(‘label’, { style: LS}, “გადახდის თარიღი” )
+, React.createElement(‘label’, { style: LS}, “\u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10E1 \u10D7\u10D0\u10E0\u10D8\u10E6\u10D8” )
 , React.createElement(‘input’, { type: “date”, value: date, onChange: e => setDate(e.target.value), style: IS} )
 )
 , React.createElement(‘div’, { style: {gridColumn:“1/-1”}}
-, React.createElement(‘label’, { style: LS}, “აღწერა (არასავალდებულო)” )
-, React.createElement(‘input’, { value: desc, onChange: e => setDesc(e.target.value), style: IS, placeholder: “მაგ: ნაღდი, გადარიცხვა, ა.შ.”   } )
+, React.createElement(‘label’, { style: LS}, “\u10D0\u10E6\u10EC\u10D4\u10E0\u10D0 (\u10D0\u10E0\u10D0\u10E1\u10D0\u10D5\u10D0\u10DA\u10D3\u10D4\u10D1\u10E3\u10DA\u10DD)” )
+, React.createElement(‘input’, { value: desc, onChange: e => setDesc(e.target.value), style: IS, placeholder: “\u10DB\u10D0\u10D2: \u10DC\u10D0\u10E6\u10D3\u10D8, \u10D2\u10D0\u10D3\u10D0\u10E0\u10D8\u10EA\u10EE\u10D5\u10D0, \u10D0.\u10E8.”   } )
 )
 )
-, React.createElement(‘button’, { onClick: submit, style: {marginTop:10,width:“100%”,padding:“9px 0”,border:“none”,borderRadius:10,background:col,color:”#fff”,cursor:“pointer”,fontWeight:700,fontSize:13,fontFamily:“inherit”}}, “\u2705 გადახდის დამატება”
+, React.createElement(‘button’, { onClick: submit, style: {marginTop:10,width:“100%”,padding:“9px 0”,border:“none”,borderRadius:10,background:col,color:”#fff”,cursor:“pointer”,fontWeight:700,fontSize:13,fontFamily:“inherit”}}, “\u2705 \u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10E1 \u10D3\u10D0\u10DB\u10D0\u10E2\u10D4\u10D1\u10D0”
 
 ```
   )
@@ -304,14 +304,14 @@ const [loading, setLoading] = useState(false);
 const fileRef = React.useRef();
 
 const MONTH_MAP = {
-“sep”:“სექტემბერი”,“okt”:“ოქტომბერი”,“nov”:“ნოემბერი”,“dec”:“დეკემბერი”,
-“jan”:“იანვარი”,“feb”:“თებერვალი”,“mar”:“მარტი”,“apr”:“აპრილი”,“may”:“მაისი”,“jun”:“ივნისი”,
-“სექ”:“სექტემბერი”,“ოქტ”:“ოქტომბერი”,“ნოე”:“ნოემბერი”,“დეკ”:“დეკემბერი”,
-“იან”:“იანვარი”,“თებ”:“თებერვალი”,“მარ”:“მარტი”,“აპრ”:“აპრილი”,“მაი”:“მაისი”,“ივნ”:“ივნისი”,
-“september”:“სექტემბერი”,“october”:“ოქტომბერი”,“november”:“ნოემბერი”,“december”:“დეკემბერი”,
-“january”:“იანვარი”,“february”:“თებერვალი”,“march”:“მარტი”,“april”:“აპრილი”,“may”:“მაისი”,“june”:“ივნისი”,
-“სექტემბერი”:“სექტემბერი”,“ოქტომბერი”:“ოქტომბერი”,“ნოემბერი”:“ნოემბერი”,“დეკემბერი”:“დეკემბერი”,
-“იანვარი”:“იანვარი”,“თებერვალი”:“თებერვალი”,“მარტი”:“მარტი”,“აპრილი”:“აპრილი”,“მაისი”:“მაისი”,“ივნისი”:“ივნისი”,
+“sep”:”\u10E1\u10D4\u10E5\u10E2\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,“okt”:”\u10DD\u10E5\u10E2\u10DD\u10DB\u10D1\u10D4\u10E0\u10D8”,“nov”:”\u10DC\u10DD\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,“dec”:”\u10D3\u10D4\u10D9\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,
+“jan”:”\u10D8\u10D0\u10DC\u10D5\u10D0\u10E0\u10D8”,“feb”:”\u10D7\u10D4\u10D1\u10D4\u10E0\u10D5\u10D0\u10DA\u10D8”,“mar”:”\u10DB\u10D0\u10E0\u10E2\u10D8”,“apr”:”\u10D0\u10DE\u10E0\u10D8\u10DA\u10D8”,“may”:”\u10DB\u10D0\u10D8\u10E1\u10D8”,“jun”:”\u10D8\u10D5\u10DC\u10D8\u10E1\u10D8”,
+“\u10E1\u10D4\u10E5”:”\u10E1\u10D4\u10E5\u10E2\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10DD\u10E5\u10E2”:”\u10DD\u10E5\u10E2\u10DD\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10DC\u10DD\u10D4”:”\u10DC\u10DD\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10D3\u10D4\u10D9”:”\u10D3\u10D4\u10D9\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,
+“\u10D8\u10D0\u10DC”:”\u10D8\u10D0\u10DC\u10D5\u10D0\u10E0\u10D8”,”\u10D7\u10D4\u10D1”:”\u10D7\u10D4\u10D1\u10D4\u10E0\u10D5\u10D0\u10DA\u10D8”,”\u10DB\u10D0\u10E0”:”\u10DB\u10D0\u10E0\u10E2\u10D8”,”\u10D0\u10DE\u10E0”:”\u10D0\u10DE\u10E0\u10D8\u10DA\u10D8”,”\u10DB\u10D0\u10D8”:”\u10DB\u10D0\u10D8\u10E1\u10D8”,”\u10D8\u10D5\u10DC”:”\u10D8\u10D5\u10DC\u10D8\u10E1\u10D8”,
+“september”:”\u10E1\u10D4\u10E5\u10E2\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,“october”:”\u10DD\u10E5\u10E2\u10DD\u10DB\u10D1\u10D4\u10E0\u10D8”,“november”:”\u10DC\u10DD\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,“december”:”\u10D3\u10D4\u10D9\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,
+“january”:”\u10D8\u10D0\u10DC\u10D5\u10D0\u10E0\u10D8”,“february”:”\u10D7\u10D4\u10D1\u10D4\u10E0\u10D5\u10D0\u10DA\u10D8”,“march”:”\u10DB\u10D0\u10E0\u10E2\u10D8”,“april”:”\u10D0\u10DE\u10E0\u10D8\u10DA\u10D8”,“may”:”\u10DB\u10D0\u10D8\u10E1\u10D8”,“june”:”\u10D8\u10D5\u10DC\u10D8\u10E1\u10D8”,
+“\u10E1\u10D4\u10E5\u10E2\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”:”\u10E1\u10D4\u10E5\u10E2\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10DD\u10E5\u10E2\u10DD\u10DB\u10D1\u10D4\u10E0\u10D8”:”\u10DD\u10E5\u10E2\u10DD\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10DC\u10DD\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”:”\u10DC\u10DD\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,”\u10D3\u10D4\u10D9\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”:”\u10D3\u10D4\u10D9\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8”,
+“\u10D8\u10D0\u10DC\u10D5\u10D0\u10E0\u10D8”:”\u10D8\u10D0\u10DC\u10D5\u10D0\u10E0\u10D8”,”\u10D7\u10D4\u10D1\u10D4\u10E0\u10D5\u10D0\u10DA\u10D8”:”\u10D7\u10D4\u10D1\u10D4\u10E0\u10D5\u10D0\u10DA\u10D8”,”\u10DB\u10D0\u10E0\u10E2\u10D8”:”\u10DB\u10D0\u10E0\u10E2\u10D8”,”\u10D0\u10DE\u10E0\u10D8\u10DA\u10D8”:”\u10D0\u10DE\u10E0\u10D8\u10DA\u10D8”,”\u10DB\u10D0\u10D8\u10E1\u10D8”:”\u10DB\u10D0\u10D8\u10E1\u10D8”,”\u10D8\u10D5\u10DC\u10D8\u10E1\u10D8”:”\u10D8\u10D5\u10DC\u10D8\u10E1\u10D8”,
 };
 
 const normalizeMonth = (raw) => {
@@ -326,7 +326,7 @@ const reader = new FileReader();
 reader.onload = (e) => {
 try {
 const XLSX = window.XLSX;
-if (!XLSX) { setErrors([“SheetJS ბიბლიოთეკა ვერ მოიძებნა. გამოიყენეთ HTML ვერსია.”]); setLoading(false); return; }
+if (!XLSX) { setErrors([“SheetJS \u10D1\u10D8\u10D1\u10DA\u10D8\u10DD\u10D7\u10D4\u10D9\u10D0 \u10D5\u10D4\u10E0 \u10DB\u10DD\u10D8\u10EB\u10D4\u10D1\u10DC\u10D0. \u10D2\u10D0\u10DB\u10DD\u10D8\u10E7\u10D4\u10DC\u10D4\u10D7 HTML \u10D5\u10D4\u10E0\u10E1\u10D8\u10D0.”]); setLoading(false); return; }
 const wb = XLSX.read(e.target.result, {type:“array”});
 const ws = wb.Sheets[wb.SheetNames[0]];
 const data = XLSX.utils.sheet_to_json(ws, {defval:””});
@@ -335,21 +335,21 @@ const data = XLSX.utils.sheet_to_json(ws, {defval:””});
     const parsed = []; const errs = [];
     data.forEach((row, i) => {
       // Try various column name formats
-      const ln   = row["გვარი"]   || row["Surname"]  || row["LastName"]  || row["gvari"]   || "";
-      const fn   = row["სახელი"]  || row["Name"]     || row["FirstName"] || row["saxeli"]  || "";
-      const yr   = row["წელი"]    || row["Year"]     || row["year"]      || "";
-      const mo   = row["თვე"]     || row["Month"]    || row["month"]     || row["tve"]     || "";
-      const amt  = row["თანხა"]   || row["Amount"]   || row["amount"]    || row["tanxa"]   || 60;
-      const dt   = row["თარიღი"]  || row["Date"]     || row["date"]      || row["tarigi"]  || "";
-      const desc = row["აღწერა"]  || row["Desc"]     || row["desc"]      || row["agwera"]  || "";
+      const ln   = row["\u10D2\u10D5\u10D0\u10E0\u10D8"]   || row["Surname"]  || row["LastName"]  || row["gvari"]   || "";
+      const fn   = row["\u10E1\u10D0\u10EE\u10D4\u10DA\u10D8"]  || row["Name"]     || row["FirstName"] || row["saxeli"]  || "";
+      const yr   = row["\u10EC\u10D4\u10DA\u10D8"]    || row["Year"]     || row["year"]      || "";
+      const mo   = row["\u10D7\u10D5\u10D4"]     || row["Month"]    || row["month"]     || row["tve"]     || "";
+      const amt  = row["\u10D7\u10D0\u10DC\u10EE\u10D0"]   || row["Amount"]   || row["amount"]    || row["tanxa"]   || 60;
+      const dt   = row["\u10D7\u10D0\u10E0\u10D8\u10E6\u10D8"]  || row["Date"]     || row["date"]      || row["tarigi"]  || "";
+      const desc = row["\u10D0\u10E6\u10EC\u10D4\u10E0\u10D0"]  || row["Desc"]     || row["desc"]      || row["agwera"]  || "";
 
       if (!ln && !fn) return; // skip empty rows
 
       const month = normalizeMonth(mo);
-      if (!month) { errs.push(`სტრ.${i+2}: "${mo}" \u2014 თვე ვერ მოიძებნა`); return; }
+      if (!month) { errs.push(`\u10E1\u10E2\u10E0.${i+2}: "${mo}" \u2014 \u10D7\u10D5\u10D4 \u10D5\u10D4\u10E0 \u10DB\u10DD\u10D8\u10EB\u10D4\u10D1\u10DC\u10D0`); return; }
 
       const year = parseInt(yr);
-      if (!year || year < 2020 || year > 2030) { errs.push(`სტრ.${i+2}: "${yr}" \u2014 არასწორი წელი`); return; }
+      if (!year || year < 2020 || year > 2030) { errs.push(`\u10E1\u10E2\u10E0.${i+2}: "${yr}" \u2014 \u10D0\u10E0\u10D0\u10E1\u10EC\u10DD\u10E0\u10D8 \u10EC\u10D4\u10DA\u10D8`); return; }
 
       // Find matching student
       const match = students.find(s =>
@@ -369,7 +369,7 @@ const data = XLSX.utils.sheet_to_json(ws, {defval:””});
 
     setRows(parsed); setErrors(errs); setLoading(false);
   } catch(err) {
-    setErrors(["ფაილის წაკითხვის შეცდომა: "+err.message]); setLoading(false);
+    setErrors(["\u10E4\u10D0\u10D8\u10DA\u10D8\u10E1 \u10EC\u10D0\u10D9\u10D8\u10D7\u10EE\u10D5\u10D8\u10E1 \u10E8\u10D4\u10EA\u10D3\u10DD\u10DB\u10D0: "+err.message]); setLoading(false);
   }
 };
 reader.readAsArrayBuffer(file);
@@ -393,8 +393,8 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
     /* Header */
     , React.createElement('div', { style: {background:"linear-gradient(135deg,#059669,#047857)",padding:"18px 22px",color:"#fff",display:"flex",justifyContent:"space-between",alignItems:"center"}}
       , React.createElement('div', null
-        , React.createElement('div', { style: {fontSize:18,fontWeight:900}}, "Excel-დან გადახდების import"  )
-        , React.createElement('div', { style: {fontSize:12,opacity:.8,marginTop:3}}, "xlsx / xls ფაილი"   )
+        , React.createElement('div', { style: {fontSize:18,fontWeight:900}}, "Excel-\u10D3\u10D0\u10DC \u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D4\u10D1\u10D8\u10E1 import"  )
+        , React.createElement('div', { style: {fontSize:12,opacity:.8,marginTop:3}}, "xlsx / xls \u10E4\u10D0\u10D8\u10DA\u10D8"   )
       )
       , React.createElement('button', { onClick: onClose, style: {background:"rgba(255,255,255,0.2)",border:"none",color:"#fff",borderRadius:10,width:32,height:32,cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center"}}, "\u2715")
     )
@@ -403,17 +403,17 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
 
       /* Template info */
       , React.createElement('div', { style: {background:"#F0FDF4",border:"1px solid #BBF7D0",borderRadius:12,padding:"13px 16px",marginBottom:16}}
-        , React.createElement('div', { style: {fontWeight:700,fontSize:13,color:"#065F46",marginBottom:8}}, "Excel ფაილის სვეტები:"  )
+        , React.createElement('div', { style: {fontWeight:700,fontSize:13,color:"#065F46",marginBottom:8}}, "Excel \u10E4\u10D0\u10D8\u10DA\u10D8\u10E1 \u10E1\u10D5\u10D4\u10E2\u10D4\u10D1\u10D8:"  )
         , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:6}}
-          , [["გვარი","სავალდ."],["სახელი","სავალდ."],["წელი","მაგ: 2026"],["თვე","მაგ: მარტი"],["თანხა","default: 60"],["თარიღი","YYYY-MM-DD"],["აღწერა","არასავ."]].map(([col,hint])=>(
+          , [["\u10D2\u10D5\u10D0\u10E0\u10D8","\u10E1\u10D0\u10D5\u10D0\u10DA\u10D3."],["\u10E1\u10D0\u10EE\u10D4\u10DA\u10D8","\u10E1\u10D0\u10D5\u10D0\u10DA\u10D3."],["\u10EC\u10D4\u10DA\u10D8","\u10DB\u10D0\u10D2: 2026"],["\u10D7\u10D5\u10D4","\u10DB\u10D0\u10D2: \u10DB\u10D0\u10E0\u10E2\u10D8"],["\u10D7\u10D0\u10DC\u10EE\u10D0","default: 60"],["\u10D7\u10D0\u10E0\u10D8\u10E6\u10D8","YYYY-MM-DD"],["\u10D0\u10E6\u10EC\u10D4\u10E0\u10D0","\u10D0\u10E0\u10D0\u10E1\u10D0\u10D5."]].map(([col,hint])=>(
             React.createElement('div', { key: col, style: {background:"#fff",borderRadius:8,padding:"6px 10px",border:"1px solid #D1FAE5"}}
               , React.createElement('div', { style: {fontWeight:700,fontSize:12,color:"#059669"}}, col)
               , React.createElement('div', { style: {fontSize:10,color:"#6B7280"}}, hint)
             )
           ))
         )
-        , React.createElement('div', { style: {fontSize:11,color:"#6B7280",marginTop:10}}, "თვის სახელები: სექტემბერი, ოქტომბერი, ნოემბერი, დეკემბერი, იანვარი, თებერვალი, მარტი, აპრილი, მაისი, ივნისი"
-                     , React.createElement('br', null), "ინგლისურადაც: September, October... ან Sep, Oct..."
+        , React.createElement('div', { style: {fontSize:11,color:"#6B7280",marginTop:10}}, "\u10D7\u10D5\u10D8\u10E1 \u10E1\u10D0\u10EE\u10D4\u10DA\u10D4\u10D1\u10D8: \u10E1\u10D4\u10E5\u10E2\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8, \u10DD\u10E5\u10E2\u10DD\u10DB\u10D1\u10D4\u10E0\u10D8, \u10DC\u10DD\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8, \u10D3\u10D4\u10D9\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8, \u10D8\u10D0\u10DC\u10D5\u10D0\u10E0\u10D8, \u10D7\u10D4\u10D1\u10D4\u10E0\u10D5\u10D0\u10DA\u10D8, \u10DB\u10D0\u10E0\u10E2\u10D8, \u10D0\u10DE\u10E0\u10D8\u10DA\u10D8, \u10DB\u10D0\u10D8\u10E1\u10D8, \u10D8\u10D5\u10DC\u10D8\u10E1\u10D8"
+                     , React.createElement('br', null), "\u10D8\u10DC\u10D2\u10DA\u10D8\u10E1\u10E3\u10E0\u10D0\u10D3\u10D0\u10EA: September, October... \u10D0\u10DC Sep, Oct..."
 
         )
       )
@@ -424,19 +424,19 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
           onMouseEnter: e=>e.currentTarget.style.background="#D1FAE5",
           onMouseLeave: e=>e.currentTarget.style.background="#F0FDF4"}
           , React.createElement('div', { style: {fontSize:36,marginBottom:8}}, "\uD83D\uDCC2")
-          , React.createElement('div', { style: {fontWeight:700,fontSize:14,color:"#059669"}}, "Excel ფაილი აარჩიეთ"  )
-          , React.createElement('div', { style: {fontSize:12,color:"#6B7280",marginTop:4}}, ".xlsx ან .xls"  )
+          , React.createElement('div', { style: {fontWeight:700,fontSize:14,color:"#059669"}}, "Excel \u10E4\u10D0\u10D8\u10DA\u10D8 \u10D0\u10D0\u10E0\u10E9\u10D8\u10D4\u10D7"  )
+          , React.createElement('div', { style: {fontSize:12,color:"#6B7280",marginTop:4}}, ".xlsx \u10D0\u10DC .xls"  )
           , React.createElement('input', { ref: fileRef, type: "file", accept: ".xlsx,.xls", style: {display:"none"},
             onChange: e => { if(e.target.files[0]) processFile(e.target.files[0]); }})
         )
       )
 
-      , loading && React.createElement('div', { style: {textAlign:"center",padding:24,color:"#059669",fontSize:14,fontWeight:600}}, "\u23F3 ფაილი იკითხება..."  )
+      , loading && React.createElement('div', { style: {textAlign:"center",padding:24,color:"#059669",fontSize:14,fontWeight:600}}, "\u23F3 \u10E4\u10D0\u10D8\u10DA\u10D8 \u10D8\u10D9\u10D8\u10D7\u10EE\u10D4\u10D1\u10D0..."  )
 
       /* Errors */
       , errors.length > 0 && (
         React.createElement('div', { style: {background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:10,padding:"12px 16px",marginBottom:14}}
-          , React.createElement('div', { style: {fontWeight:700,fontSize:13,color:"#DC2626",marginBottom:6}}, "\u26A0\uFE0F " , errors.length, " პრობლემა:" )
+          , React.createElement('div', { style: {fontWeight:700,fontSize:13,color:"#DC2626",marginBottom:6}}, "\u26A0\uFE0F " , errors.length, " \u10DE\u10E0\u10DD\u10D1\u10DA\u10D4\u10DB\u10D0:" )
           , errors.map((e,i) => React.createElement('div', { key: i, style: {fontSize:11,color:"#B91C1C",marginBottom:2}}, e))
         )
       )
@@ -445,14 +445,14 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
       , rows.length > 0 && !done && (
         React.createElement('div', null
           , React.createElement('div', { style: {display:"flex",gap:10,marginBottom:14,flexWrap:"wrap"}}
-            , React.createElement('div', { style: {background:"#F0FDF4",border:"1px solid #D1FAE5",borderRadius:10,padding:"8px 16px"}}, React.createElement('span', { style: {fontWeight:900,color:"#059669",fontSize:18}}, matched.length), React.createElement('span', { style: {fontSize:12,color:"#6B7280",marginLeft:6}}, "მოიძებნა"))
-            , unmatched.length > 0 && React.createElement('div', { style: {background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:10,padding:"8px 16px"}}, React.createElement('span', { style: {fontWeight:900,color:"#DC2626",fontSize:18}}, unmatched.length), React.createElement('span', { style: {fontSize:12,color:"#6B7280",marginLeft:6}}, "ვერ მოიძებნა" ))
+            , React.createElement('div', { style: {background:"#F0FDF4",border:"1px solid #D1FAE5",borderRadius:10,padding:"8px 16px"}}, React.createElement('span', { style: {fontWeight:900,color:"#059669",fontSize:18}}, matched.length), React.createElement('span', { style: {fontSize:12,color:"#6B7280",marginLeft:6}}, "\u10DB\u10DD\u10D8\u10EB\u10D4\u10D1\u10DC\u10D0"))
+            , unmatched.length > 0 && React.createElement('div', { style: {background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:10,padding:"8px 16px"}}, React.createElement('span', { style: {fontWeight:900,color:"#DC2626",fontSize:18}}, unmatched.length), React.createElement('span', { style: {fontSize:12,color:"#6B7280",marginLeft:6}}, "\u10D5\u10D4\u10E0 \u10DB\u10DD\u10D8\u10EB\u10D4\u10D1\u10DC\u10D0" ))
           )
 
           /* Matched preview */
           , matched.length > 0 && (
             React.createElement('div', { style: {marginBottom:14}}
-              , React.createElement('div', { style: {fontSize:12,fontWeight:700,color:"#059669",marginBottom:8}}, "\u2705 დაემატება ("  , matched.length, "):")
+              , React.createElement('div', { style: {fontSize:12,fontWeight:700,color:"#059669",marginBottom:8}}, "\u2705 \u10D3\u10D0\u10D4\u10DB\u10D0\u10E2\u10D4\u10D1\u10D0 ("  , matched.length, "):")
               , React.createElement('div', { style: {maxHeight:200,overflowY:"auto",border:"1px solid #D1FAE5",borderRadius:10,background:"#F9FAFB"}}
                 , matched.map((r,i) => (
                   React.createElement('div', { key: i, style: {display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 12px",borderBottom:"1px solid #F1F5F9",fontSize:12}}
@@ -470,7 +470,7 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
           /* Unmatched */
           , unmatched.length > 0 && (
             React.createElement('div', { style: {marginBottom:14}}
-              , React.createElement('div', { style: {fontSize:12,fontWeight:700,color:"#DC2626",marginBottom:8}}, "\u274C ვერ მოიძებნა ("   , unmatched.length, ") \u2014 გამოტოვდება:"  )
+              , React.createElement('div', { style: {fontSize:12,fontWeight:700,color:"#DC2626",marginBottom:8}}, "\u274C \u10D5\u10D4\u10E0 \u10DB\u10DD\u10D8\u10EB\u10D4\u10D1\u10DC\u10D0 ("   , unmatched.length, ") \u2014 \u10D2\u10D0\u10DB\u10DD\u10E2\u10DD\u10D5\u10D3\u10D4\u10D1\u10D0:"  )
               , React.createElement('div', { style: {maxHeight:120,overflowY:"auto",border:"1px solid #FECACA",borderRadius:10,background:"#FFF5F5"}}
                 , unmatched.map((r,i) => (
                   React.createElement('div', { key: i, style: {display:"flex",justifyContent:"space-between",padding:"6px 12px",borderBottom:"1px solid #FEE2E2",fontSize:12}}
@@ -488,8 +488,8 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
       , done && (
         React.createElement('div', { style: {textAlign:"center",padding:32}}
           , React.createElement('div', { style: {fontSize:48,marginBottom:12}}, "\u2705")
-          , React.createElement('div', { style: {fontSize:18,fontWeight:900,color:"#059669",marginBottom:6}}, matched.length, " გადახდა დაემატა!"  )
-          , React.createElement('div', { style: {fontSize:13,color:"#6B7280"}}, "მონაცემები განახლდა" )
+          , React.createElement('div', { style: {fontSize:18,fontWeight:900,color:"#059669",marginBottom:6}}, matched.length, " \u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D0 \u10D3\u10D0\u10D4\u10DB\u10D0\u10E2\u10D0!"  )
+          , React.createElement('div', { style: {fontSize:13,color:"#6B7280"}}, "\u10DB\u10DD\u10DC\u10D0\u10EA\u10D4\u10DB\u10D4\u10D1\u10D8 \u10D2\u10D0\u10DC\u10D0\u10EE\u10DA\u10D3\u10D0" )
         )
       )
     )
@@ -497,15 +497,15 @@ React.createElement(‘div’, { style: {position:“fixed”,inset:0,background
     /* Footer */
     , !done && rows.length > 0 && matched.length > 0 && (
       React.createElement('div', { style: {padding:"13px 20px",borderTop:"1px solid #E5E7EB",display:"flex",justifyContent:"flex-end",gap:10,background:"#FAFAFA"}}
-        , React.createElement('button', { onClick: onClose, style: {padding:"9px 18px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",cursor:"pointer",fontWeight:600,fontSize:13,color:"#6B7280",fontFamily:"inherit"}}, "გაუქმება")
+        , React.createElement('button', { onClick: onClose, style: {padding:"9px 18px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",cursor:"pointer",fontWeight:600,fontSize:13,color:"#6B7280",fontFamily:"inherit"}}, "\u10D2\u10D0\u10E3\u10E5\u10DB\u10D4\u10D1\u10D0")
         , React.createElement('button', { onClick: doImport, style: {padding:"9px 22px",border:"none",borderRadius:10,background:"#059669",color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "\u2705 "
-           , matched.length, " გადახდის დამატება"
+           , matched.length, " \u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10E1 \u10D3\u10D0\u10DB\u10D0\u10E2\u10D4\u10D1\u10D0"
         )
       )
     )
     , done && (
       React.createElement('div', { style: {padding:"13px 20px",borderTop:"1px solid #E5E7EB",display:"flex",justifyContent:"flex-end",background:"#FAFAFA"}}
-        , React.createElement('button', { onClick: onClose, style: {padding:"9px 22px",border:"none",borderRadius:10,background:"#059669",color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "დახურვა")
+        , React.createElement('button', { onClick: onClose, style: {padding:"9px 22px",border:"none",borderRadius:10,background:"#059669",color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "\u10D3\u10D0\u10EE\u10E3\u10E0\u10D5\u10D0")
       )
     )
   )
@@ -525,7 +525,7 @@ const p25  = data.payments.filter(p => p.year === 2025).reduce((a,p) => a + p.am
 const t26  = SM26.length * 60;
 const t25  = SM25.length * 60;
 const ac   = data.gender === “female” ? “#BE185D” : “#1E40AF”;
-const TABS = [”\uD83D\uDC64 მოსწავლე”, “\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67 მშობლები”, “\uD83D\uDCB3 გადასახადი”];
+const TABS = [”\uD83D\uDC64 \u10DB\u10DD\u10E1\u10EC\u10D0\u10D5\u10DA\u10D4”, “\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67 \u10DB\u10E8\u10DD\u10D1\u10DA\u10D4\u10D1\u10D8”, “\uD83D\uDCB3 \u10D2\u10D0\u10D3\u10D0\u10E1\u10D0\u10EE\u10D0\u10D3\u10D8”];
 
 const body = (
 React.createElement(React.Fragment, null
@@ -559,24 +559,24 @@ React.createElement(React.Fragment, null
   , React.createElement('div', { style: {overflowY:"auto",padding:20,flex:1}}
     , tab === 0 && (
       React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:13}}
-        , [["გვარი","lastName"],["სახელი","firstName"]].map(([l,k]) => (
+        , [["\u10D2\u10D5\u10D0\u10E0\u10D8","lastName"],["\u10E1\u10D0\u10EE\u10D4\u10DA\u10D8","firstName"]].map(([l,k]) => (
           React.createElement('div', { key: k}, React.createElement('label', { style: LS}, l), React.createElement('input', { value: data[k], onChange: e => set(k,e.target.value), style: IS} ))
         ))
-        , React.createElement('div', null, React.createElement('label', { style: LS}, "სქესი")
+        , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10E1\u10E5\u10D4\u10E1\u10D8")
           , React.createElement('select', { value: data.gender, onChange: e => set("gender",e.target.value), style: IS}
-            , React.createElement('option', { value: "female"}, "\u2640 გოგო" )
-            , React.createElement('option', { value: "male"}, "\u2642 ბიჭი" )
+            , React.createElement('option', { value: "female"}, "\u2640 \u10D2\u10DD\u10D2\u10DD" )
+            , React.createElement('option', { value: "male"}, "\u2642 \u10D1\u10D8\u10ED\u10D8" )
           )
         )
-        , React.createElement('div', null, React.createElement('label', { style: LS}, "სტატუსი")
+        , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10E1\u10E2\u10D0\u10E2\u10E3\u10E1\u10D8")
           , React.createElement('select', { value: data.active?"1":"0", onChange: e => set("active",e.target.value==="1"), style: IS}
-            , React.createElement('option', { value: "1"}, "\u2705 აქტიური" )
-            , React.createElement('option', { value: "0"}, "\uD83D\uDD34 გარიცხული" )
+            , React.createElement('option', { value: "1"}, "\u2705 \u10D0\u10E5\u10E2\u10D8\u10E3\u10E0\u10D8" )
+            , React.createElement('option', { value: "0"}, "\uD83D\uDD34 \u10D2\u10D0\u10E0\u10D8\u10EA\u10EE\u10E3\u10DA\u10D8" )
           )
         )
-        , React.createElement('div', null, React.createElement('label', { style: LS}, "ჩარიცხვა"), React.createElement('input', { type: "date", value: data.enrollDate, onChange: e => set("enrollDate",e.target.value), style: IS} ))
-        , React.createElement('div', null, React.createElement('label', { style: LS}, "გარიცხვა"), React.createElement('input', { type: "date", value: data.exitDate, onChange: e => set("exitDate",e.target.value), style: IS} ))
-        , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "განყოფილება")
+        , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10E9\u10D0\u10E0\u10D8\u10EA\u10EE\u10D5\u10D0"), React.createElement('input', { type: "date", value: data.enrollDate, onChange: e => set("enrollDate",e.target.value), style: IS} ))
+        , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10D2\u10D0\u10E0\u10D8\u10EA\u10EE\u10D5\u10D0"), React.createElement('input', { type: "date", value: data.exitDate, onChange: e => set("exitDate",e.target.value), style: IS} ))
+        , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "\u10D2\u10D0\u10DC\u10E7\u10DD\u10E4\u10D8\u10DA\u10D4\u10D1\u10D0")
           , React.createElement('select', { value: data.divisionId, onChange: e => {
             const d = DIVISIONS.find(x => x.id === e.target.value);
             set("divisionId",e.target.value); set("division",_optionalChain([d, 'optionalAccess', _4 => _4.name])||""); set("divisionEmoji",_optionalChain([d, 'optionalAccess', _5 => _5.emoji])||""); set("divisionColor",_optionalChain([d, 'optionalAccess', _6 => _6.color])||"");
@@ -584,7 +584,7 @@ React.createElement(React.Fragment, null
             , DIVISIONS.map(d => React.createElement('option', { key: d.id, value: d.id}, d.emoji, " " , d.name))
           )
         )
-        , React.createElement('div', null, React.createElement('label', { style: LS}, "ჯგუფი")
+        , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10EF\u10D2\u10E3\u10E4\u10D8")
           , React.createElement('select', { value: data.classId, onChange: e => {
             const c = CLASSES.find(x => x.id === e.target.value);
             set("classId",e.target.value); set("className",_optionalChain([c, 'optionalAccess', _7 => _7.name])||"");
@@ -592,7 +592,7 @@ React.createElement(React.Fragment, null
             , CLASSES.filter(c => c.divisionId === data.divisionId).map(c => React.createElement('option', { key: c.id, value: c.id}, c.name))
           )
         )
-        , React.createElement('div', null, React.createElement('label', { style: LS}, "პედაგოგი")
+        , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10DE\u10D4\u10D3\u10D0\u10D2\u10DD\u10D2\u10D8")
           , React.createElement('select', { value: data.teacherId, onChange: e => {
             const t = TEACHERS_INIT.find(x => x.id === e.target.value);
             set("teacherId",e.target.value); set("teacher",_optionalChain([t, 'optionalAccess', _8 => _8.name])||"");
@@ -605,10 +605,10 @@ React.createElement(React.Fragment, null
 
     , tab === 1 && (
       React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:13}}
-        , [["მშობ. სახელი","parentName"],["მშობ. გვარი","parentLastName"],["ტელ.","parentPhone"],["ელ.ფ.","parentEmail"]].map(([l,k]) => (
+        , [["\u10DB\u10E8\u10DD\u10D1. \u10E1\u10D0\u10EE\u10D4\u10DA\u10D8","parentName"],["\u10DB\u10E8\u10DD\u10D1. \u10D2\u10D5\u10D0\u10E0\u10D8","parentLastName"],["\u10E2\u10D4\u10DA.","parentPhone"],["\u10D4\u10DA.\u10E4.","parentEmail"]].map(([l,k]) => (
           React.createElement('div', { key: k}, React.createElement('label', { style: LS}, l), React.createElement('input', { value: data[k], onChange: e => set(k,e.target.value), style: IS} ))
         ))
-        , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "პირადი ნომ." ), React.createElement('input', { value: data.parentId, onChange: e => set("parentId",e.target.value), style: IS} ))
+        , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "\u10DE\u10D8\u10E0\u10D0\u10D3\u10D8 \u10DC\u10DD\u10DB." ), React.createElement('input', { value: data.parentId, onChange: e => set("parentId",e.target.value), style: IS} ))
       )
     )
 
@@ -618,13 +618,13 @@ React.createElement(React.Fragment, null
         , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:11,marginBottom:18}}
           , [[2026,p26,t26,"#10B981","#F0FDF4","#D1FAE5"],[2025,p25,t25,"#3B82F6","#EFF6FF","#DBEAFE"]].map(([yr,paid,tot,col,bg,bar]) => (
             React.createElement('div', { key: yr, style: {background:bg,borderRadius:11,padding:"13px 15px",border:"1px solid "+col+"30"}}
-              , React.createElement('div', { style: {fontSize:11,color:col,fontWeight:700}}, yr, " სასწ. წ."  )
+              , React.createElement('div', { style: {fontSize:11,color:col,fontWeight:700}}, yr, " \u10E1\u10D0\u10E1\u10EC. \u10EC."  )
               , React.createElement('div', { style: {fontSize:26,fontWeight:900,color:col,lineHeight:1,marginTop:2}}, paid, "\u20BE")
-              , React.createElement('div', { style: {fontSize:11,color:"#6B7280",marginBottom:6}}, "სულ: " , tot, "\u20BE \u00B7 დარჩ.: "   , Math.max(0,tot-paid), "\u20BE")
+              , React.createElement('div', { style: {fontSize:11,color:"#6B7280",marginBottom:6}}, "\u10E1\u10E3\u10DA: " , tot, "\u20BE \u00B7 \u10D3\u10D0\u10E0\u10E9.: "   , Math.max(0,tot-paid), "\u20BE")
               , React.createElement('div', { style: {background:bar,borderRadius:5,height:7}}
                 , React.createElement('div', { style: {background:col,height:7,borderRadius:5,width:Math.min(100,tot>0?paid/tot*100:0)+"%"}} )
               )
-              , React.createElement('div', { style: {fontSize:10,color:col,fontWeight:600,marginTop:3}}, Math.round(tot>0?paid/tot*100:0), "% დაფ." )
+              , React.createElement('div', { style: {fontSize:10,color:col,fontWeight:600,marginTop:3}}, Math.round(tot>0?paid/tot*100:0), "% \u10D3\u10D0\u10E4." )
             )
           ))
         )
@@ -643,9 +643,9 @@ React.createElement(React.Fragment, null
         , React.createElement(PayForm, { payments: data.payments, onAdd: newPay => set("payments",[...data.payments, newPay]), accentColor: ac} )
 
         /* History */
-        , React.createElement('div', { style: {fontSize:12,fontWeight:800,color:"#374151",marginBottom:8,marginTop:18}}, "\uD83D\uDCCB გადახდის ისტორია"  )
+        , React.createElement('div', { style: {fontSize:12,fontWeight:800,color:"#374151",marginBottom:8,marginTop:18}}, "\uD83D\uDCCB \u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10E1 \u10D8\u10E1\u10E2\u10DD\u10E0\u10D8\u10D0"  )
         , data.payments.length === 0 && (
-          React.createElement('div', { style: {textAlign:"center",padding:20,color:"#94A3B8",fontSize:12}}, "გადახდები არ მოიძებნა"  )
+          React.createElement('div', { style: {textAlign:"center",padding:20,color:"#94A3B8",fontSize:12}}, "\u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D4\u10D1\u10D8 \u10D0\u10E0 \u10DB\u10DD\u10D8\u10EB\u10D4\u10D1\u10DC\u10D0"  )
         )
         , [...data.payments].sort((a,b) => b.date.localeCompare(a.date)).map(p => (
           React.createElement('div', { key: p.id, style: {display:"flex",alignItems:"center",gap:10,padding:"9px 12px",background:"#F9FAFB",borderRadius:9,border:"1px solid #E5E7EB",marginBottom:5}}
@@ -668,8 +668,8 @@ React.createElement(React.Fragment, null
   )
 
   , React.createElement('div', { style: {padding:"12px 20px",borderTop:"1px solid #E5E7EB",display:"flex",justifyContent:"flex-end",gap:9,background:"#FAFAFA"}}
-    , React.createElement('button', { onClick: onClose, style: {padding:"8px 16px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",cursor:"pointer",fontWeight:600,color:"#6B7280",fontFamily:"inherit"}}, "გაუქმება")
-    , React.createElement('button', { onClick: () => { onSave(data); onClose(); }, style: {padding:"8px 22px",border:"none",borderRadius:10,background:ac,color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "\uD83D\uDCBE შენახვა" )
+    , React.createElement('button', { onClick: onClose, style: {padding:"8px 16px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",cursor:"pointer",fontWeight:600,color:"#6B7280",fontFamily:"inherit"}}, "\u10D2\u10D0\u10E3\u10E5\u10DB\u10D4\u10D1\u10D0")
+    , React.createElement('button', { onClick: () => { onSave(data); onClose(); }, style: {padding:"8px 22px",border:"none",borderRadius:10,background:ac,color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "\uD83D\uDCBE \u10E8\u10D4\u10DC\u10D0\u10EE\u10D5\u10D0" )
   )
 )
 ```
@@ -698,7 +698,7 @@ const myS    = allStudents.filter(s => s.teacherId === teacher.id && s.active);
 const color  = _optionalChain([div, ‘optionalAccess’, _9 => _9.color]) || “#2563EB”;
 const girls  = […myS.filter(s => s.gender === “female”)].sort((a,b) => a.lastName.localeCompare(b.lastName));
 const boys   = […myS.filter(s => s.gender === “male”)].sort((a,b)   => a.lastName.localeCompare(b.lastName));
-const TABS   = [”\u270F\uFE0F რედაქტირება”, “\uD83D\uDC65 მოსწავლეები”];
+const TABS   = [”\u270F\uFE0F \u10E0\u10D4\u10D3\u10D0\u10E5\u10E2\u10D8\u10E0\u10D4\u10D1\u10D0”, “\uD83D\uDC65 \u10DB\u10DD\u10E1\u10EC\u10D0\u10D5\u10DA\u10D4\u10D4\u10D1\u10D8”];
 
 return (
 React.createElement(React.Fragment, null
@@ -723,12 +723,12 @@ React.createElement(React.Fragment, null
           onMouseLeave: e => e.currentTarget.style.background = "transparent"}
           , React.createElement('div', { style: {fontSize:15}}, "\uD83D\uDC65")
           , React.createElement('div', { style: {fontSize:19,fontWeight:900,color,lineHeight:1}}, myS.length)
-          , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "მოსწ. \u2192" )
+          , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "\u10DB\u10DD\u10E1\u10EC. \u2192" )
         )
         , React.createElement('div', { style: {flex:1,padding:"10px 0",textAlign:"center",borderRight:"1px solid #E2E8F0"}}
           , React.createElement('div', { style: {fontSize:15}}, "\uD83D\uDCCB")
           , React.createElement('div', { style: {fontSize:19,fontWeight:900,color:"#64748B",lineHeight:1}}, cls.length)
-          , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "ჯგუფი")
+          , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "\u10EF\u10D2\u10E3\u10E4\u10D8")
         )
         , React.createElement('div', { style: {flex:2,padding:"10px 12px",display:"flex",alignItems:"center",gap:6,flexWrap:"wrap"}}
           , cls.map(c => React.createElement(Badge, { key: c.id, color: color, small: true}, c.name))
@@ -746,11 +746,11 @@ React.createElement(React.Fragment, null
       , React.createElement('div', { style: {overflowY:"auto",padding:18,flex:1}}
         , tab === 0 && (
           React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:13}}
-            , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "სახელი და გვარი"  ), React.createElement('input', { value: data.name, onChange: e => set("name",e.target.value), style: IS} ))
-            , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "სპეციალობა"), React.createElement('input', { value: data.subject, onChange: e => set("subject",e.target.value), style: IS} ))
-            , React.createElement('div', null, React.createElement('label', { style: LS}, "ტელ."), React.createElement('input', { value: data.phone, onChange: e => set("phone",e.target.value), style: IS} ))
-            , React.createElement('div', null, React.createElement('label', { style: LS}, "ელ.ფ."), React.createElement('input', { value: data.email, onChange: e => set("email",e.target.value), style: IS} ))
-            , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "განყოფილება")
+            , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "\u10E1\u10D0\u10EE\u10D4\u10DA\u10D8 \u10D3\u10D0 \u10D2\u10D5\u10D0\u10E0\u10D8"  ), React.createElement('input', { value: data.name, onChange: e => set("name",e.target.value), style: IS} ))
+            , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "\u10E1\u10DE\u10D4\u10EA\u10D8\u10D0\u10DA\u10DD\u10D1\u10D0"), React.createElement('input', { value: data.subject, onChange: e => set("subject",e.target.value), style: IS} ))
+            , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10E2\u10D4\u10DA."), React.createElement('input', { value: data.phone, onChange: e => set("phone",e.target.value), style: IS} ))
+            , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10D4\u10DA.\u10E4."), React.createElement('input', { value: data.email, onChange: e => set("email",e.target.value), style: IS} ))
+            , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "\u10D2\u10D0\u10DC\u10E7\u10DD\u10E4\u10D8\u10DA\u10D4\u10D1\u10D0")
               , React.createElement('select', { value: data.divisionId, onChange: e => set("divisionId",e.target.value), style: IS}
                 , DIVISIONS.map(d => React.createElement('option', { key: d.id, value: d.id}, d.emoji, " " , d.name))
               )
@@ -761,12 +761,12 @@ React.createElement(React.Fragment, null
         , tab === 1 && (
           React.createElement('div', null
             , React.createElement('div', { style: {display:"flex",gap:7,marginBottom:12,flexWrap:"wrap"}}
-              , React.createElement('div', { style: {background:color+"10",border:"1px solid "+color+"25",borderRadius:8,padding:"6px 13px"}}, React.createElement('span', { style: {fontSize:13,fontWeight:700,color}}, "სულ: " , myS.length))
+              , React.createElement('div', { style: {background:color+"10",border:"1px solid "+color+"25",borderRadius:8,padding:"6px 13px"}}, React.createElement('span', { style: {fontSize:13,fontWeight:700,color}}, "\u10E1\u10E3\u10DA: " , myS.length))
               , React.createElement('div', { style: {background:"#FDF2F8",border:"1px solid #FBCFE8",borderRadius:8,padding:"6px 13px"}}, React.createElement('span', { style: {fontSize:13,fontWeight:700,color:"#DB2777"}}, "\u2640 " , girls.length))
               , React.createElement('div', { style: {background:"#EFF6FF",border:"1px solid #BFDBFE",borderRadius:8,padding:"6px 13px"}}, React.createElement('span', { style: {fontSize:13,fontWeight:700,color:"#1D4ED8"}}, "\u2642 " , boys.length))
             )
             , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:13}}
-              , [["female","\u2640 გოგოები","#DB2777",girls],["male","\u2642 ბიჭები","#1D4ED8",boys]].map(([g,label,col,list]) => (
+              , [["female","\u2640 \u10D2\u10DD\u10D2\u10DD\u10D4\u10D1\u10D8","#DB2777",girls],["male","\u2642 \u10D1\u10D8\u10ED\u10D4\u10D1\u10D8","#1D4ED8",boys]].map(([g,label,col,list]) => (
                 React.createElement('div', { key: g}
                   , React.createElement('div', { style: {fontSize:13,fontWeight:800,color:col,marginBottom:7,display:"flex",gap:6,alignItems:"center"}}, label, React.createElement(Badge, { color: col}, list.length))
                   , list.map(s => (
@@ -781,7 +781,7 @@ React.createElement(React.Fragment, null
                       , React.createElement('span', { style: {color:"#D1D5DB",fontSize:14}}, "\u203A")
                     )
                   ))
-                  , list.length === 0 && React.createElement('div', { style: {color:"#94A3B8",fontSize:12,padding:12,textAlign:"center",border:"1px dashed #E2E8F0",borderRadius:9}}, "ცარიელია")
+                  , list.length === 0 && React.createElement('div', { style: {color:"#94A3B8",fontSize:12,padding:12,textAlign:"center",border:"1px dashed #E2E8F0",borderRadius:9}}, "\u10EA\u10D0\u10E0\u10D8\u10D4\u10DA\u10D8\u10D0")
                 )
               ))
             )
@@ -790,8 +790,8 @@ React.createElement(React.Fragment, null
       )
 
       , React.createElement('div', { style: {padding:"11px 20px",borderTop:"1px solid #E5E7EB",display:"flex",justifyContent:"flex-end",gap:9,background:"#FAFAFA"}}
-        , React.createElement('button', { onClick: onClose, style: {padding:"8px 16px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",cursor:"pointer",fontWeight:600,color:"#6B7280",fontFamily:"inherit"}}, "გაუქმება")
-        , React.createElement('button', { onClick: () => { onSave(data); onClose(); }, style: {padding:"8px 22px",border:"none",borderRadius:10,background:color,color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "\uD83D\uDCBE შენახვა" )
+        , React.createElement('button', { onClick: onClose, style: {padding:"8px 16px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",cursor:"pointer",fontWeight:600,color:"#6B7280",fontFamily:"inherit"}}, "\u10D2\u10D0\u10E3\u10E5\u10DB\u10D4\u10D1\u10D0")
+        , React.createElement('button', { onClick: () => { onSave(data); onClose(); }, style: {padding:"8px 22px",border:"none",borderRadius:10,background:color,color:"#fff",cursor:"pointer",fontWeight:700,fontSize:13,fontFamily:"inherit"}}, "\uD83D\uDCBE \u10E8\u10D4\u10DC\u10D0\u10EE\u10D5\u10D0" )
       )
     )
   )
@@ -835,7 +835,7 @@ return (
 React.createElement(‘div’, null
 /* Header */
 , React.createElement(‘div’, { style: {display:“flex”,alignItems:“center”,gap:12,marginBottom:22,flexWrap:“wrap”}}
-, React.createElement(‘button’, { onClick: onBack, style: {background:”#F1F5F9”,border:“none”,borderRadius:10,padding:“7px 15px”,cursor:“pointer”,fontWeight:600,fontSize:13,color:”#374151”,fontFamily:“inherit”}}, “\u2190 ღონისძიებები” )
+, React.createElement(‘button’, { onClick: onBack, style: {background:”#F1F5F9”,border:“none”,borderRadius:10,padding:“7px 15px”,cursor:“pointer”,fontWeight:600,fontSize:13,color:”#374151”,fontFamily:“inherit”}}, “\u2190 \u10E6\u10DD\u10DC\u10D8\u10E1\u10EB\u10D8\u10D4\u10D1\u10D4\u10D1\u10D8” )
 , React.createElement(‘div’, { style: {flex:1}}
 , React.createElement(‘input’, { value: data.title, onChange: e=>set(“title”,e.target.value),
 style: {width:“100%”,fontSize:20,fontWeight:900,color:”#0F172A”,border:“none”,background:“transparent”,outline:“none”,fontFamily:“inherit”,padding:“2px 0”}} )
@@ -843,52 +843,52 @@ style: {width:“100%”,fontSize:20,fontWeight:900,color:”#0F172A”,border:�
 , React.createElement(‘div’, { style: {display:“flex”,gap:8}}
 , React.createElement(‘select’, { value: data.status, onChange: e=>set(“status”,e.target.value),
 style: {width:“auto”,padding:“6px 12px”,fontSize:12,fontWeight:600,border:“1px solid #E5E7EB”,borderRadius:9,fontFamily:“inherit”,background:”#fff”}}
-, React.createElement(‘option’, { value: “upcoming”}, “\uD83D\uDCC5 მომავალი” )
-, React.createElement(‘option’, { value: “past”}, “\u2705 ჩატარებული” )
+, React.createElement(‘option’, { value: “upcoming”}, “\uD83D\uDCC5 \u10DB\u10DD\u10DB\u10D0\u10D5\u10D0\u10DA\u10D8” )
+, React.createElement(‘option’, { value: “past”}, “\u2705 \u10E9\u10D0\u10E2\u10D0\u10E0\u10D4\u10D1\u10E3\u10DA\u10D8” )
 )
-, React.createElement(‘button’, { onClick: onDelete, style: {background:”#FEF2F2”,border:“1px solid #FECACA”,borderRadius:10,padding:“7px 14px”,cursor:“pointer”,color:”#DC2626”,fontWeight:600,fontSize:12,fontFamily:“inherit”}}, “\uD83D\uDDD1 წაშლა” )
-, React.createElement(‘button’, { onClick: ()=>onSave(data), style: {background:”#059669”,border:“none”,borderRadius:10,padding:“7px 16px”,cursor:“pointer”,color:”#fff”,fontWeight:700,fontSize:12,fontFamily:“inherit”}}, “\uD83D\uDCBE შენახვა” )
+, React.createElement(‘button’, { onClick: onDelete, style: {background:”#FEF2F2”,border:“1px solid #FECACA”,borderRadius:10,padding:“7px 14px”,cursor:“pointer”,color:”#DC2626”,fontWeight:600,fontSize:12,fontFamily:“inherit”}}, “\uD83D\uDDD1 \u10EC\u10D0\u10E8\u10DA\u10D0” )
+, React.createElement(‘button’, { onClick: ()=>onSave(data), style: {background:”#059669”,border:“none”,borderRadius:10,padding:“7px 16px”,cursor:“pointer”,color:”#fff”,fontWeight:700,fontSize:12,fontFamily:“inherit”}}, “\uD83D\uDCBE \u10E8\u10D4\u10DC\u10D0\u10EE\u10D5\u10D0” )
 )
 )
 
 ```
   /* Meta fields */
   , React.createElement('div', { style: {background:"#fff",borderRadius:16,padding:20,border:"1px solid #E2E8F0",marginBottom:20}}
-    , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A",marginBottom:14}}, "ძირითადი ინფო" )
+    , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A",marginBottom:14}}, "\u10EB\u10D8\u10E0\u10D8\u10D7\u10D0\u10D3\u10D8 \u10D8\u10DC\u10E4\u10DD" )
     , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:13}}
-      , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "სახელწოდება")
+      , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "\u10E1\u10D0\u10EE\u10D4\u10DA\u10EC\u10DD\u10D3\u10D4\u10D1\u10D0")
         , React.createElement('input', { value: data.title, onChange: e=>set("title",e.target.value), style: IS} )
       )
-      , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "ჩატარების ადგილი" )
-        , React.createElement('input', { value: data.venue, onChange: e=>set("venue",e.target.value), style: IS, placeholder: "მაგ: სახელოვნებო სკოლა N26, საკონცერტო დარბაზი"     } )
+      , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "\u10E9\u10D0\u10E2\u10D0\u10E0\u10D4\u10D1\u10D8\u10E1 \u10D0\u10D3\u10D2\u10D8\u10DA\u10D8" )
+        , React.createElement('input', { value: data.venue, onChange: e=>set("venue",e.target.value), style: IS, placeholder: "\u10DB\u10D0\u10D2: \u10E1\u10D0\u10EE\u10D4\u10DA\u10DD\u10D5\u10DC\u10D4\u10D1\u10DD \u10E1\u10D9\u10DD\u10DA\u10D0 N26, \u10E1\u10D0\u10D9\u10DD\u10DC\u10EA\u10D4\u10E0\u10E2\u10DD \u10D3\u10D0\u10E0\u10D1\u10D0\u10D6\u10D8"     } )
       )
-      , React.createElement('div', null, React.createElement('label', { style: LS}, "ჩატარების თარიღი" )
+      , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10E9\u10D0\u10E2\u10D0\u10E0\u10D4\u10D1\u10D8\u10E1 \u10D7\u10D0\u10E0\u10D8\u10E6\u10D8" )
         , React.createElement('input', { type: "date", value: data.date, onChange: e=>set("date",e.target.value), style: IS} )
       )
-      , React.createElement('div', null, React.createElement('label', { style: LS}, "ჩატარების დრო" )
+      , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10E9\u10D0\u10E2\u10D0\u10E0\u10D4\u10D1\u10D8\u10E1 \u10D3\u10E0\u10DD" )
         , React.createElement('input', { type: "time", value: data.time, onChange: e=>set("time",e.target.value), style: IS} )
       )
-      , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "შენიშვნები")
-        , React.createElement('textarea', { value: data.notes, onChange: e=>set("notes",e.target.value), style: {...IS,height:70,resize:"vertical"}, placeholder: "შენიშვნები, მაყურებლის რაოდ., ა.შ."   } )
+      , React.createElement('div', { style: {gridColumn:"1/-1"}}, React.createElement('label', { style: LS}, "\u10E8\u10D4\u10DC\u10D8\u10E8\u10D5\u10DC\u10D4\u10D1\u10D8")
+        , React.createElement('textarea', { value: data.notes, onChange: e=>set("notes",e.target.value), style: {...IS,height:70,resize:"vertical"}, placeholder: "\u10E8\u10D4\u10DC\u10D8\u10E8\u10D5\u10DC\u10D4\u10D1\u10D8, \u10DB\u10D0\u10E7\u10E3\u10E0\u10D4\u10D1\u10DA\u10D8\u10E1 \u10E0\u10D0\u10DD\u10D3., \u10D0.\u10E8."   } )
       )
     )
     , React.createElement('div', { style: {display:"flex",gap:8,marginTop:14,flexWrap:"wrap"}}
-      , React.createElement(Badge, { color: "#7C3AED"}, data.program.length, " ნომერი" )
-      , React.createElement(Badge, { color: "#059669"}, allSIds.length, " მოსწავლე" )
-      , isPast  && React.createElement(Badge, { color: "#059669"}, "\u2705 ჩატარებული" )
-      , !isPast && data.date && React.createElement(Badge, { color: "#7C3AED"}, "\uD83D\uDCC5 მომავალი" )
+      , React.createElement(Badge, { color: "#7C3AED"}, data.program.length, " \u10DC\u10DD\u10DB\u10D4\u10E0\u10D8" )
+      , React.createElement(Badge, { color: "#059669"}, allSIds.length, " \u10DB\u10DD\u10E1\u10EC\u10D0\u10D5\u10DA\u10D4" )
+      , isPast  && React.createElement(Badge, { color: "#059669"}, "\u2705 \u10E9\u10D0\u10E2\u10D0\u10E0\u10D4\u10D1\u10E3\u10DA\u10D8" )
+      , !isPast && data.date && React.createElement(Badge, { color: "#7C3AED"}, "\uD83D\uDCC5 \u10DB\u10DD\u10DB\u10D0\u10D5\u10D0\u10DA\u10D8" )
     )
   )
 
   /* Program */
   , React.createElement('div', { style: {background:"#fff",borderRadius:16,padding:20,border:"1px solid #E2E8F0"}}
     , React.createElement('div', { style: {display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}}
-      , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A"}}, "\uD83C\uDFBC საკონცერტო პროგრამა"  )
-      , React.createElement('button', { type: "button", onClick: addNum, style: {background:"#0F172A",border:"none",borderRadius:9,padding:"7px 14px",cursor:"pointer",color:"#fff",fontWeight:700,fontSize:12,fontFamily:"inherit"}}, "\u2795 ნომრის დამატება"  )
+      , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A"}}, "\uD83C\uDFBC \u10E1\u10D0\u10D9\u10DD\u10DC\u10EA\u10D4\u10E0\u10E2\u10DD \u10DE\u10E0\u10DD\u10D2\u10E0\u10D0\u10DB\u10D0"  )
+      , React.createElement('button', { type: "button", onClick: addNum, style: {background:"#0F172A",border:"none",borderRadius:9,padding:"7px 14px",cursor:"pointer",color:"#fff",fontWeight:700,fontSize:12,fontFamily:"inherit"}}, "\u2795 \u10DC\u10DD\u10DB\u10E0\u10D8\u10E1 \u10D3\u10D0\u10DB\u10D0\u10E2\u10D4\u10D1\u10D0"  )
     )
 
     , data.program.length===0 && (
-      React.createElement('div', { style: {textAlign:"center",padding:32,color:"#94A3B8",fontSize:13,border:"1px dashed #E2E8F0",borderRadius:12}}, "პროგრამა ცარიელია \u2014 დაამატეთ ნომრები"
+      React.createElement('div', { style: {textAlign:"center",padding:32,color:"#94A3B8",fontSize:13,border:"1px dashed #E2E8F0",borderRadius:12}}, "\u10DE\u10E0\u10DD\u10D2\u10E0\u10D0\u10DB\u10D0 \u10EA\u10D0\u10E0\u10D8\u10D4\u10DA\u10D8\u10D0 \u2014 \u10D3\u10D0\u10D0\u10DB\u10D0\u10E2\u10D4\u10D7 \u10DC\u10DD\u10DB\u10E0\u10D4\u10D1\u10D8"
 
       )
     )
@@ -904,7 +904,7 @@ style: {width:“auto”,padding:“6px 12px”,fontSize:12,fontWeight:600,borde
           , React.createElement('div', { style: {display:"flex",alignItems:"center",gap:10,marginBottom:13}}
             , React.createElement('div', { style: {width:30,height:30,borderRadius:8,background:_optionalChain([div, 'optionalAccess', _12 => _12.color])||"#64748B",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:900,color:"#fff",flexShrink:0}}, num.num)
             , React.createElement('input', { value: num.title, onChange: e=>setNum(num.id,"title",e.target.value),
-              placeholder: "ნომრის დასახელება..." ,
+              placeholder: "\u10DC\u10DD\u10DB\u10E0\u10D8\u10E1 \u10D3\u10D0\u10E1\u10D0\u10EE\u10D4\u10DA\u10D4\u10D1\u10D0..." ,
               style: {...IS,fontWeight:700,fontSize:14,flex:1,background:"transparent",border:"1px solid #E2E8F0"}} )
             , React.createElement('div', { style: {display:"flex",gap:5,flexShrink:0}}
               , React.createElement('button', { type: "button", onClick: ()=>moveNum(num.id,-1), disabled: idx===0,
@@ -917,9 +917,9 @@ style: {width:“auto”,padding:“6px 12px”,fontSize:12,fontWeight:600,borde
           )
 
           , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}
-            , React.createElement('div', null, React.createElement('label', { style: LS}, "ავტორი / კომპოზიტორი"  )
+            , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10D0\u10D5\u10E2\u10DD\u10E0\u10D8 / \u10D9\u10DD\u10DB\u10DE\u10DD\u10D6\u10D8\u10E2\u10DD\u10E0\u10D8"  )
               , React.createElement('input', { value: num.composer||"", onChange: e=>setNum(num.id,"composer",e.target.value),
-                style: IS, placeholder: "მაგ: ბახი, ჩაიკოვსკი..."  } )
+                style: IS, placeholder: "\u10DB\u10D0\u10D2: \u10D1\u10D0\u10EE\u10D8, \u10E9\u10D0\u10D8\u10D9\u10DD\u10D5\u10E1\u10D9\u10D8..."  } )
             )
             , React.createElement('div', { style: {display:"flex",flexDirection:"column",justifyContent:"flex-end"}}
               , (num.composer||num.title) && (
@@ -930,21 +930,21 @@ style: {width:“auto”,padding:“6px 12px”,fontSize:12,fontWeight:600,borde
                 )
               )
             )
-            , React.createElement('div', null, React.createElement('label', { style: LS}, "განყოფილება")
+            , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10D2\u10D0\u10DC\u10E7\u10DD\u10E4\u10D8\u10DA\u10D4\u10D1\u10D0")
               , React.createElement('select', { value: num.divisionId, onChange: e=>setNum(num.id,"divisionId",e.target.value), style: IS}
                 , DIVISIONS.map(d=>React.createElement('option', { key: d.id, value: d.id}, d.emoji, " " , d.name))
               )
             )
-            , React.createElement('div', null, React.createElement('label', { style: LS}, "პედაგოგი")
+            , React.createElement('div', null, React.createElement('label', { style: LS}, "\u10DE\u10D4\u10D3\u10D0\u10D2\u10DD\u10D2\u10D8")
               , React.createElement('select', { value: num.teacherId||"", onChange: e=>setNum(num.id,"teacherId",e.target.value), style: IS}
-                , React.createElement('option', { value: ""}, "\u2014 არ არის მითითებული \u2014"    )
+                , React.createElement('option', { value: ""}, "\u2014 \u10D0\u10E0 \u10D0\u10E0\u10D8\u10E1 \u10DB\u10D8\u10D7\u10D8\u10D7\u10D4\u10D1\u10E3\u10DA\u10D8 \u2014"    )
                 , tList.map(t=>React.createElement('option', { key: t.id, value: t.id}, t.name))
               )
             )
           )
 
           , React.createElement('div', { style: {marginTop:10}}
-            , React.createElement('label', { style: LS}, "მოსწავლეები (" , selStudents.length, ")")
+            , React.createElement('label', { style: LS}, "\u10DB\u10DD\u10E1\u10EC\u10D0\u10D5\u10DA\u10D4\u10D4\u10D1\u10D8 (" , selStudents.length, ")")
             , React.createElement('div', { style: {maxHeight:130,overflowY:"auto",border:"1px solid #E5E7EB",borderRadius:9,background:"#fff",padding:6,display:"flex",flexWrap:"wrap",gap:5}}
               , sPool.map(s => {
                 const sel = (num.studentIds||[]).includes(s.id);
@@ -957,7 +957,7 @@ style: {width:“auto”,padding:“6px 12px”,fontSize:12,fontWeight:600,borde
                   )
                 );
               })
-              , sPool.length===0 && React.createElement('span', { style: {fontSize:11,color:"#94A3B8",padding:4}}, "ამ განყოფილებაში მოსწავლეები არ არის"    )
+              , sPool.length===0 && React.createElement('span', { style: {fontSize:11,color:"#94A3B8",padding:4}}, "\u10D0\u10DB \u10D2\u10D0\u10DC\u10E7\u10DD\u10E4\u10D8\u10DA\u10D4\u10D1\u10D0\u10E8\u10D8 \u10DB\u10DD\u10E1\u10EC\u10D0\u10D5\u10DA\u10D4\u10D4\u10D1\u10D8 \u10D0\u10E0 \u10D0\u10E0\u10D8\u10E1"    )
             )
           )
 
@@ -990,9 +990,9 @@ const [selPayMonth, setSelPayMonth] = useState(null);
 const [pmView,      setPmView]      = useState(null);
 const [collapsed,   setCollapsed]   = useState(false);
 const EVENTS_INIT = [
-{id:“ev1”,status:“past”,title:“გაზაფხულის კონცერტი”,venue:“სახელოვნებო სკოლა N26, საკონცერტო დარბაზი”,date:“2025-04-15”,time:“18:00”,program:[{id:“n1”,num:“1”,title:“ბახი \u2014 ინვენცია No.1”,composer:“ბახი”,divisionId:“d1”,teacherId:“t1”,studentIds:[“s1”,“s2”]},{id:“n2”,num:“2”,title:“მრავალჟამიერ”,composer:“ხალხური”,divisionId:“d2”,teacherId:“t4”,studentIds:[“s22”,“s23”]},{id:“n3”,num:“3”,title:“ელიზასთვის”,composer:“ბეთჰოვენი”,divisionId:“d1”,teacherId:“t2”,studentIds:[“s8”]}],notes:“პირველი გაზაფხულის კონცერტი. 120 მაყურებელი.”},
-{id:“ev2”,status:“past”,title:“საშობაო კონცერტი 2024”,venue:“ახალგაზრდობის სასახლე”,date:“2024-12-20”,time:“17:00”,program:[{id:“n4”,num:“1”,title:“ახალი წლის მელოდიები”,composer:“სხვადასხვა”,divisionId:“d1”,teacherId:“t3”,studentIds:[“s3”,“s4”,“s5”]},{id:“n5”,num:“2”,title:“ქართული”,composer:“ხალხური”,divisionId:“d2”,teacherId:“t5”,studentIds:[“s25”,“s26”]}],notes:“ახალი წლის ზეიმი. სრული დარბაზი.”},
-{id:“ev3”,status:“upcoming”,title:“საბოლოო კონცერტი 2025-2026”,venue:“სახელოვნებო სკოლა N26, საკონცერტო დარბაზი”,date:“2026-05-28”,time:“18:30”,program:[{id:“n6”,num:“1”,title:“სასწავლო წლის დახურვა”,composer:””,divisionId:“d1”,teacherId:“t1”,studentIds:[]},{id:“n7”,num:“2”,title:“ქართული ცეკვები”,composer:””,divisionId:“d2”,teacherId:“t4”,studentIds:[]}],notes:“სასწავლო წლის დამამთავრებელი კონცერტი.”},
+{id:“ev1”,status:“past”,title:”\u10D2\u10D0\u10D6\u10D0\u10E4\u10EE\u10E3\u10DA\u10D8\u10E1 \u10D9\u10DD\u10DC\u10EA\u10D4\u10E0\u10E2\u10D8”,venue:”\u10E1\u10D0\u10EE\u10D4\u10DA\u10DD\u10D5\u10DC\u10D4\u10D1\u10DD \u10E1\u10D9\u10DD\u10DA\u10D0 N26, \u10E1\u10D0\u10D9\u10DD\u10DC\u10EA\u10D4\u10E0\u10E2\u10DD \u10D3\u10D0\u10E0\u10D1\u10D0\u10D6\u10D8”,date:“2025-04-15”,time:“18:00”,program:[{id:“n1”,num:“1”,title:”\u10D1\u10D0\u10EE\u10D8 \u2014 \u10D8\u10DC\u10D5\u10D4\u10DC\u10EA\u10D8\u10D0 No.1”,composer:”\u10D1\u10D0\u10EE\u10D8”,divisionId:“d1”,teacherId:“t1”,studentIds:[“s1”,“s2”]},{id:“n2”,num:“2”,title:”\u10DB\u10E0\u10D0\u10D5\u10D0\u10DA\u10DF\u10D0\u10DB\u10D8\u10D4\u10E0”,composer:”\u10EE\u10D0\u10DA\u10EE\u10E3\u10E0\u10D8”,divisionId:“d2”,teacherId:“t4”,studentIds:[“s22”,“s23”]},{id:“n3”,num:“3”,title:”\u10D4\u10DA\u10D8\u10D6\u10D0\u10E1\u10D7\u10D5\u10D8\u10E1”,composer:”\u10D1\u10D4\u10D7\u10F0\u10DD\u10D5\u10D4\u10DC\u10D8”,divisionId:“d1”,teacherId:“t2”,studentIds:[“s8”]}],notes:”\u10DE\u10D8\u10E0\u10D5\u10D4\u10DA\u10D8 \u10D2\u10D0\u10D6\u10D0\u10E4\u10EE\u10E3\u10DA\u10D8\u10E1 \u10D9\u10DD\u10DC\u10EA\u10D4\u10E0\u10E2\u10D8. 120 \u10DB\u10D0\u10E7\u10E3\u10E0\u10D4\u10D1\u10D4\u10DA\u10D8.”},
+{id:“ev2”,status:“past”,title:”\u10E1\u10D0\u10E8\u10DD\u10D1\u10D0\u10DD \u10D9\u10DD\u10DC\u10EA\u10D4\u10E0\u10E2\u10D8 2024”,venue:”\u10D0\u10EE\u10D0\u10DA\u10D2\u10D0\u10D6\u10E0\u10D3\u10DD\u10D1\u10D8\u10E1 \u10E1\u10D0\u10E1\u10D0\u10EE\u10DA\u10D4”,date:“2024-12-20”,time:“17:00”,program:[{id:“n4”,num:“1”,title:”\u10D0\u10EE\u10D0\u10DA\u10D8 \u10EC\u10DA\u10D8\u10E1 \u10DB\u10D4\u10DA\u10DD\u10D3\u10D8\u10D4\u10D1\u10D8”,composer:”\u10E1\u10EE\u10D5\u10D0\u10D3\u10D0\u10E1\u10EE\u10D5\u10D0”,divisionId:“d1”,teacherId:“t3”,studentIds:[“s3”,“s4”,“s5”]},{id:“n5”,num:“2”,title:”\u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8”,composer:”\u10EE\u10D0\u10DA\u10EE\u10E3\u10E0\u10D8”,divisionId:“d2”,teacherId:“t5”,studentIds:[“s25”,“s26”]}],notes:”\u10D0\u10EE\u10D0\u10DA\u10D8 \u10EC\u10DA\u10D8\u10E1 \u10D6\u10D4\u10D8\u10DB\u10D8. \u10E1\u10E0\u10E3\u10DA\u10D8 \u10D3\u10D0\u10E0\u10D1\u10D0\u10D6\u10D8.”},
+{id:“ev3”,status:“upcoming”,title:”\u10E1\u10D0\u10D1\u10DD\u10DA\u10DD\u10DD \u10D9\u10DD\u10DC\u10EA\u10D4\u10E0\u10E2\u10D8 2025-2026”,venue:”\u10E1\u10D0\u10EE\u10D4\u10DA\u10DD\u10D5\u10DC\u10D4\u10D1\u10DD \u10E1\u10D9\u10DD\u10DA\u10D0 N26, \u10E1\u10D0\u10D9\u10DD\u10DC\u10EA\u10D4\u10E0\u10E2\u10DD \u10D3\u10D0\u10E0\u10D1\u10D0\u10D6\u10D8”,date:“2026-05-28”,time:“18:30”,program:[{id:“n6”,num:“1”,title:”\u10E1\u10D0\u10E1\u10EC\u10D0\u10D5\u10DA\u10DD \u10EC\u10DA\u10D8\u10E1 \u10D3\u10D0\u10EE\u10E3\u10E0\u10D5\u10D0”,composer:””,divisionId:“d1”,teacherId:“t1”,studentIds:[]},{id:“n7”,num:“2”,title:”\u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10EA\u10D4\u10D9\u10D5\u10D4\u10D1\u10D8”,composer:””,divisionId:“d2”,teacherId:“t4”,studentIds:[]}],notes:”\u10E1\u10D0\u10E1\u10EC\u10D0\u10D5\u10DA\u10DD \u10EC\u10DA\u10D8\u10E1 \u10D3\u10D0\u10DB\u10D0\u10DB\u10D7\u10D0\u10D5\u10E0\u10D4\u10D1\u10D4\u10DA\u10D8 \u10D9\u10DD\u10DC\u10EA\u10D4\u10E0\u10E2\u10D8.”},
 ];
 const [events,      setEvents]      = useState(() => load(“events”, EVENTS_INIT));
 const [selEvent,  setSelEvent]  = useState(null);
@@ -1067,13 +1067,13 @@ return true;
 }), [students, sf]);
 
 const NAV = [
-{icon:”\uD83C\uDFE0”, label:“მთავარი”,       p:“home”},
-{icon:”\uD83C\uDFA8”, label:“განყოფილებები”, p:“divisions”},
-{icon:”\uD83D\uDC64”, label:“მოსწავლეები”,   p:“all_students”},
-{icon:”\uD83D\uDC68\u200D\uD83C\uDFEB”,label:“პედაგოგები”,   p:“teachers”},
-{icon:”\uD83C\uDFAD”, label:“ღონისძიებები”,  p:“events”},
-{icon:”\uD83D\uDCB3”, label:“გადახდები”,     p:“payments”},
-{icon:”\uD83D\uDCCA”, label:“სტატისტიკა”,    p:“stats”},
+{icon:”\uD83C\uDFE0”, label:”\u10DB\u10D7\u10D0\u10D5\u10D0\u10E0\u10D8”,       p:“home”},
+{icon:”\uD83C\uDFA8”, label:”\u10D2\u10D0\u10DC\u10E7\u10DD\u10E4\u10D8\u10DA\u10D4\u10D1\u10D4\u10D1\u10D8”, p:“divisions”},
+{icon:”\uD83D\uDC64”, label:”\u10DB\u10DD\u10E1\u10EC\u10D0\u10D5\u10DA\u10D4\u10D4\u10D1\u10D8”,   p:“all_students”},
+{icon:”\uD83D\uDC68\u200D\uD83C\uDFEB”,label:”\u10DE\u10D4\u10D3\u10D0\u10D2\u10DD\u10D2\u10D4\u10D1\u10D8”,   p:“teachers”},
+{icon:”\uD83C\uDFAD”, label:”\u10E6\u10DD\u10DC\u10D8\u10E1\u10EB\u10D8\u10D4\u10D1\u10D4\u10D1\u10D8”,  p:“events”},
+{icon:”\uD83D\uDCB3”, label:”\u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D4\u10D1\u10D8”,     p:“payments”},
+{icon:”\uD83D\uDCCA”, label:”\u10E1\u10E2\u10D0\u10E2\u10D8\u10E1\u10E2\u10D8\u10D9\u10D0”,    p:“stats”},
 ];
 
 const inDiv   = [“division”,“class”].includes(page);
@@ -1082,7 +1082,7 @@ const navW    = collapsed ? 58 : 235;
 
 const hdr = (title, back) => (
 React.createElement(‘div’, { style: {display:“flex”,alignItems:“center”,gap:13,marginBottom:22}}
-, back && React.createElement(‘button’, { onClick: back, style: {background:”#F3F4F6”,border:“none”,borderRadius:10,padding:“7px 15px”,cursor:“pointer”,fontWeight:600,fontSize:13,color:”#374151”,fontFamily:“inherit”}}, “\u2190 უკან” )
+, back && React.createElement(‘button’, { onClick: back, style: {background:”#F3F4F6”,border:“none”,borderRadius:10,padding:“7px 15px”,cursor:“pointer”,fontWeight:600,fontSize:13,color:”#374151”,fontFamily:“inherit”}}, “\u2190 \u10E3\u10D9\u10D0\u10DC” )
 , React.createElement(‘h2’, { style: {margin:0,fontSize:21,fontWeight:900,color:”#0F172A”}}, title)
 )
 );
@@ -1097,7 +1097,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
       , React.createElement('div', { style: {padding:collapsed?"10px 0":"16px 16px 12px",borderBottom:"1px solid rgba(255,255,255,0.08)",display:"flex",alignItems:"center",justifyContent:collapsed?"center":"space-between",flexShrink:0}}
         , !collapsed && (
           React.createElement('div', null
-            , React.createElement('div', { style: {fontSize:8,color:"rgba(255,255,255,0.35)",letterSpacing:2,marginBottom:1}}, "სახელოვნებო")
+            , React.createElement('div', { style: {fontSize:8,color:"rgba(255,255,255,0.35)",letterSpacing:2,marginBottom:1}}, "\u10E1\u10D0\u10EE\u10D4\u10DA\u10DD\u10D5\u10DC\u10D4\u10D1\u10DD")
             , React.createElement('div', { style: {fontSize:24,fontWeight:900,color:"#fff",lineHeight:1}}, "N26")
           )
         )
@@ -1119,7 +1119,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         })
         , !collapsed && (
           React.createElement('div', { style: {marginTop:12,paddingTop:12,borderTop:"1px solid rgba(255,255,255,0.08)"}}
-            , React.createElement('div', { style: {fontSize:9,color:"rgba(255,255,255,0.3)",marginBottom:5,paddingLeft:4,letterSpacing:1}}, "განყოფ.")
+            , React.createElement('div', { style: {fontSize:9,color:"rgba(255,255,255,0.3)",marginBottom:5,paddingLeft:4,letterSpacing:1}}, "\u10D2\u10D0\u10DC\u10E7\u10DD\u10E4.")
             , DIVISIONS.map(div => (
               React.createElement('button', { key: div.id, onClick: () => go("division",div), style: {display:"flex",alignItems:"center",gap:7,width:"100%",padding:"5px 8px",border:"none",borderRadius:7,cursor:"pointer",marginBottom:1,background:_optionalChain([selDiv, 'optionalAccess', _23 => _23.id])===div.id&&inDiv?div.color+"30":"transparent",color:_optionalChain([selDiv, 'optionalAccess', _24 => _24.id])===div.id&&inDiv?"#fff":"rgba(255,255,255,0.38)",fontSize:11,textAlign:"left",fontFamily:"inherit"}}
                 , React.createElement('span', null, div.emoji)
@@ -1133,9 +1133,9 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         , collapsed
           ? React.createElement('div', { style: {fontSize:13,fontWeight:900,color:"#38BDF8"}}, active.length)
           : React.createElement(React.Fragment, null
-              , React.createElement('div', { style: {fontSize:9,color:"rgba(255,255,255,0.35)"}}, "სულ მოსწ." )
+              , React.createElement('div', { style: {fontSize:9,color:"rgba(255,255,255,0.35)"}}, "\u10E1\u10E3\u10DA \u10DB\u10DD\u10E1\u10EC." )
               , React.createElement('div', { style: {fontSize:20,fontWeight:900,color:"#38BDF8"}}, active.length)
-              , React.createElement('div', { style: {fontSize:9,color:"rgba(255,255,255,0.25)",marginTop:1}}, DIVISIONS.length, " განყ. \u00B7 "   , teachers.length, " პედ." )
+              , React.createElement('div', { style: {fontSize:9,color:"rgba(255,255,255,0.25)",marginTop:1}}, DIVISIONS.length, " \u10D2\u10D0\u10DC\u10E7. \u00B7 "   , teachers.length, " \u10DE\u10D4\u10D3." )
             )
         
       )
@@ -1148,15 +1148,15 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
       , page === "home" && (
         React.createElement('div', null
           , React.createElement('div', { style: {marginBottom:22}}
-            , React.createElement('h1', { style: {margin:0,fontSize:26,fontWeight:900,color:"#0F172A"}}, "მთავარი პანელი" )
-            , React.createElement('p', { style: {margin:"4px 0 0",color:"#64748B",fontSize:13}}, "სახელოვნებო სკოლა N26 \u00B7 "    , new Date().getFullYear())
+            , React.createElement('h1', { style: {margin:0,fontSize:26,fontWeight:900,color:"#0F172A"}}, "\u10DB\u10D7\u10D0\u10D5\u10D0\u10E0\u10D8 \u10DE\u10D0\u10DC\u10D4\u10DA\u10D8" )
+            , React.createElement('p', { style: {margin:"4px 0 0",color:"#64748B",fontSize:13}}, "\u10E1\u10D0\u10EE\u10D4\u10DA\u10DD\u10D5\u10DC\u10D4\u10D1\u10DD \u10E1\u10D9\u10DD\u10DA\u10D0 N26 \u00B7 "    , new Date().getFullYear())
           )
           , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(148px,1fr))",gap:11,marginBottom:24}}
             , [
-              ["სულ მოს.",active.length,"#2563EB","#EFF6FF",() => { setSf({division:"",classId:"",teacherId:"",gender:""}); go("all_students"); }],
-              ["განყოფ.",DIVISIONS.length,"#7C3AED","#F5F3FF",() => go("divisions")],
-              ["პედაგ.",teachers.length,"#059669","#F0FDF4",() => go("teachers")],
-              ["ჯგუფი",CLASSES.length,"#D97706","#FFFBEB",null]
+              ["\u10E1\u10E3\u10DA \u10DB\u10DD\u10E1.",active.length,"#2563EB","#EFF6FF",() => { setSf({division:"",classId:"",teacherId:"",gender:""}); go("all_students"); }],
+              ["\u10D2\u10D0\u10DC\u10E7\u10DD\u10E4.",DIVISIONS.length,"#7C3AED","#F5F3FF",() => go("divisions")],
+              ["\u10DE\u10D4\u10D3\u10D0\u10D2.",teachers.length,"#059669","#F0FDF4",() => go("teachers")],
+              ["\u10EF\u10D2\u10E3\u10E4\u10D8",CLASSES.length,"#D97706","#FFFBEB",null]
             ].map(([lab,val,color,bg,action]) => (
               React.createElement('div', { key: lab, onClick: action||undefined, style: {background:bg,border:"1px solid "+color+"20",borderRadius:14,padding:"13px 16px",cursor:action?"pointer":"default",transition:"all 0.2s"},
                 onMouseEnter: e => action && (e.currentTarget.style.transform="translateY(-2px)"),
@@ -1167,7 +1167,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               )
             ))
           )
-          , React.createElement('h3', { style: {fontWeight:800,color:"#0F172A",marginBottom:11,fontSize:14}}, "განყოფილებები")
+          , React.createElement('h3', { style: {fontWeight:800,color:"#0F172A",marginBottom:11,fontSize:14}}, "\u10D2\u10D0\u10DC\u10E7\u10DD\u10E4\u10D8\u10DA\u10D4\u10D1\u10D4\u10D1\u10D8")
           , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(225px,1fr))",gap:10}}
             , DIVISIONS.map(div => {
               const cnt = active.filter(s => s.divisionId === div.id).length;
@@ -1177,7 +1177,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                   onMouseLeave: e => { e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; }}
                   , React.createElement('div', { style: {fontSize:24,marginBottom:6}}, div.emoji)
                   , React.createElement('div', { style: {fontWeight:800,color:"#0F172A",fontSize:12,marginBottom:8,lineHeight:1.3}}, div.name)
-                  , React.createElement(Badge, { color: div.color}, cnt, " მოს." )
+                  , React.createElement(Badge, { color: div.color}, cnt, " \u10DB\u10DD\u10E1." )
                 )
               );
             })
@@ -1188,7 +1188,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
       /* DIVISIONS LIST */
       , page === "divisions" && (
         React.createElement('div', null
-          , hdr("განყოფილებები")
+          , hdr("\u10D2\u10D0\u10DC\u10E7\u10DD\u10E4\u10D8\u10DA\u10D4\u10D1\u10D4\u10D1\u10D8")
           , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))",gap:12}}
             , DIVISIONS.map(div => {
               const cnt   = active.filter(s => s.divisionId === div.id).length;
@@ -1200,8 +1200,8 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                   , React.createElement('div', { style: {fontSize:32,marginBottom:8}}, div.emoji)
                   , React.createElement('div', { style: {fontSize:14,fontWeight:900,color:"#0F172A",marginBottom:10,lineHeight:1.3}}, div.name)
                   , React.createElement('div', { style: {display:"flex",gap:8,flexWrap:"wrap"}}
-                    , React.createElement(Badge, { color: div.color}, cnt, " მოსწ." )
-                    , React.createElement(Badge, { color: "#64748B"}, clCnt, " ჯგ." )
+                    , React.createElement(Badge, { color: div.color}, cnt, " \u10DB\u10DD\u10E1\u10EC." )
+                    , React.createElement(Badge, { color: "#64748B"}, clCnt, " \u10EF\u10D2." )
                   )
                 )
               );
@@ -1219,14 +1219,14 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
           React.createElement('div', null
             , hdr(selDiv.emoji + " " + selDiv.name, () => go("divisions"))
             , React.createElement('div', { style: {display:"flex",gap:10,marginBottom:18,flexWrap:"wrap"}}
-              , [["სულ",divS.length,selDiv.color],["ჯგ.",divC.length,"#64748B"],["პედ.",divT.length,"#64748B"],["\u2640",divS.filter(s=>s.gender==="female").length,"#DB2777"],["\u2642",divS.filter(s=>s.gender==="male").length,"#1D4ED8"]].map(([l,v,c]) => (
+              , [["\u10E1\u10E3\u10DA",divS.length,selDiv.color],["\u10EF\u10D2.",divC.length,"#64748B"],["\u10DE\u10D4\u10D3.",divT.length,"#64748B"],["\u2640",divS.filter(s=>s.gender==="female").length,"#DB2777"],["\u2642",divS.filter(s=>s.gender==="male").length,"#1D4ED8"]].map(([l,v,c]) => (
                 React.createElement('div', { key: l, style: {background:"#fff",borderRadius:10,padding:"10px 15px",border:"1px solid "+c+"22",minWidth:75,textAlign:"center"}}
                   , React.createElement('div', { style: {fontSize:18,fontWeight:900,color:c}}, v)
                   , React.createElement('div', { style: {fontSize:10,color:"#64748B",fontWeight:600,marginTop:2}}, l)
                 )
               ))
             )
-            , React.createElement('h3', { style: {fontWeight:800,color:"#0F172A",marginBottom:10,fontSize:13}}, "ჯგუფები")
+            , React.createElement('h3', { style: {fontWeight:800,color:"#0F172A",marginBottom:10,fontSize:13}}, "\u10EF\u10D2\u10E3\u10E4\u10D4\u10D1\u10D8")
             , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(178px,1fr))",gap:9}}
               , divC.map(cls => {
                 const teach = teachers.find(t => t.id === cls.teacherId);
@@ -1260,21 +1260,21 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             , hdr(selDiv.emoji + " " + selDiv.name + " \u2014 " + selClass.name, () => go("division",selDiv))
             , React.createElement('div', { style: {background:"#fff",borderRadius:12,padding:"12px 16px",marginBottom:16,border:"1px solid #E2E8F0",display:"flex",gap:18,flexWrap:"wrap",alignItems:"center"}}
               , React.createElement('div', null
-                , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "პედაგოგი")
+                , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "\u10DE\u10D4\u10D3\u10D0\u10D2\u10DD\u10D2\u10D8")
                 , React.createElement('div', { style: {fontWeight:800,fontSize:13}}, _optionalChain([teach, 'optionalAccess', _26 => _26.name]))
                 , React.createElement('div', { style: {fontSize:10,color:"#94A3B8"}}, _optionalChain([teach, 'optionalAccess', _27 => _27.subject]))
               )
               , React.createElement('div', { style: {width:1,height:35,background:"#E2E8F0"}} )
-              , [["სულ",clS.length,"#0F172A"],["\u2640",girls.length,"#DB2777"],["\u2642",boys.length,"#1D4ED8"]].map(([l,v,c]) => (
+              , [["\u10E1\u10E3\u10DA",clS.length,"#0F172A"],["\u2640",girls.length,"#DB2777"],["\u2642",boys.length,"#1D4ED8"]].map(([l,v,c]) => (
                 React.createElement('div', { key: l}, React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, l), React.createElement('div', { style: {fontSize:22,fontWeight:900,color:c}}, v))
               ))
             )
             , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}
-              , [["female","\u2640 გოგოები","#DB2777",girls],["male","\u2642 ბიჭები","#1D4ED8",boys]].map(([g,label,color,list]) => (
+              , [["female","\u2640 \u10D2\u10DD\u10D2\u10DD\u10D4\u10D1\u10D8","#DB2777",girls],["male","\u2642 \u10D1\u10D8\u10ED\u10D4\u10D1\u10D8","#1D4ED8",boys]].map(([g,label,color,list]) => (
                 React.createElement('div', { key: g}
                   , React.createElement('div', { style: {fontSize:13,fontWeight:800,color,marginBottom:8,display:"flex",gap:7,alignItems:"center"}}, label, React.createElement(Badge, { color: color}, list.length))
                   , list.map(s => React.createElement(SRow, { key: s.id, student: s, onClick: () => setSelStudent(s), showMeta: false} ))
-                  , list.length === 0 && React.createElement('div', { style: {color:"#94A3B8",fontSize:12,padding:16,textAlign:"center"}}, "ცარიელია")
+                  , list.length === 0 && React.createElement('div', { style: {color:"#94A3B8",fontSize:12,padding:16,textAlign:"center"}}, "\u10EA\u10D0\u10E0\u10D8\u10D4\u10DA\u10D8\u10D0")
                 )
               ))
             )
@@ -1285,7 +1285,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
       /* TEACHERS \u2014 division picker */
       , page === "teachers" && (
         React.createElement('div', null
-          , hdr("პედაგოგები")
+          , hdr("\u10DE\u10D4\u10D3\u10D0\u10D2\u10DD\u10D2\u10D4\u10D1\u10D8")
           , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))",gap:13}}
             , DIVISIONS.map(div => {
               const divT = teachers.filter(t => t.divisionId === div.id);
@@ -1296,12 +1296,12 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                   onMouseLeave: e => { e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="0 2px 10px rgba(0,0,0,0.05)"; }}
                   , React.createElement('div', { style: {display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:11}}
                     , React.createElement('div', { style: {fontSize:34}}, div.emoji)
-                    , React.createElement(Badge, { color: div.color}, divT.length, " პედ." )
+                    , React.createElement(Badge, { color: div.color}, divT.length, " \u10DE\u10D4\u10D3." )
                   )
                   , React.createElement('div', { style: {fontSize:14,fontWeight:900,color:"#0F172A",marginBottom:10,lineHeight:1.3}}, div.name)
                   , React.createElement('div', { style: {display:"flex",gap:9,flexWrap:"wrap",alignItems:"center"}}
-                    , React.createElement(Badge, { color: div.color}, cnt, " მოსწ." )
-                    , React.createElement('span', { style: {fontSize:11,color:div.color,fontWeight:600}}, "პედ. სია \u2192"  )
+                    , React.createElement(Badge, { color: div.color}, cnt, " \u10DB\u10DD\u10E1\u10EC." )
+                    , React.createElement('span', { style: {fontSize:11,color:div.color,fontWeight:600}}, "\u10DE\u10D4\u10D3. \u10E1\u10D8\u10D0 \u2192"  )
                   )
                 )
               );
@@ -1313,9 +1313,9 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
       /* TEACHER DIVISION \u2014 teacher list */
       , page === "teacher_division" && selDiv && (
         React.createElement('div', null
-          , hdr(selDiv.emoji + " " + selDiv.name + " \u2014 პედაგოგები", () => go("teachers"))
+          , hdr(selDiv.emoji + " " + selDiv.name + " \u2014 \u10DE\u10D4\u10D3\u10D0\u10D2\u10DD\u10D2\u10D4\u10D1\u10D8", () => go("teachers"))
           , React.createElement('div', { style: {display:"flex",gap:10,marginBottom:20,flexWrap:"wrap"}}
-            , [["პედ.",teachers.filter(t=>t.divisionId===selDiv.id).length,selDiv.color],["მოსწ.",active.filter(s=>s.divisionId===selDiv.id).length,"#64748B"],["\u2640",active.filter(s=>s.divisionId===selDiv.id&&s.gender==="female").length,"#DB2777"],["\u2642",active.filter(s=>s.divisionId===selDiv.id&&s.gender==="male").length,"#1D4ED8"]].map(([l,v,c]) => (
+            , [["\u10DE\u10D4\u10D3.",teachers.filter(t=>t.divisionId===selDiv.id).length,selDiv.color],["\u10DB\u10DD\u10E1\u10EC.",active.filter(s=>s.divisionId===selDiv.id).length,"#64748B"],["\u2640",active.filter(s=>s.divisionId===selDiv.id&&s.gender==="female").length,"#DB2777"],["\u2642",active.filter(s=>s.divisionId===selDiv.id&&s.gender==="male").length,"#1D4ED8"]].map(([l,v,c]) => (
               React.createElement('div', { key: l, style: {background:"#fff",borderRadius:10,padding:"10px 15px",border:"1px solid "+c+"22",minWidth:80,textAlign:"center"}}
                 , React.createElement('div', { style: {fontSize:18,fontWeight:900,color:c}}, v)
                 , React.createElement('div', { style: {fontSize:10,color:"#64748B",fontWeight:600,marginTop:2}}, l)
@@ -1339,7 +1339,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                     , React.createElement('span', { style: {color:"#D1D5DB",fontSize:16}}, "\u203A")
                   )
                   , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:11}}
-                    , [["მოსწ.",cnt],["ჯგ.",cls.length]].map(([l,v]) => (
+                    , [["\u10DB\u10DD\u10E1\u10EC.",cnt],["\u10EF\u10D2.",cls.length]].map(([l,v]) => (
                       React.createElement('div', { key: l, style: {background:"#F8FAFC",borderRadius:8,padding:"8px 11px"}}
                         , React.createElement('div', { style: {fontSize:9,color:"#94A3B8"}}, l)
                         , React.createElement('div', { style: {fontSize:18,fontWeight:900,color:selDiv.color}}, v)
@@ -1360,22 +1360,22 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
       /* STATS */
       , page === "stats" && (
         React.createElement('div', null
-          , hdr("სტატისტიკა")
+          , hdr("\u10E1\u10E2\u10D0\u10E2\u10D8\u10E1\u10E2\u10D8\u10D9\u10D0")
           , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(148px,1fr))",gap:11,marginBottom:24}}
-            , [["სულ მოს.",active.length,"#2563EB",() => { setSf({division:"",classId:"",teacherId:"",gender:""}); go("all_students"); }],
-              ["\u2640 გოგო",active.filter(s=>s.gender==="female").length,"#DB2777",() => { setSf({division:"",classId:"",teacherId:"",gender:"female"}); go("all_students"); }],
-              ["\u2642 ბიჭი",active.filter(s=>s.gender==="male").length,"#1D4ED8",() => { setSf({division:"",classId:"",teacherId:"",gender:"male"}); go("all_students"); }],
-              ["გარ.",students.filter(s=>!s.active).length,"#DC2626",null]].map(([lab,val,color,action]) => (
+            , [["\u10E1\u10E3\u10DA \u10DB\u10DD\u10E1.",active.length,"#2563EB",() => { setSf({division:"",classId:"",teacherId:"",gender:""}); go("all_students"); }],
+              ["\u2640 \u10D2\u10DD\u10D2\u10DD",active.filter(s=>s.gender==="female").length,"#DB2777",() => { setSf({division:"",classId:"",teacherId:"",gender:"female"}); go("all_students"); }],
+              ["\u2642 \u10D1\u10D8\u10ED\u10D8",active.filter(s=>s.gender==="male").length,"#1D4ED8",() => { setSf({division:"",classId:"",teacherId:"",gender:"male"}); go("all_students"); }],
+              ["\u10D2\u10D0\u10E0.",students.filter(s=>!s.active).length,"#DC2626",null]].map(([lab,val,color,action]) => (
               React.createElement('div', { key: lab, onClick: action||undefined, style: {background:"#fff",borderRadius:12,padding:"14px 16px",border:"1px solid #E2E8F0",cursor:action?"pointer":"default",transition:"all 0.2s"},
                 onMouseEnter: e => action && (e.currentTarget.style.boxShadow="0 5px 18px "+color+"20"),
                 onMouseLeave: e => action && (e.currentTarget.style.boxShadow="none")}
                 , React.createElement('div', { style: {fontSize:28,fontWeight:900,color,lineHeight:1}}, val)
                 , React.createElement('div', { style: {fontSize:11,color:"#64748B",fontWeight:600,marginTop:3}}, lab)
-                , action && React.createElement('div', { style: {fontSize:10,color,marginTop:3}}, "სია \u2192" )
+                , action && React.createElement('div', { style: {fontSize:10,color,marginTop:3}}, "\u10E1\u10D8\u10D0 \u2192" )
               )
             ))
           )
-          , React.createElement('h3', { style: {fontWeight:800,color:"#0F172A",marginBottom:10,fontSize:13}}, "განყ. მიხ." )
+          , React.createElement('h3', { style: {fontWeight:800,color:"#0F172A",marginBottom:10,fontSize:13}}, "\u10D2\u10D0\u10DC\u10E7. \u10DB\u10D8\u10EE." )
           , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(168px,1fr))",gap:9,marginBottom:22}}
             , DIVISIONS.map(div => {
               const cnt = active.filter(s => s.divisionId === div.id).length;
@@ -1390,7 +1390,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               );
             })
           )
-          , React.createElement('h3', { style: {fontWeight:800,color:"#0F172A",marginBottom:10,fontSize:13}}, "პედ. მიხ." )
+          , React.createElement('h3', { style: {fontWeight:800,color:"#0F172A",marginBottom:10,fontSize:13}}, "\u10DE\u10D4\u10D3. \u10DB\u10D8\u10EE." )
           , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(220px,1fr))",gap:8}}
             , teachers.map(t => {
               const div = DIVISIONS.find(d => d.id === t.divisionId);
@@ -1429,7 +1429,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             React.createElement('div', null
               /* breadcrumb */
               , React.createElement('div', { style: {display:"flex",alignItems:"center",gap:8,marginBottom:20,flexWrap:"wrap"}}
-                , React.createElement('button', { onClick: () => setSf(f => ({...f,division:"",teacherId:"",classId:""})), style: {background:"#F1F5F9",border:"none",borderRadius:8,padding:"5px 12px",cursor:"pointer",fontSize:12,fontWeight:600,color:"#475569",fontFamily:"inherit"}}, "\uD83D\uDC64 მოსწავლეები" )
+                , React.createElement('button', { onClick: () => setSf(f => ({...f,division:"",teacherId:"",classId:""})), style: {background:"#F1F5F9",border:"none",borderRadius:8,padding:"5px 12px",cursor:"pointer",fontSize:12,fontWeight:600,color:"#475569",fontFamily:"inherit"}}, "\uD83D\uDC64 \u10DB\u10DD\u10E1\u10EC\u10D0\u10D5\u10DA\u10D4\u10D4\u10D1\u10D8" )
                 , React.createElement('span', { style: {color:"#94A3B8"}}, "\u203A")
                 , React.createElement('button', { onClick: () => setSf(f => ({...f,teacherId:"",classId:""})), style: {background:div.color+"15",border:"none",borderRadius:8,padding:"5px 12px",cursor:"pointer",fontSize:12,fontWeight:600,color:div.color,fontFamily:"inherit"}}, div.emoji, " " , div.name)
                 , React.createElement('span', { style: {color:"#94A3B8"}}, "\u203A")
@@ -1437,21 +1437,21 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               )
               , React.createElement('div', { style: {background:"#fff",borderRadius:12,padding:"12px 16px",marginBottom:18,border:"1px solid #E2E8F0",display:"flex",gap:18,flexWrap:"wrap",alignItems:"center"}}
                 , React.createElement('div', null
-                  , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "პედაგოგი")
+                  , React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, "\u10DE\u10D4\u10D3\u10D0\u10D2\u10DD\u10D2\u10D8")
                   , React.createElement('div', { style: {fontWeight:800,fontSize:14,color:"#0F172A"}}, teach.name)
                   , React.createElement('div', { style: {fontSize:11,color:"#94A3B8"}}, teach.subject)
                 )
                 , React.createElement('div', { style: {width:1,height:35,background:"#E2E8F0"}} )
-                , [["სულ",list.length,"#0F172A"],["\u2640",girls.length,"#DB2777"],["\u2642",boys.length,"#1D4ED8"]].map(([l,v,c]) => (
+                , [["\u10E1\u10E3\u10DA",list.length,"#0F172A"],["\u2640",girls.length,"#DB2777"],["\u2642",boys.length,"#1D4ED8"]].map(([l,v,c]) => (
                   React.createElement('div', { key: l}, React.createElement('div', { style: {fontSize:10,color:"#94A3B8",fontWeight:600}}, l), React.createElement('div', { style: {fontSize:22,fontWeight:900,color:c}}, v))
                 ))
               )
               , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}
-                , [["female","\u2640 გოგოები","#DB2777",girls],["male","\u2642 ბიჭები","#1D4ED8",boys]].map(([g,label,col,lst]) => (
+                , [["female","\u2640 \u10D2\u10DD\u10D2\u10DD\u10D4\u10D1\u10D8","#DB2777",girls],["male","\u2642 \u10D1\u10D8\u10ED\u10D4\u10D1\u10D8","#1D4ED8",boys]].map(([g,label,col,lst]) => (
                   React.createElement('div', { key: g}
                     , React.createElement('div', { style: {fontSize:13,fontWeight:800,color:col,marginBottom:8,display:"flex",gap:7,alignItems:"center"}}, label, React.createElement(Badge, { color: col}, lst.length))
                     , lst.map(s => React.createElement(SRow, { key: s.id, student: s, onClick: () => setSelStudent(s), showMeta: false} ))
-                    , lst.length === 0 && React.createElement('div', { style: {color:"#94A3B8",fontSize:12,padding:16,textAlign:"center"}}, "ცარიელია")
+                    , lst.length === 0 && React.createElement('div', { style: {color:"#94A3B8",fontSize:12,padding:16,textAlign:"center"}}, "\u10EA\u10D0\u10E0\u10D8\u10D4\u10DA\u10D8\u10D0")
                   )
                 ))
               )
@@ -1468,7 +1468,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             React.createElement('div', null
               /* breadcrumb */
               , React.createElement('div', { style: {display:"flex",alignItems:"center",gap:8,marginBottom:20}}
-                , React.createElement('button', { onClick: () => setSf(f => ({...f,division:"",teacherId:"",classId:""})), style: {background:"#F1F5F9",border:"none",borderRadius:8,padding:"5px 12px",cursor:"pointer",fontSize:12,fontWeight:600,color:"#475569",fontFamily:"inherit"}}, "\uD83D\uDC64 მოსწავლეები" )
+                , React.createElement('button', { onClick: () => setSf(f => ({...f,division:"",teacherId:"",classId:""})), style: {background:"#F1F5F9",border:"none",borderRadius:8,padding:"5px 12px",cursor:"pointer",fontSize:12,fontWeight:600,color:"#475569",fontFamily:"inherit"}}, "\uD83D\uDC64 \u10DB\u10DD\u10E1\u10EC\u10D0\u10D5\u10DA\u10D4\u10D4\u10D1\u10D8" )
                 , React.createElement('span', { style: {color:"#94A3B8"}}, "\u203A")
                 , React.createElement('span', { style: {fontSize:12,fontWeight:700,color:div.color}}, div.emoji, " " , div.name)
               )
@@ -1479,7 +1479,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                   , React.createElement('div', { style: {fontSize:19,fontWeight:900}}, div.name)
                 )
                 , React.createElement('div', { style: {display:"flex",gap:16}}
-                  , [["სულ",divS.length],["\u2640",divS.filter(s=>s.gender==="female").length],["\u2642",divS.filter(s=>s.gender==="male").length]].map(([l,v]) => (
+                  , [["\u10E1\u10E3\u10DA",divS.length],["\u2640",divS.filter(s=>s.gender==="female").length],["\u2642",divS.filter(s=>s.gender==="male").length]].map(([l,v]) => (
                     React.createElement('div', { key: l, style: {textAlign:"center"}}
                       , React.createElement('div', { style: {fontSize:22,fontWeight:900,lineHeight:1}}, v)
                       , React.createElement('div', { style: {fontSize:10,opacity:.75}}, l)
@@ -1503,7 +1503,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                           , React.createElement('div', { style: {fontWeight:800,fontSize:14,color:"#0F172A"}}, t.name)
                           , React.createElement('div', { style: {fontSize:11,color:"#94A3B8",marginBottom:8}}, t.subject)
                           , React.createElement('div', { style: {display:"flex",gap:7,flexWrap:"wrap"}}
-                            , React.createElement(Badge, { color: div.color}, tS.length, " მოს." )
+                            , React.createElement(Badge, { color: div.color}, tS.length, " \u10DB\u10DD\u10E1." )
                             , tCls.map(c => React.createElement(Badge, { key: c.id, color: "#64748B", small: true}, c.name))
                           )
                           , React.createElement('div', { style: {marginTop:8,display:"flex",gap:10}}
@@ -1524,7 +1524,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         // LEVEL 1 \u2014 division cards
         return (
           React.createElement('div', null
-            , React.createElement('h2', { style: {margin:"0 0 20px",fontSize:21,fontWeight:900,color:"#0F172A"}}, "\uD83D\uDC64 მოსწავლეები" )
+            , React.createElement('h2', { style: {margin:"0 0 20px",fontSize:21,fontWeight:900,color:"#0F172A"}}, "\uD83D\uDC64 \u10DB\u10DD\u10E1\u10EC\u10D0\u10D5\u10DA\u10D4\u10D4\u10D1\u10D8" )
             , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))",gap:13}}
               , DIVISIONS.map(div => {
                 const divS  = active.filter(s => s.divisionId === div.id);
@@ -1539,11 +1539,11 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                     , React.createElement('div', { style: {fontSize:34,marginBottom:10}}, div.emoji)
                     , React.createElement('div', { style: {fontSize:15,fontWeight:900,color:"#0F172A",marginBottom:12,lineHeight:1.3}}, div.name)
                     , React.createElement('div', { style: {display:"flex",gap:9,flexWrap:"wrap",alignItems:"center"}}
-                      , React.createElement(Badge, { color: div.color}, divS.length, " მოსწ." )
+                      , React.createElement(Badge, { color: div.color}, divS.length, " \u10DB\u10DD\u10E1\u10EC." )
                       , React.createElement('span', { style: {fontSize:12,background:"#FDF2F8",color:"#DB2777",borderRadius:6,padding:"2px 8px",fontWeight:700}}, "\u2640 " , divS.filter(s=>s.gender==="female").length)
                       , React.createElement('span', { style: {fontSize:12,background:"#EFF6FF",color:"#1D4ED8",borderRadius:6,padding:"2px 8px",fontWeight:700}}, "\u2642 " , divS.filter(s=>s.gender==="male").length)
                     )
-                    , React.createElement('div', { style: {marginTop:10,fontSize:11,color:"#94A3B8"}}, tCnt, " პედ. \u00B7 "   , clCnt, " ჯგ. \u00B7 \u2192"   )
+                    , React.createElement('div', { style: {marginTop:10,fontSize:11,color:"#94A3B8"}}, tCnt, " \u10DE\u10D4\u10D3. \u00B7 "   , clCnt, " \u10EF\u10D2. \u00B7 \u2192"   )
                   )
                 );
               })
@@ -1560,22 +1560,22 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         const tot25exp  = active.length * SM25.length * 60;
         const paid26    = active.reduce((a,s) => a + s.payments.filter(p=>p.year===2026).reduce((b,p)=>b+p.amount,0), 0);
         const paid25    = active.reduce((a,s) => a + s.payments.filter(p=>p.year===2025).reduce((b,p)=>b+p.amount,0), 0);
-        const unpaidMar = active.filter(s => !s.payments.find(p => p.year===2026 && p.month==="მარტი"));
+        const unpaidMar = active.filter(s => !s.payments.find(p => p.year===2026 && p.month==="\u10DB\u10D0\u10E0\u10E2\u10D8"));
 
         return (
           React.createElement('div', null
             , React.createElement('div', { style: {display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:22,flexWrap:"wrap",gap:12}}
-              , hdr("გადახდები")
-              , React.createElement('button', { onClick: ()=>setShowExcelImport(true), style: {display:"flex",alignItems:"center",gap:8,padding:"9px 18px",background:"#059669",border:"none",borderRadius:11,cursor:"pointer",color:"#fff",fontWeight:700,fontSize:13,fontFamily:"inherit",flexShrink:0}}, "\uD83D\uDCCA Excel-დან import"
+              , hdr("\u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D4\u10D1\u10D8")
+              , React.createElement('button', { onClick: ()=>setShowExcelImport(true), style: {display:"flex",alignItems:"center",gap:8,padding:"9px 18px",background:"#059669",border:"none",borderRadius:11,cursor:"pointer",color:"#fff",fontWeight:700,fontSize:13,fontFamily:"inherit",flexShrink:0}}, "\uD83D\uDCCA Excel-\u10D3\u10D0\u10DC import"
 
               )
             )
             , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:11,marginBottom:24}}
               , [
-                ["სულ შეგ.",totPaid.toLocaleString()+"\u20BE","#10B981","#F0FDF4"],
+                ["\u10E1\u10E3\u10DA \u10E8\u10D4\u10D2.",totPaid.toLocaleString()+"\u20BE","#10B981","#F0FDF4"],
                 ["2025-26",paid26.toLocaleString()+"\u20BE","#3B82F6","#EFF6FF"],
                 ["2024-25",paid25.toLocaleString()+"\u20BE","#7C3AED","#F5F3FF"],
-                ["გადაუხდ.",unpaidMar.length+" მოს.","#DC2626","#FEF2F2"],
+                ["\u10D2\u10D0\u10D3\u10D0\u10E3\u10EE\u10D3.",unpaidMar.length+" \u10DB\u10DD\u10E1.","#DC2626","#FEF2F2"],
               ].map(([l,v,col,bg]) => (
                 React.createElement('div', { key: l, style: {background:bg,border:"1px solid "+col+"22",borderRadius:14,padding:"13px 16px"}}
                   , React.createElement('div', { style: {fontSize:11,color:col,fontWeight:700,marginBottom:4}}, l)
@@ -1588,20 +1588,20 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:24}}
               , [[2026,paid26,tot26exp,"#3B82F6","#EFF6FF","#DBEAFE"],[2025,paid25,tot25exp,"#7C3AED","#F5F3FF","#EDE9FE"]].map(([yr,paid,exp,col,bg,bar]) => (
                 React.createElement('div', { key: yr, style: {background:bg,borderRadius:14,padding:"16px 18px",border:"1px solid "+col+"28"}}
-                  , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:col,marginBottom:8}}, yr==="2026"?"2025\u20132026":"2024\u20132025", " სასწ. წ."  )
+                  , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:col,marginBottom:8}}, yr==="2026"?"2025\u20132026":"2024\u20132025", " \u10E1\u10D0\u10E1\u10EC. \u10EC."  )
                   , React.createElement('div', { style: {fontSize:28,fontWeight:900,color:col,lineHeight:1}}, paid.toLocaleString(), "\u20BE")
-                  , React.createElement('div', { style: {fontSize:11,color:"#64748B",margin:"4px 0 8px"}}, "მოსალოდ.: " , exp.toLocaleString(), "\u20BE \u00B7 ვალი: "   , Math.max(0,exp-paid).toLocaleString(), "\u20BE")
+                  , React.createElement('div', { style: {fontSize:11,color:"#64748B",margin:"4px 0 8px"}}, "\u10DB\u10DD\u10E1\u10D0\u10DA\u10DD\u10D3.: " , exp.toLocaleString(), "\u20BE \u00B7 \u10D5\u10D0\u10DA\u10D8: "   , Math.max(0,exp-paid).toLocaleString(), "\u20BE")
                   , React.createElement('div', { style: {background:bar,borderRadius:6,height:8}}
                     , React.createElement('div', { style: {background:col,height:8,borderRadius:6,width:Math.min(100,exp>0?paid/exp*100:0)+"%",transition:"width .5s"}} )
                   )
-                  , React.createElement('div', { style: {fontSize:11,color:col,fontWeight:600,marginTop:4}}, Math.round(exp>0?paid/exp*100:0), "% დაფარული" )
+                  , React.createElement('div', { style: {fontSize:11,color:col,fontWeight:600,marginTop:4}}, Math.round(exp>0?paid/exp*100:0), "% \u10D3\u10D0\u10E4\u10D0\u10E0\u10E3\u10DA\u10D8" )
                 )
               ))
             )
 
             /* Monthly payment status \u2014 2025-26 */
             , React.createElement('div', { style: {background:"#fff",borderRadius:14,padding:"16px 18px",border:"1px solid #E2E8F0",marginBottom:20}}
-              , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A",marginBottom:12}}, "ყოველთვიური \u2014 2025\u20132026"  )
+              , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A",marginBottom:12}}, "\u10E7\u10DD\u10D5\u10D4\u10DA\u10D7\u10D5\u10D8\u10E3\u10E0\u10D8 \u2014 2025\u20132026"  )
               , React.createElement('div', { style: {display:"flex",gap:8,flexWrap:"wrap"}}
                 , SM26.map((m) => {
                   const cnt = active.filter(s => s.payments.find(p => p.year===2026 && p.month===m)).length;
@@ -1626,7 +1626,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
 
             /* By division */
             , React.createElement('div', { style: {marginBottom:20}}
-              , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A",marginBottom:12}}, "განყოფილებების მიხ. \u2014 2025\u20132026"   )
+              , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#0F172A",marginBottom:12}}, "\u10D2\u10D0\u10DC\u10E7\u10DD\u10E4\u10D8\u10DA\u10D4\u10D1\u10D4\u10D1\u10D8\u10E1 \u10DB\u10D8\u10EE. \u2014 2025\u20132026"   )
               , React.createElement('div', { style: {display:"flex",flexDirection:"column",gap:8}}
                 , DIVISIONS.map(div => {
                   const ds    = active.filter(s => s.divisionId === div.id);
@@ -1645,13 +1645,13 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                               , React.createElement('span', { style: {fontSize:12,fontWeight:800,color:"#10B981"}}, paid.toLocaleString(), "\u20BE")
                               , React.createElement('span', { style: {fontSize:11,color:"#9CA3AF"}}, "/")
                               , React.createElement('span', { style: {fontSize:11,color:"#9CA3AF"}}, exp.toLocaleString(), "\u20BE")
-                              , debt > 0 && React.createElement(Badge, { color: "#DC2626", small: true}, debt.toLocaleString(), "\u20BE ვალ." )
+                              , debt > 0 && React.createElement(Badge, { color: "#DC2626", small: true}, debt.toLocaleString(), "\u20BE \u10D5\u10D0\u10DA." )
                             )
                           )
                           , React.createElement('div', { style: {background:"#F1F5F9",borderRadius:5,height:6}}
                             , React.createElement('div', { style: {background:div.color,height:6,borderRadius:5,width:pct+"%",transition:"width .5s"}} )
                           )
-                          , React.createElement('div', { style: {fontSize:10,color:"#64748B",marginTop:2}}, pct, "% \u00B7 "  , ds.length, " მოს." )
+                          , React.createElement('div', { style: {fontSize:10,color:"#64748B",marginTop:2}}, pct, "% \u00B7 "  , ds.length, " \u10DB\u10DD\u10E1." )
                         )
                       )
                     )
@@ -1665,8 +1665,8 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               , React.createElement('div', { style: {display:"flex",alignItems:"center",gap:10,marginBottom:12}}
                 , React.createElement('span', { style: {fontSize:20}}, "\u26A0\uFE0F")
                 , React.createElement('div', null
-                  , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#DC2626"}}, unpaidMar.length, " მოსწ. \u2014 მარტი 2026 გადაუხდელი"     )
-                  , React.createElement('div', { style: {fontSize:11,color:"#B91C1C"}}, "ჯამ.: " , (unpaidMar.length*60).toLocaleString(), "\u20BE")
+                  , React.createElement('div', { style: {fontWeight:800,fontSize:13,color:"#DC2626"}}, unpaidMar.length, " \u10DB\u10DD\u10E1\u10EC. \u2014 \u10DB\u10D0\u10E0\u10E2\u10D8 2026 \u10D2\u10D0\u10D3\u10D0\u10E3\u10EE\u10D3\u10D4\u10DA\u10D8"     )
+                  , React.createElement('div', { style: {fontSize:11,color:"#B91C1C"}}, "\u10EF\u10D0\u10DB.: " , (unpaidMar.length*60).toLocaleString(), "\u20BE")
                 )
               )
               , DIVISIONS.map(div => {
@@ -1696,7 +1696,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                   )
                 );
               })
-              , unpaidMar.length === 0 && React.createElement('div', { style: {textAlign:"center",padding:24,color:"#10B981",fontWeight:700}}, "ყველამ გადაიხადა!" )
+              , unpaidMar.length === 0 && React.createElement('div', { style: {textAlign:"center",padding:24,color:"#10B981",fontWeight:700}}, "\u10E7\u10D5\u10D4\u10DA\u10D0\u10DB \u10D2\u10D0\u10D3\u10D0\u10D8\u10EE\u10D0\u10D3\u10D0!" )
             )
           )
         );
@@ -1710,12 +1710,12 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         const prevMonth = monthIdx > 0 ? allMonths[monthIdx-1] : null;
         const nextMonth = monthIdx < allMonths.length-1 ? allMonths[monthIdx+1] : null;
 
-        // გადახდილი ამ თვეში
+        // \u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10DA\u10D8 \u10D0\u10DB \u10D7\u10D5\u10D4\u10E8\u10D8
         const paidList   = active.filter(s =>  s.payments.find(p => p.year===year && p.month===month)).sort((a,b)=>a.lastName.localeCompare(b.lastName));
-        // გადაუხდელი ამ თვეში ან აქვს წინა დავალიანება
+        // \u10D2\u10D0\u10D3\u10D0\u10E3\u10EE\u10D3\u10D4\u10DA\u10D8 \u10D0\u10DB \u10D7\u10D5\u10D4\u10E8\u10D8 \u10D0\u10DC \u10D0\u10E5\u10D5\u10E1 \u10EC\u10D8\u10DC\u10D0 \u10D3\u10D0\u10D5\u10D0\u10DA\u10D8\u10D0\u10DC\u10D4\u10D1\u10D0
         const unpaidList = active.filter(s => {
           const noThisMonth = !s.payments.find(p => p.year===year && p.month===month);
-          // წინა დავალიანება \u2014 ნებისმიერ წინა თვეში გამოტოვებული
+          // \u10EC\u10D8\u10DC\u10D0 \u10D3\u10D0\u10D5\u10D0\u10DA\u10D8\u10D0\u10DC\u10D4\u10D1\u10D0 \u2014 \u10DC\u10D4\u10D1\u10D8\u10E1\u10DB\u10D8\u10D4\u10E0 \u10EC\u10D8\u10DC\u10D0 \u10D7\u10D5\u10D4\u10E8\u10D8 \u10D2\u10D0\u10DB\u10DD\u10E2\u10DD\u10D5\u10D4\u10D1\u10E3\u10DA\u10D8
           const prevMonths = allMonths.slice(0, monthIdx);
           const hasDebt    = prevMonths.some(m => !s.payments.find(p => p.year===year && p.month===m));
           return noThisMonth || hasDebt;
@@ -1724,7 +1724,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         const pct = active.length > 0 ? Math.round(paidList.length/active.length*100) : 0;
         const col = pct >= 80 ? "#10B981" : pct >= 50 ? "#F59E0B" : "#DC2626";
 
-        // pmView: null=overview, "paid"=გადახდილი სია, "unpaid"=გადაუხდელი სია
+        // pmView: null=overview, "paid"=\u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10DA\u10D8 \u10E1\u10D8\u10D0, "unpaid"=\u10D2\u10D0\u10D3\u10D0\u10E3\u10EE\u10D3\u10D4\u10DA\u10D8 \u10E1\u10D8\u10D0
         const view = pmView;
 
         // helper \u2014 student list grouped by division
@@ -1753,7 +1753,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                           , React.createElement('div', { style: {fontWeight:700,fontSize:13,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}, s.lastName, " " , s.firstName)
                           , React.createElement('div', { style: {fontSize:10,color:"#94A3B8"}}, s.className, " \u00B7 "  , s.teacher)
                           , showDebt && prevDebt.length>0 && (
-                            React.createElement('div', { style: {fontSize:10,color:"#F59E0B",fontWeight:600,marginTop:1}}, "\u26A0\uFE0F ვალი: "
+                            React.createElement('div', { style: {fontSize:10,color:"#F59E0B",fontWeight:600,marginTop:1}}, "\u26A0\uFE0F \u10D5\u10D0\u10DA\u10D8: "
                                 , prevDebt.map(m=>m.slice(0,4)).join(", "), " (" , prevDebt.length*60, "\u20BE)"
                             )
                           )
@@ -1764,7 +1764,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                             : React.createElement('span', { style: {fontSize:12,fontWeight:800,color:"#DC2626"}}, "\u2014")
                           
                           , showDebt && prevDebt.length>0 && (
-                            React.createElement('div', { style: {fontSize:10,color:"#F59E0B",fontWeight:700}}, prevDebt.length*60, "\u20BE ვ." )
+                            React.createElement('div', { style: {fontSize:10,color:"#F59E0B",fontWeight:700}}, prevDebt.length*60, "\u20BE \u10D5." )
                           )
                         )
                       )
@@ -1782,7 +1782,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             , React.createElement('div', { style: {display:"flex",alignItems:"center",gap:10,marginBottom:20,flexWrap:"wrap"}}
               , view
                 ? React.createElement('button', { onClick: ()=>setPmView(null), style: {background:"#F1F5F9",border:"none",borderRadius:10,padding:"7px 15px",cursor:"pointer",fontWeight:600,fontSize:13,color:"#374151",fontFamily:"inherit"}}, "\u2190 " , month, " " , year)
-                : React.createElement('button', { onClick: ()=>go("payments"), style: {background:"#F1F5F9",border:"none",borderRadius:10,padding:"7px 15px",cursor:"pointer",fontWeight:600,fontSize:13,color:"#374151",fontFamily:"inherit"}}, "\u2190 გადახდები" )
+                : React.createElement('button', { onClick: ()=>go("payments"), style: {background:"#F1F5F9",border:"none",borderRadius:10,padding:"7px 15px",cursor:"pointer",fontWeight:600,fontSize:13,color:"#374151",fontFamily:"inherit"}}, "\u2190 \u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D4\u10D1\u10D8" )
               
               , !view && (
                 React.createElement('div', { style: {display:"flex",alignItems:"center",gap:8,flex:1}}
@@ -1791,19 +1791,19 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                   , React.createElement('button', { onClick: ()=>nextMonth&&setSelPayMonth({month:nextMonth,year}), disabled: !nextMonth, style: {background:nextMonth?"#F1F5F9":"transparent",border:"none",borderRadius:8,padding:"5px 10px",cursor:nextMonth?"pointer":"default",color:nextMonth?"#374151":"#D1D5DB",fontFamily:"inherit",fontSize:14}}, "\u203A")
                 )
               )
-              , view && React.createElement('h2', { style: {margin:0,fontSize:21,fontWeight:900,color:"#0F172A"}}, view==="paid"?"\u2705 გადახდილი":"\u274C გადაუხდელი / ვალი", " \u2014 "  , month, " " , year)
+              , view && React.createElement('h2', { style: {margin:0,fontSize:21,fontWeight:900,color:"#0F172A"}}, view==="paid"?"\u2705 \u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10DA\u10D8":"\u274C \u10D2\u10D0\u10D3\u10D0\u10E3\u10EE\u10D3\u10D4\u10DA\u10D8 / \u10D5\u10D0\u10DA\u10D8", " \u2014 "  , month, " " , year)
             )
 
             /* OVERVIEW */
             , !view && (
               React.createElement(React.Fragment, null
-                /* KPI \u2014 კლიკადი */
+                /* KPI \u2014 \u10D9\u10DA\u10D8\u10D9\u10D0\u10D3\u10D8 */
                 , React.createElement('div', { style: {display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(130px,1fr))",gap:11,marginBottom:22}}
                   , [
-                    ["სულ მოს.",  active.length,      "#64748B","#F8FAFC", null],
-                    ["გადახდილი", paidList.length,    "#10B981","#F0FDF4", "paid"],
-                    ["გადაუხდ./ვალი", unpaidList.length, "#DC2626","#FEF2F2", "unpaid"],
-                    ["შეგ. თანხა",(paidList.length*60).toLocaleString()+"\u20BE","#3B82F6","#EFF6FF",null],
+                    ["\u10E1\u10E3\u10DA \u10DB\u10DD\u10E1.",  active.length,      "#64748B","#F8FAFC", null],
+                    ["\u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10DA\u10D8", paidList.length,    "#10B981","#F0FDF4", "paid"],
+                    ["\u10D2\u10D0\u10D3\u10D0\u10E3\u10EE\u10D3./\u10D5\u10D0\u10DA\u10D8", unpaidList.length, "#DC2626","#FEF2F2", "unpaid"],
+                    ["\u10E8\u10D4\u10D2. \u10D7\u10D0\u10DC\u10EE\u10D0",(paidList.length*60).toLocaleString()+"\u20BE","#3B82F6","#EFF6FF",null],
                   ].map(([l,v,c,bg,action]) => (
                     React.createElement('div', { key: l, onClick: action?()=>setPmView(action):undefined,
                       style: {background:bg,border:"1px solid "+c+"22",borderRadius:13,padding:"12px 15px",cursor:action?"pointer":"default",transition:"all 0.2s"},
@@ -1811,7 +1811,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                       onMouseLeave: e=>action&&(e.currentTarget.style.transform="none")}
                       , React.createElement('div', { style: {fontSize:22,fontWeight:900,color:c,lineHeight:1}}, v)
                       , React.createElement('div', { style: {fontSize:11,color:"#64748B",fontWeight:600,marginTop:3}}, l)
-                      , action && React.createElement('div', { style: {fontSize:10,color:c,marginTop:2}}, "სია \u2192" )
+                      , action && React.createElement('div', { style: {fontSize:10,color:c,marginTop:2}}, "\u10E1\u10D8\u10D0 \u2192" )
                     )
                   ))
                 )
@@ -1819,7 +1819,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                 /* Progress */
                 , React.createElement('div', { style: {background:"#fff",borderRadius:12,padding:"14px 18px",marginBottom:22,border:"1px solid #E2E8F0"}}
                   , React.createElement('div', { style: {display:"flex",justifyContent:"space-between",marginBottom:8}}
-                    , React.createElement('span', { style: {fontSize:13,fontWeight:700,color:"#0F172A"}}, "გადახდის პროგრესი" )
+                    , React.createElement('span', { style: {fontSize:13,fontWeight:700,color:"#0F172A"}}, "\u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10E1 \u10DE\u10E0\u10DD\u10D2\u10E0\u10D4\u10E1\u10D8" )
                     , React.createElement('span', { style: {fontSize:13,fontWeight:900,color:col}}, pct, "%")
                   )
                   , React.createElement('div', { style: {background:"#F1F5F9",borderRadius:8,height:12}}
@@ -1835,7 +1835,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                       onMouseEnter: e=>e.currentTarget.style.opacity=".75",
                       onMouseLeave: e=>e.currentTarget.style.opacity="1"}
                       , React.createElement('span', { style: {fontSize:15}}, "\u274C")
-                      , React.createElement('span', { style: {fontWeight:900,fontSize:13,color:"#DC2626"}}, "გადაუხდელი / ვალი"  )
+                      , React.createElement('span', { style: {fontWeight:900,fontSize:13,color:"#DC2626"}}, "\u10D2\u10D0\u10D3\u10D0\u10E3\u10EE\u10D3\u10D4\u10DA\u10D8 / \u10D5\u10D0\u10DA\u10D8"  )
                       , React.createElement(Badge, { color: "#DC2626"}, unpaidList.length)
                       , React.createElement('span', { style: {color:"#DC2626",marginLeft:"auto",fontSize:12}}, "\u2192")
                     )
@@ -1844,7 +1844,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                       if(!n) return null;
                       return React.createElement('div', { key: div.id, style: {display:"flex",justifyContent:"space-between",fontSize:11,padding:"3px 0",color:"#374151"}}, React.createElement('span', null, div.emoji, " " , div.name), React.createElement('span', { style: {fontWeight:700,color:"#DC2626"}}, n));
                     })
-                    , unpaidList.length===0&&React.createElement('div', { style: {textAlign:"center",color:"#10B981",fontWeight:700,fontSize:12,padding:8}}, "ყველამ გადაიხადა!" )
+                    , unpaidList.length===0&&React.createElement('div', { style: {textAlign:"center",color:"#10B981",fontWeight:700,fontSize:12,padding:8}}, "\u10E7\u10D5\u10D4\u10DA\u10D0\u10DB \u10D2\u10D0\u10D3\u10D0\u10D8\u10EE\u10D0\u10D3\u10D0!" )
                   )
 
                   /* PAID summary \u2014 clickable header */
@@ -1853,7 +1853,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                       onMouseEnter: e=>e.currentTarget.style.opacity=".75",
                       onMouseLeave: e=>e.currentTarget.style.opacity="1"}
                       , React.createElement('span', { style: {fontSize:15}}, "\u2705")
-                      , React.createElement('span', { style: {fontWeight:900,fontSize:13,color:"#10B981"}}, "გადახდილი")
+                      , React.createElement('span', { style: {fontWeight:900,fontSize:13,color:"#10B981"}}, "\u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D8\u10DA\u10D8")
                       , React.createElement(Badge, { color: "#10B981"}, paidList.length)
                       , React.createElement('span', { style: {color:"#10B981",marginLeft:"auto",fontSize:12}}, "\u2192")
                     )
@@ -1872,10 +1872,10 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               React.createElement('div', null
                 , React.createElement('div', { style: {background:"#F0FDF4",borderRadius:12,padding:"11px 16px",marginBottom:18,border:"1px solid #D1FAE5",display:"flex",gap:12,alignItems:"center"}}
                   , React.createElement('span', { style: {fontSize:22,fontWeight:900,color:"#10B981"}}, paidList.length)
-                  , React.createElement('div', { style: {fontSize:12,color:"#065F46"}}, "მოსწ. გადაიხადა "  , month, " " , year, " \u00B7 სულ "   , (paidList.length*60).toLocaleString(), "\u20BE")
+                  , React.createElement('div', { style: {fontSize:12,color:"#065F46"}}, "\u10DB\u10DD\u10E1\u10EC. \u10D2\u10D0\u10D3\u10D0\u10D8\u10EE\u10D0\u10D3\u10D0 "  , month, " " , year, " \u00B7 \u10E1\u10E3\u10DA "   , (paidList.length*60).toLocaleString(), "\u20BE")
                 )
                 , React.createElement(StudentListByDiv, { list: paidList, bgColor: "#F0FDF4", borderColor: "#D1FAE5", amountColor: "#10B981", showDebt: false} )
-                , paidList.length===0 && React.createElement('div', { style: {textAlign:"center",padding:60,color:"#94A3B8",fontSize:14}}, "გადახდა ჯერ არ მოხდა"   )
+                , paidList.length===0 && React.createElement('div', { style: {textAlign:"center",padding:60,color:"#94A3B8",fontSize:14}}, "\u10D2\u10D0\u10D3\u10D0\u10EE\u10D3\u10D0 \u10EF\u10D4\u10E0 \u10D0\u10E0 \u10DB\u10DD\u10EE\u10D3\u10D0"   )
               )
             )
 
@@ -1884,15 +1884,15 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               React.createElement('div', null
                 , React.createElement('div', { style: {background:"#FEF2F2",borderRadius:12,padding:"11px 16px",marginBottom:18,border:"1px solid #FECACA",display:"flex",gap:12,alignItems:"center",flexWrap:"wrap"}}
                   , React.createElement('span', { style: {fontSize:22,fontWeight:900,color:"#DC2626"}}, unpaidList.length)
-                  , React.createElement('div', { style: {fontSize:12,color:"#991B1B"}}, "მოსწ. \u2014 "  , month, " " , year, " გადაუხდელი ან წინა დავალიანება"    )
+                  , React.createElement('div', { style: {fontSize:12,color:"#991B1B"}}, "\u10DB\u10DD\u10E1\u10EC. \u2014 "  , month, " " , year, " \u10D2\u10D0\u10D3\u10D0\u10E3\u10EE\u10D3\u10D4\u10DA\u10D8 \u10D0\u10DC \u10EC\u10D8\u10DC\u10D0 \u10D3\u10D0\u10D5\u10D0\u10DA\u10D8\u10D0\u10DC\u10D4\u10D1\u10D0"    )
                   , React.createElement(Badge, { color: "#DC2626"}, (unpaidList.reduce((a,s)=>{
                     const noThis = !s.payments.find(p=>p.year===year&&p.month===month)?60:0;
                     const prevD  = allMonths.slice(0,monthIdx).filter(m=>!s.payments.find(p=>p.year===year&&p.month===m)).length*60;
                     return a+noThis+prevD;
-                  },0)).toLocaleString(), "\u20BE ვალი" )
+                  },0)).toLocaleString(), "\u20BE \u10D5\u10D0\u10DA\u10D8" )
                 )
                 , React.createElement(StudentListByDiv, { list: unpaidList, bgColor: "#FFF5F5", borderColor: "#FEE2E2", amountColor: "#DC2626", showDebt: true} )
-                , unpaidList.length===0 && React.createElement('div', { style: {textAlign:"center",padding:60,color:"#10B981",fontWeight:800,fontSize:15}}, "\u2705 ყველამ გადაიხადა!"  )
+                , unpaidList.length===0 && React.createElement('div', { style: {textAlign:"center",padding:60,color:"#10B981",fontWeight:800,fontSize:15}}, "\u2705 \u10E7\u10D5\u10D4\u10DA\u10D0\u10DB \u10D2\u10D0\u10D3\u10D0\u10D8\u10EE\u10D0\u10D3\u10D0!"  )
               )
             )
 
@@ -1908,14 +1908,14 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
 
         const newEvent = () => {
           const id = "ev"+Date.now();
-          setEvents(evs => [...evs, {id, status:"upcoming", title:"ახალი ღონისძიება", venue:"", date:"", time:"", program:[], notes:""}]);
+          setEvents(evs => [...evs, {id, status:"upcoming", title:"\u10D0\u10EE\u10D0\u10DA\u10D8 \u10E6\u10DD\u10DC\u10D8\u10E1\u10EB\u10D8\u10D4\u10D1\u10D0", venue:"", date:"", time:"", program:[], notes:""}]);
           setSelEvent(id);
         };
 
         const EV_TABS = [
-          {k:"upcoming", label:"\uD83D\uDCC5 მომავალი", cnt:upcoming.length},
-          {k:"past",      label:"\u2705 ჩატარებული", cnt:past.length},
-          {k:"archive",   label:"\uD83D\uDDC4 არქივი",    cnt:past.length},
+          {k:"upcoming", label:"\uD83D\uDCC5 \u10DB\u10DD\u10DB\u10D0\u10D5\u10D0\u10DA\u10D8", cnt:upcoming.length},
+          {k:"past",      label:"\u2705 \u10E9\u10D0\u10E2\u10D0\u10E0\u10D4\u10D1\u10E3\u10DA\u10D8", cnt:past.length},
+          {k:"archive",   label:"\uD83D\uDDC4 \u10D0\u10E0\u10E5\u10D8\u10D5\u10D8",    cnt:past.length},
         ];
 
         const EventCard = ({ev, accent}) => {
@@ -1936,8 +1936,8 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                   )
                 )
                 , React.createElement('div', { style: {display:"flex",gap:6,flexShrink:0,flexWrap:"wrap",justifyContent:"flex-end"}}
-                  , React.createElement(Badge, { color: accent}, pCount, " ნომ." )
-                  , sIds.length>0 && React.createElement(Badge, { color: "#64748B"}, sIds.length, " მოს." )
+                  , React.createElement(Badge, { color: accent}, pCount, " \u10DC\u10DD\u10DB." )
+                  , sIds.length>0 && React.createElement(Badge, { color: "#64748B"}, sIds.length, " \u10DB\u10DD\u10E1." )
                 )
               )
               , ev.notes && React.createElement('div', { style: {fontSize:11,color:"#94A3B8",fontStyle:"italic",marginTop:6,paddingTop:6,borderTop:"1px solid #F1F5F9"}}, ev.notes)
@@ -1948,8 +1948,8 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
         return (
           React.createElement('div', null
             , React.createElement('div', { style: {display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20,gap:12,flexWrap:"wrap"}}
-              , React.createElement('h2', { style: {margin:0,fontSize:22,fontWeight:900,color:"#0F172A"}}, "\uD83C\uDFAD ღონისძიებები" )
-              , React.createElement('button', { onClick: newEvent, style: {background:"#0F172A",border:"none",borderRadius:10,padding:"9px 18px",cursor:"pointer",color:"#fff",fontWeight:700,fontSize:13,fontFamily:"inherit",display:"flex",alignItems:"center",gap:7}}, "\u2795 ახალი ღონისძიება"
+              , React.createElement('h2', { style: {margin:0,fontSize:22,fontWeight:900,color:"#0F172A"}}, "\uD83C\uDFAD \u10E6\u10DD\u10DC\u10D8\u10E1\u10EB\u10D8\u10D4\u10D1\u10D4\u10D1\u10D8" )
+              , React.createElement('button', { onClick: newEvent, style: {background:"#0F172A",border:"none",borderRadius:10,padding:"9px 18px",cursor:"pointer",color:"#fff",fontWeight:700,fontSize:13,fontFamily:"inherit",display:"flex",alignItems:"center",gap:7}}, "\u2795 \u10D0\u10EE\u10D0\u10DA\u10D8 \u10E6\u10DD\u10DC\u10D8\u10E1\u10EB\u10D8\u10D4\u10D1\u10D0"
 
               )
             )
@@ -1964,7 +1964,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
               ))
               , evTab!=="archive" && (
                 React.createElement('button', { onClick: ()=>setEvTab("archive"),
-                  style: {padding:"8px 16px",border:"none",borderRadius:9,cursor:"pointer",fontWeight:500,background:"transparent",color:"#64748B",fontSize:12,fontFamily:"inherit",whiteSpace:"nowrap"}}, "\uD83D\uDDC4 არქივი ("
+                  style: {padding:"8px 16px",border:"none",borderRadius:9,cursor:"pointer",fontWeight:500,background:"transparent",color:"#64748B",fontSize:12,fontFamily:"inherit",whiteSpace:"nowrap"}}, "\uD83D\uDDC4 \u10D0\u10E0\u10E5\u10D8\u10D5\u10D8 ("
                     , past.length, ")"
                 )
               )
@@ -1974,7 +1974,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             , evTab === "upcoming" && (
               React.createElement('div', null
                 , upcoming.length === 0
-                  ? React.createElement('div', { style: {textAlign:"center",padding:60,color:"#94A3B8",fontSize:14}}, "მომავალი ღონისძიება არ არის დაგეგმილი"    )
+                  ? React.createElement('div', { style: {textAlign:"center",padding:60,color:"#94A3B8",fontSize:14}}, "\u10DB\u10DD\u10DB\u10D0\u10D5\u10D0\u10DA\u10D8 \u10E6\u10DD\u10DC\u10D8\u10E1\u10EB\u10D8\u10D4\u10D1\u10D0 \u10D0\u10E0 \u10D0\u10E0\u10D8\u10E1 \u10D3\u10D0\u10D2\u10D4\u10D2\u10DB\u10D8\u10DA\u10D8"    )
                   : React.createElement('div', { style: {display:"flex",flexDirection:"column",gap:12}}
                       , upcoming.map(ev => React.createElement(EventCard, { key: ev.id, ev: ev, accent: "#7C3AED"} ))
                     )
@@ -1986,7 +1986,7 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             , evTab === "past" && (
               React.createElement('div', { style: {display:"flex",flexDirection:"column",gap:12}}
                 , past.length===0
-                  ? React.createElement('div', { style: {textAlign:"center",padding:60,color:"#94A3B8",fontSize:14}}, "ჩატარებული ღონისძიება არ არის"   )
+                  ? React.createElement('div', { style: {textAlign:"center",padding:60,color:"#94A3B8",fontSize:14}}, "\u10E9\u10D0\u10E2\u10D0\u10E0\u10D4\u10D1\u10E3\u10DA\u10D8 \u10E6\u10DD\u10DC\u10D8\u10E1\u10EB\u10D8\u10D4\u10D1\u10D0 \u10D0\u10E0 \u10D0\u10E0\u10D8\u10E1"   )
                   : past.map(ev => React.createElement(EventCard, { key: ev.id, ev: ev, accent: "#059669"} ))
                 
               )
@@ -1995,9 +1995,9 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
             /* ARCHIVE */
             , evTab === "archive" && (
               React.createElement('div', null
-                , React.createElement('div', { style: {fontSize:13,color:"#64748B",marginBottom:16}}, "გასული ღონისძიებების სრული არქივი \u2014 "     , past.length, " ჩანაწერი" )
+                , React.createElement('div', { style: {fontSize:13,color:"#64748B",marginBottom:16}}, "\u10D2\u10D0\u10E1\u10E3\u10DA\u10D8 \u10E6\u10DD\u10DC\u10D8\u10E1\u10EB\u10D8\u10D4\u10D1\u10D4\u10D1\u10D8\u10E1 \u10E1\u10E0\u10E3\u10DA\u10D8 \u10D0\u10E0\u10E5\u10D8\u10D5\u10D8 \u2014 "     , past.length, " \u10E9\u10D0\u10DC\u10D0\u10EC\u10D4\u10E0\u10D8" )
                 , past.length===0
-                  ? React.createElement('div', { style: {textAlign:"center",padding:60,color:"#94A3B8",fontSize:14}}, "არქივი ცარიელია" )
+                  ? React.createElement('div', { style: {textAlign:"center",padding:60,color:"#94A3B8",fontSize:14}}, "\u10D0\u10E0\u10E5\u10D8\u10D5\u10D8 \u10EA\u10D0\u10E0\u10D8\u10D4\u10DA\u10D8\u10D0" )
                   : past.map(ev => {
                       const sIds = [...new Set(ev.program.flatMap(n=>n.studentIds||[]))];
                       return (
@@ -2014,8 +2014,8 @@ React.createElement(‘div’, { style: {fontFamily:“Noto Sans Georgian,Segoe 
                             )
                           )
                           , React.createElement('div', { style: {display:"flex",gap:6,flexShrink:0}}
-                            , React.createElement(Badge, { color: "#059669"}, ev.program.length, " ნომ." )
-                            , sIds.length>0 && React.createElement(Badge, { color: "#64748B"}, sIds.length, " მოს." )
+                            , React.createElement(Badge, { color: "#059669"}, ev.program.length, " \u10DC\u10DD\u10DB." )
+                            , sIds.length>0 && React.createElement(Badge, { color: "#64748B"}, sIds.length, " \u10DB\u10DD\u10E1." )
                           )
                           , React.createElement('span', { style: {color:"#D1D5DB",fontSize:18}}, "\u203A")
                         )
