@@ -2,25 +2,16 @@
 <html>
 <head><meta charset="UTF-8"/></head>
 <body>
-<div id="root" style="padding:40px;font-family:sans-serif"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<div id="root"></div>
+<script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"></script>
 <script>
-document.getElementById('root').innerHTML = '<p>სკრიპტი იტვირთება...</p>';
-</script>
-<script>
 try {
-  document.getElementById('root').innerHTML = '<p style="color:green">✅ სკრიპტი დაიწყო</p>';
-  var _supa = supabase.createClient(
-    'https://eihsnldqfjpvhozzytjb.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpaHNubGRxZmpwdmhvenp5dGpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMTMyNDEsImV4cCI6MjA4OTY4OTI0MX0.fdQt15rRPvXeqMnrbOckYTlMoHVexTyXnnReWoxyQMY'
-  );
-  document.getElementById('root').innerHTML += '<p style="color:green">✅ Supabase OK</p>';
   var root = ReactDOM.createRoot(document.getElementById('root'));
-  root.render(React.createElement('h2',{style:{color:'green'}},'✅ React OK!'));
+  root.render(React.createElement('h1',{style:{color:'green',padding:'40px'}},'OK!'));
 } catch(e) {
-  document.getElementById('root').innerHTML = '<h2 style="color:red">შეცდომა:</h2><p>'+e.message+'</p><pre>'+e.stack+'</pre>';
+  document.body.innerHTML = '<h1 style="color:red">'+e.message+'</h1>';
 }
 </script>
 </body>
