@@ -1,0 +1,1478 @@
+import { useState, useMemo } from “react”;
+
+// ─── INITIAL DATA ────────────────────────────────────────────────────────────
+
+const DEPARTMENTS = [
+{ id: 1, name: “საფორტეპიანო”, icon: “🎹”, color: “#6366f1” },
+{ id: 2, name: “ქართული ხალხური ცეკვა”, icon: “🩰”, color: “#ec4899” },
+{ id: 3, name: “თეატრალური განყოფილება”, icon: “🎭”, color: “#f59e0b” },
+{ id: 4, name: “გიტარა”, icon: “🎸”, color: “#10b981” },
+{ id: 5, name: “ვიოლინო”, icon: “🎻”, color: “#8b5cf6” },
+{ id: 6, name: “ხალხურ საკრავთა განყოფილება”, icon: “🪗”, color: “#ef4444” },
+{ id: 7, name: “გალობა/ხალხური სიმღერა”, icon: “🎼”, color: “#0ea5e9” },
+{ id: 8, name: “ვოკალურ-საესტრადო განყოფილება”, icon: “🎤”, color: “#f97316” },
+{ id: 9, name: “ფერწერა-სახვითი და გამოყენებითი ხელოვნება”, icon: “🎨”, color: “#14b8a6” },
+{ id: 10, name: “ჩასაბერი ინსტრუმენტები”, icon: “🎷”, color: “#a855f7” },
+];
+
+const initTeachers = [
+{ id: 1, name: “მარინე კვარაცხელია”, subject: “ფორტეპიანო”, deptId: 1, phone: “599-111-001”, email: “m.kvaratskhelia@school26.ge” },
+{ id: 2, name: “გიორგი ბერიძე”, subject: “ფორტეპიანო / სოლფეჯიო”, deptId: 1, phone: “599-111-002”, email: “g.beridze@school26.ge” },
+{ id: 3, name: “ნინო ჯავახიშვილი”, subject: “ფორტეპიანო”, deptId: 1, phone: “599-111-003”, email: “n.javakhishvili@school26.ge” },
+{ id: 4, name: “თამარ გაბელია”, subject: “ქართული ცეკვა”, deptId: 2, phone: “599-111-004”, email: “t.gabelia@school26.ge” },
+{ id: 5, name: “დავით ჩიქოვანი”, subject: “ქართული ცეკვა / მუსიკა”, deptId: 2, phone: “599-111-005”, email: “d.chikovani@school26.ge” },
+{ id: 6, name: “ანა მიქელაძე”, subject: “თეატრი”, deptId: 3, phone: “599-111-006”, email: “a.mikeladze@school26.ge” },
+{ id: 7, name: “ზვიად ელიავა”, subject: “თეატრი / სცენმეტყველება”, deptId: 3, phone: “599-111-007”, email: “z.eliava@school26.ge” },
+{ id: 8, name: “ლუკა სამხარაძე”, subject: “გიტარა”, deptId: 4, phone: “599-111-008”, email: “l.samkharadze@school26.ge” },
+{ id: 9, name: “სოფიო ნიჟარაძე”, subject: “გიტარა / მუსიკის თეორია”, deptId: 4, phone: “599-111-009”, email: “s.nizharadze@school26.ge” },
+{ id: 10, name: “კახა ხარაბაძე”, subject: “ვიოლინო”, deptId: 5, phone: “599-111-010”, email: “k.kharabadze@school26.ge” },
+{ id: 11, name: “ეკა ჩიტაური”, subject: “ვიოლინო / ვიოლა”, deptId: 5, phone: “599-111-011”, email: “e.chitauri@school26.ge” },
+{ id: 12, name: “ოთარ ბუჯიაშვილი”, subject: “პანდური / ჩონგური”, deptId: 6, phone: “599-111-012”, email: “o.bujia@school26.ge” },
+{ id: 13, name: “ირმა ჩხეიძე”, subject: “ხალხური სიმღერა”, deptId: 7, phone: “599-111-013”, email: “i.chkheidze@school26.ge” },
+{ id: 14, name: “ნოდარ მჭედლიძე”, subject: “გალობა”, deptId: 7, phone: “599-111-014”, email: “n.mchedelidze@school26.ge” },
+{ id: 15, name: “ელენე კვირიკაძე”, subject: “ვოკალი / ესტრადა”, deptId: 8, phone: “599-111-015”, email: “e.kvirikadze@school26.ge” },
+{ id: 16, name: “ბექა ჩხარტიშვილი”, subject: “ვოკალი”, deptId: 8, phone: “599-111-016”, email: “b.chkhartishvili@school26.ge” },
+{ id: 17, name: “მედეა ბახტაძე”, subject: “ფერწერა / ხატვა”, deptId: 9, phone: “599-111-017”, email: “m.bakhtadze@school26.ge” },
+{ id: 18, name: “ლია მამულაძე”, subject: “გამოყენებითი ხელოვნება”, deptId: 9, phone: “599-111-018”, email: “l.mamuladze@school26.ge” },
+{ id: 19, name: “გრიგოლ ბარდაველიძე”, subject: “საყვირი / ტრომბონი”, deptId: 10, phone: “599-111-019”, email: “g.bardavelidze@school26.ge” },
+{ id: 20, name: “ვახტანგ გოგიაშვილი”, subject: “ფლეიტა / კლარნეტი”, deptId: 10, phone: “599-111-020”, email: “v.gogiashvili@school26.ge” },
+{ id: 21, name: “თინა სულაბერიძე”, subject: “მუსიკის ისტორია”, deptId: 1, phone: “599-111-021”, email: “t.sulaberidze@school26.ge” },
+];
+
+const initGroups = [
+{ id: 1, name: “I ჯგუფი”, deptId: 1, teacherId: 1 },
+{ id: 2, name: “II ჯგუფი”, deptId: 1, teacherId: 2 },
+{ id: 3, name: “III ჯგუფი”, deptId: 1, teacherId: 3 },
+{ id: 4, name: “I ჯგუფი”, deptId: 2, teacherId: 4 },
+{ id: 5, name: “II ჯგუფი”, deptId: 2, teacherId: 5 },
+{ id: 6, name: “I ჯგუფი”, deptId: 3, teacherId: 6 },
+{ id: 7, name: “II ჯგუფი”, deptId: 3, teacherId: 7 },
+{ id: 8, name: “I ჯგუფი”, deptId: 4, teacherId: 8 },
+{ id: 9, name: “II ჯგუფი”, deptId: 4, teacherId: 9 },
+{ id: 10, name: “I ჯგუფი”, deptId: 5, teacherId: 10 },
+{ id: 11, name: “II ჯგუფი”, deptId: 5, teacherId: 11 },
+{ id: 12, name: “I ჯგუფი”, deptId: 6, teacherId: 12 },
+{ id: 13, name: “II ჯგუფი”, deptId: 6, teacherId: 12 },
+{ id: 14, name: “I ჯგუფი”, deptId: 7, teacherId: 13 },
+{ id: 15, name: “II ჯგუფი”, deptId: 7, teacherId: 14 },
+{ id: 16, name: “I ჯგუფი”, deptId: 8, teacherId: 15 },
+{ id: 17, name: “II ჯგუფი”, deptId: 8, teacherId: 16 },
+{ id: 18, name: “I ჯგუფი”, deptId: 9, teacherId: 17 },
+{ id: 19, name: “II ჯგუფი”, deptId: 9, teacherId: 18 },
+{ id: 20, name: “I ჯგუფი”, deptId: 10, teacherId: 19 },
+{ id: 21, name: “II ჯგუფი”, deptId: 10, teacherId: 20 },
+{ id: 22, name: “III ჯგუფი”, deptId: 2, teacherId: 4 },
+];
+
+const GEO_NAMES_F = [“მარიამი”,“სოფიო”,“ანი”,“ნინო”,“თამარი”,“ეკა”,“ლელა”,“ქეთი”,“სალომე”,“ნათია”,“მარიკა”,“ია”,“ხათუნა”,“ნანი”,“ლია”,“ელენე”,“ნუნი”,“თინა”,“ირმა”,“კეტი”];
+const GEO_NAMES_M = [“გიორგი”,“დავითი”,“ლუკა”,“ნიკა”,“ბექა”,“გიო”,“ანდრო”,“ლაშა”,“სანდრო”,“ვახო”,“ზურა”,“გრიშა”,“კახა”,“ოთარ”,“გოგა”,“ნოდარ”,“ზვიადი”,“ლევანი”,“ვახტანგ”,“მურადი”];
+const GEO_LASTNAMES = [“ბერიძე”,“კვარაცხელია”,“გელაშვილი”,“ჭიჭინაძე”,“მიქელაძე”,“სამხარაძე”,“ნიჟარაძე”,“ჯაფარიძე”,“გოგიაშვილი”,“ხარაბაძე”,“ელიავა”,“ჩიქოვანი”,“მჭედლიძე”,“ჩხეიძე”,“ბახტაძე”,“მამულაძე”,“სულაბერიძე”,“ბუჯიაშვილი”,“ბარდაველიძე”,“კვირიკაძე”,“ჭელიძე”,“ორბელიანი”,“ბაგრატიონი”,“ქართველიშვილი”,“ლომიძე”];
+
+function randItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function randInt(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+function randDate(y1, y2) {
+const d = new Date(randInt(y1, y2), randInt(0, 11), randInt(1, 28));
+return d.toISOString().split(“T”)[0];
+}
+
+let sid = 1;
+const initStudents = [];
+initGroups.forEach(g => {
+const count = randInt(6, 14);
+for (let i = 0; i < count; i++) {
+const female = Math.random() < 0.5;
+const firstName = female ? randItem(GEO_NAMES_F) : randItem(GEO_NAMES_M);
+const enrolDate = randDate(2020, 2024);
+const payments = {};
+[“2025”,“2026”].forEach(yr => {
+payments[yr] = {};
+for (let m = 1; m <= 12; m++) {
+payments[yr][m] = Math.random() < 0.7 ? { paid: true, date: `${yr}-${String(m).padStart(2,"0")}-${randInt(1,28)}`, amount: 50 } : { paid: false };
+}
+});
+initStudents.push({
+id: sid++,
+lastName: randItem(GEO_LASTNAMES),
+firstName,
+gender: female ? “გოგო” : “ბიჭი”,
+enrollDate: enrolDate,
+expelDate: “”,
+deptId: g.deptId,
+teacherId: g.teacherId,
+groupId: g.id,
+parent1: { name: female ? randItem(GEO_NAMES_F) : randItem(GEO_NAMES_M), lastName: randItem(GEO_LASTNAMES), phone: `59${randInt(1,9)}-${randInt(100,999)}-${randInt(100,999)}`, email: “”, personalId: `${randInt(10000000000,99999999999)}` },
+parent2: { name: randItem(GEO_NAMES_M), lastName: randItem(GEO_LASTNAMES), phone: `59${randInt(1,9)}-${randInt(100,999)}-${randInt(100,999)}`, email: “”, personalId: `${randInt(10000000000,99999999999)}` },
+payments,
+});
+}
+});
+
+const initEvents = [
+{ id: 1, title: “გაზაფხულის კონცერტი”, date: “2026-05-15”, status: “upcoming”, deptIds: [1,2,3], description: “წლიური გაზაფხულის კონცერტი”, venue: “სკოლის საკონცერტო დარბაზი” },
+{ id: 2, title: “ახალი წლის სპექტაკლი”, date: “2025-12-28”, status: “past”, deptIds: [3,8], description: “”, venue: “მუნიციპალური თეატრი” },
+{ id: 3, title: “ფოლკლორული ფესტივალი”, date: “2026-04-20”, status: “upcoming”, deptIds: [2,6,7], description: “”, venue: “სკოლის მოედანი” },
+{ id: 4, title: “ჩვენება 2025”, date: “2025-06-10”, status: “archive”, deptIds: [1,4,5,9], description: “”, venue: “სკოლის საკონცერტო დარბაზი” },
+{ id: 5, title: “ოსტატობის გაკვეთილი”, date: “2026-03-10”, status: “current”, deptIds: [1], description: “ფორტეპიანოს ოსტატობის გაკვეთილი”, venue: “სასწავლო კლასი 201” },
+];
+
+// ─── STYLES ──────────────────────────────────────────────────────────────────
+
+const css = `
+@import url(‘https://fonts.googleapis.com/css2?family=BPG+Nino+Mtavruli&family=Noto+Sans+Georgian:wght@300;400;500;600;700&display=swap’);
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+–bg:#0f1117;–bg2:#161b27;–bg3:#1e2535;–bg4:#252d3d;
+–border:#2d3748;–border2:#3d4f6a;
+–text:#e8edf5;–text2:#9aafc8;–text3:#6b7fa0;
+–accent:#4f8ef7;–accent2:#38bdf8;
+–pink:#f472b6;–green:#34d399;–amber:#fbbf24;–red:#f87171;–purple:#a78bfa;
+–radius:10px;–radius2:16px;
+–shadow:0 4px 24px rgba(0,0,0,.45);
+}
+body{font-family:‘Noto Sans Georgian’,sans-serif;background:var(–bg);color:var(–text);min-height:100vh;overflow-x:hidden}
+h1,h2,h3{font-family:‘Noto Sans Georgian’,sans-serif;font-weight:700}
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:260px;min-width:260px;background:var(–bg2);border-right:1px solid var(–border);display:flex;flex-direction:column;overflow-y:auto;z-index:100}
+.sidebar-logo{padding:20px 18px 14px;border-bottom:1px solid var(–border)}
+.sidebar-logo .school-num{font-size:2rem;font-weight:800;color:var(–accent);line-height:1}
+.sidebar-logo .school-name{font-size:.75rem;color:var(–text2);margin-top:2px;line-height:1.4}
+.nav-section{padding:12px 10px 4px;font-size:.65rem;color:var(–text3);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;color:var(–text2);font-size:.85rem;transition:all .15s;margin:1px 6px}
+.nav-item:hover{background:var(–bg3);color:var(–text)}
+.nav-item.active{background:linear-gradient(90deg,rgba(79,142,247,.18),rgba(79,142,247,.06));color:var(–accent);border-left:2px solid var(–accent)}
+.nav-item .icon{width:20px;text-align:center;font-size:1rem}
+.dept-nav{margin:1px 6px 1px 20px;padding:7px 12px;border-radius:6px;cursor:pointer;color:var(–text3);font-size:.78rem;display:flex;align-items:center;gap:8px;transition:all .15s}
+.dept-nav:hover{color:var(–text2);background:var(–bg3)}
+.dept-nav.active{color:var(–text);background:var(–bg3)}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;background:var(–bg)}
+.page-header{padding:24px 28px 0;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;padding-bottom:16px}
+.page-header h2{font-size:1.25rem;display:flex;align-items:center;gap:10px}
+.content{padding:24px 28px}
+
+/* CARDS */
+.card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–radius2);padding:20px;transition:all .2s}
+.card:hover{border-color:var(–border2);transform:translateY(-1px);box-shadow:var(–shadow)}
+.card.clickable{cursor:pointer}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+
+/* STAT CARDS */
+.stat-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–radius2);padding:18px 20px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.stat-card:hover{border-color:var(–accent);transform:translateY(-2px);box-shadow:0 8px 32px rgba(79,142,247,.2)}
+.stat-card .stat-label{font-size:.75rem;color:var(–text2);margin-bottom:6px}
+.stat-card .stat-value{font-size:2rem;font-weight:800;line-height:1}
+.stat-card .stat-sub{font-size:.72rem;color:var(–text3);margin-top:4px}
+.stat-card::after{content:’’;position:absolute;top:0;right:0;width:60px;height:60px;border-radius:50%;opacity:.08;transform:translate(20px,-20px)}
+
+/* DEPT CARD */
+.dept-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–radius2);padding:18px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:10px}
+.dept-card:hover{border-color:var(–border2);transform:translateY(-2px);box-shadow:var(–shadow)}
+.dept-card .dept-icon{font-size:2rem;line-height:1}
+.dept-card .dept-name{font-size:.85rem;font-weight:600;line-height:1.3}
+.dept-card .dept-stats{display:flex;gap:10px;font-size:.72rem;color:var(–text3)}
+.dept-card .dept-stats span{display:flex;align-items:center;gap:3px}
+
+/* BREADCRUMB */
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(–text3);padding:12px 28px;border-bottom:1px solid var(–border);background:var(–bg2)}
+.breadcrumb span{cursor:pointer;transition:color .15s}.breadcrumb span:hover{color:var(–accent)}
+.breadcrumb .sep{color:var(–border2)}
+.breadcrumb .current{color:var(–text);font-weight:500;cursor:default}
+
+/* STUDENT LIST */
+.student-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.student-col-header{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:6px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.student-col-header.girls{background:rgba(244,114,182,.1);color:var(–pink)}
+.student-col-header.boys{background:rgba(96,165,250,.1);color:#60a5fa}
+.student-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;cursor:pointer;border:1px solid transparent;transition:all .15s;background:var(–bg3)}
+.student-row:hover{border-color:var(–border2);background:var(–bg4)}
+.student-row .sname{font-size:.85rem;font-weight:500}
+.student-row .sgroup{font-size:.7rem;color:var(–text3);background:var(–bg4);padding:2px 7px;border-radius:4px}
+.arrow{color:var(–text3);font-size:.8rem}
+
+/* BUTTON */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:500;transition:all .15s}
+.btn-primary{background:var(–accent);color:#fff}.btn-primary:hover{background:#3b7de8}
+.btn-secondary{background:var(–bg3);color:var(–text2);border:1px solid var(–border)}.btn-secondary:hover{background:var(–bg4);color:var(–text)}
+.btn-danger{background:rgba(248,113,113,.12);color:var(–red);border:1px solid rgba(248,113,113,.2)}.btn-danger:hover{background:rgba(248,113,113,.2)}
+.btn-sm{padding:5px 11px;font-size:.76rem}
+.btn-icon{width:32px;height:32px;padding:0;justify-content:center;border-radius:6px}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(–bg2);border:1px solid var(–border2);border-radius:var(–radius2);width:100%;max-width:680px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.6)}
+.modal-lg{max-width:820px}
+.modal-header{padding:18px 22px;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-header h3{font-size:1rem;display:flex;align-items:center;gap:8px}
+.modal-body{padding:22px;overflow-y:auto;flex:1}
+.modal-footer{padding:16px 22px;border-top:1px solid var(–border);display:flex;justify-content:flex-end;gap:10px;flex-shrink:0}
+
+/* TABS */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(–border);margin-bottom:20px}
+.tab{padding:9px 18px;cursor:pointer;font-size:.83rem;color:var(–text2);border-bottom:2px solid transparent;transition:all .15s;border-radius:6px 6px 0 0}
+.tab:hover{color:var(–text);background:var(–bg3)}
+.tab.active{color:var(–accent);border-bottom-color:var(–accent);font-weight:600}
+
+/* FORM */
+.form-row{display:grid;gap:14px;margin-bottom:14px}
+.form-row.cols-2{grid-template-columns:1fr 1fr}
+.form-row.cols-3{grid-template-columns:1fr 1fr 1fr}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:.75rem;color:var(–text2);font-weight:500}
+.form-input{background:var(–bg3);border:1px solid var(–border);border-radius:8px;padding:8px 12px;color:var(–text);font-family:inherit;font-size:.85rem;transition:border-color .15s;outline:none}
+.form-input:focus{border-color:var(–accent)}
+.form-select{appearance:none;background-image:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘12’ height=‘8’ viewBox=‘0 0 12 8’%3E%3Cpath d=‘M1 1l5 5 5-5’ stroke=’%236b7fa0’ fill=‘none’ stroke-width=‘1.5’/%3E%3C/svg%3E”);background-repeat:no-repeat;background-position:right 10px center}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:999px;font-size:.7rem;font-weight:600}
+.badge-girl{background:rgba(244,114,182,.15);color:var(–pink)}
+.badge-boy{background:rgba(96,165,250,.15);color:#60a5fa}
+.badge-green{background:rgba(52,211,153,.15);color:var(–green)}
+.badge-red{background:rgba(248,113,113,.15);color:var(–red)}
+.badge-amber{background:rgba(251,191,36,.15);color:var(–amber)}
+.badge-purple{background:rgba(167,139,250,.15);color:var(–purple)}
+.badge-blue{background:rgba(56,189,248,.15);color:var(–accent2)}
+
+/* PAYMENT GRID */
+.payment-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:16px}
+.pay-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;cursor:default;position:relative}
+.pay-cell.paid{background:rgba(52,211,153,.2);color:var(–green);border:1px solid rgba(52,211,153,.3)}
+.pay-cell.unpaid{background:rgba(248,113,113,.1);color:var(–red);border:1px solid rgba(248,113,113,.2)}
+.pay-month-label{font-size:.62rem;color:var(–text3);text-align:center;margin-top:2px}
+
+/* EVENTS */
+.event-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–radius2);padding:16px 18px;cursor:pointer;transition:all .2s}
+.event-card:hover{border-color:var(–border2);transform:translateY(-1px)}
+.event-status{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:999px;margin-bottom:10px}
+.event-status.upcoming{background:rgba(56,189,248,.1);color:var(–accent2)}
+.event-status.current{background:rgba(52,211,153,.1);color:var(–green)}
+.event-status.past{background:rgba(107,127,160,.1);color:var(–text3)}
+.event-status.archive{background:rgba(167,139,250,.1);color:var(–purple)}
+
+/* TEACHER CARD */
+.teacher-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–radius2);padding:16px 18px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px}
+.teacher-card:hover{border-color:var(–border2);transform:translateY(-1px);box-shadow:var(–shadow)}
+.teacher-avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;flex-shrink:0}
+.teacher-info{flex:1;min-width:0}
+.teacher-info .tname{font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.teacher-info .tsubject{font-size:.75rem;color:var(–text2);margin-top:2px}
+.teacher-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.filter-chip{padding:5px 12px;border-radius:999px;border:1px solid var(–border);background:var(–bg3);color:var(–text2);font-size:.78rem;cursor:pointer;transition:all .15s}
+.filter-chip:hover{border-color:var(–border2);color:var(–text)}
+.filter-chip.active{background:rgba(79,142,247,.15);border-color:var(–accent);color:var(–accent)}
+
+/* SEARCH */
+.search-box{position:relative;flex:1;max-width:280px}
+.search-box input{width:100%;background:var(–bg3);border:1px solid var(–border);border-radius:8px;padding:7px 12px 7px 34px;color:var(–text);font-family:inherit;font-size:.82rem;outline:none;transition:border-color .15s}
+.search-box input:focus{border-color:var(–accent)}
+.search-box .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(–text3);font-size:.9rem}
+
+/* PROGRESS BAR */
+.progress-bar{height:6px;border-radius:999px;background:var(–bg3);overflow:hidden;margin:4px 0}
+.progress-fill{height:100%;border-radius:999px;transition:width .4s}
+
+/* SECTION HEADER */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-header h3{font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:8px}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(–border2);border-radius:999px}
+
+/* CLOSE BTN */
+.close-btn{width:30px;height:30px;border-radius:6px;border:none;background:var(–bg3);color:var(–text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .15s}
+.close-btn:hover{background:var(–bg4);color:var(–text)}
+
+/* MONTH NAMES */
+.months-row{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:4px}
+
+/* INPUT INLINE */
+.inline-edit{background:transparent;border:none;border-bottom:1px dashed var(–border2);color:var(–text);font-family:inherit;font-size:inherit;font-weight:inherit;width:100%;outline:none;padding:2px 0}
+.inline-edit:focus{border-bottom-color:var(–accent)}
+
+.divider{height:1px;background:var(–border);margin:16px 0}
+.text-muted{color:var(–text3);font-size:.8rem}
+.flex{display:flex;align-items:center;gap:8px}
+.flex-between{display:flex;align-items:center;justify-content:space-between}
+.mt-4{margin-top:4px}.mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}
+.mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}.mb-16{margin-bottom:16px}
+.gap-8{gap:8px}.gap-12{gap:12px}
+.font-bold{font-weight:700}.font-600{font-weight:600}
+.text-sm{font-size:.8rem}.text-xs{font-size:.72rem}
+.chip{padding:2px 8px;border-radius:4px;font-size:.7rem;background:var(–bg4);color:var(–text2)}
+.empty-state{text-align:center;padding:40px;color:var(–text3)}
+.empty-state .empty-icon{font-size:2.5rem;margin-bottom:10px}
+`;
+
+const MONTHS_GEO = [“იან”,“თებ”,“მარ”,“აპრ”,“მაი”,“ივნ”,“ივლ”,“აგვ”,“სექ”,“ოქტ”,“ნოე”,“დეკ”];
+const MONTHS_FULL = [“იანვარი”,“თებერვალი”,“მარტი”,“აპრილი”,“მაისი”,“ივნისი”,“ივლისი”,“აგვისტო”,“სექტემბერი”,“ოქტომბერი”,“ნოემბერი”,“დეკემბერი”];
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function getDeptColor(deptId) {
+return DEPARTMENTS.find(d => d.id === deptId)?.color || “#4f8ef7”;
+}
+function getDeptName(deptId) {
+return DEPARTMENTS.find(d => d.id === deptId)?.name || “”;
+}
+function getDeptIcon(deptId) {
+return DEPARTMENTS.find(d => d.id === deptId)?.icon || “”;
+}
+function getTeacherName(teachers, id) {
+return teachers.find(t => t.id === id)?.name || “”;
+}
+function getGroupName(groups, id) {
+return groups.find(g => g.id === id)?.name || “”;
+}
+
+// ─── STUDENT CARD MODAL ───────────────────────────────────────────────────────
+function StudentModal({ student, teachers, groups, departments, onSave, onDelete, onClose }) {
+const [tab, setTab] = useState(0);
+const [data, setData] = useState({ …student });
+const [p1, setP1] = useState({ …student.parent1 });
+const [p2, setP2] = useState({ …student.parent2 });
+
+function upd(field, val) { setData(d => ({ …d, [field]: val })); }
+
+const paidCount = (yr) => Object.values(data.payments[yr] || {}).filter(p => p.paid).length;
+const totalFee = (yr) => paidCount(yr) * 50;
+
+function togglePayment(yr, m) {
+const cur = data.payments[yr]?.[m];
+const updated = {
+…data.payments,
+[yr]: {
+…data.payments[yr],
+[m]: cur?.paid
+? { paid: false }
+: { paid: true, date: new Date().toISOString().split(“T”)[0], amount: 50 }
+}
+};
+setData(d => ({ …d, payments: updated }));
+}
+
+function handleSave() {
+onSave({ …data, parent1: p1, parent2: p2 });
+onClose();
+}
+
+const dept = departments.find(d => d.id === data.deptId);
+
+return (
+<div className=“modal-overlay” onClick={e => e.target === e.currentTarget && onClose()}>
+<div className="modal modal-lg">
+<div className="modal-header">
+<h3>
+<span style={{ fontSize: “1.2rem” }}>{data.gender === “გოგო” ? “👧” : “👦”}</span>
+{data.lastName} {data.firstName}
+<span className={`badge ${data.gender === "გოგო" ? "badge-girl" : "badge-boy"}`}>{data.gender}</span>
+</h3>
+<button className="close-btn" onClick={onClose}>×</button>
+</div>
+<div className=“tabs” style={{ padding: “0 22px”, marginBottom: 0 }}>
+{[“👤 მოსწავლე”, “👨‍👩‍👧 მშობლები”, “💳 გადასახადი”].map((t, i) => (
+<div key={i} className={`tab${tab === i ? " active" : ""}`} onClick={() => setTab(i)}>{t}</div>
+))}
+</div>
+<div className="modal-body">
+{tab === 0 && (
+<>
+<div className="form-row cols-2">
+<div className="form-group">
+<label className="form-label">გვარი</label>
+<input className=“form-input” value={data.lastName} onChange={e => upd(“lastName”, e.target.value)} />
+</div>
+<div className="form-group">
+<label className="form-label">სახელი</label>
+<input className=“form-input” value={data.firstName} onChange={e => upd(“firstName”, e.target.value)} />
+</div>
+</div>
+<div className="form-row cols-3">
+<div className="form-group">
+<label className="form-label">სქესი</label>
+<select className=“form-input form-select” value={data.gender} onChange={e => upd(“gender”, e.target.value)}>
+<option value="გოგო">გოგო</option>
+<option value="ბიჭი">ბიჭი</option>
+</select>
+</div>
+<div className="form-group">
+<label className="form-label">ჩარიცხვის თარიღი</label>
+<input type=“date” className=“form-input” value={data.enrollDate} onChange={e => upd(“enrollDate”, e.target.value)} />
+</div>
+<div className="form-group">
+<label className="form-label">გარიცხვის თარიღი</label>
+<input type=“date” className=“form-input” value={data.expelDate} onChange={e => upd(“expelDate”, e.target.value)} />
+</div>
+</div>
+<div className="divider" />
+<div className="form-row cols-3">
+<div className="form-group">
+<label className="form-label">განყოფილება</label>
+<select className=“form-input form-select” value={data.deptId} onChange={e => upd(“deptId”, +e.target.value)}>
+{departments.map(d => <option key={d.id} value={d.id}>{d.icon} {d.name}</option>)}
+</select>
+</div>
+<div className="form-group">
+<label className="form-label">პედაგოგი</label>
+<select className=“form-input form-select” value={data.teacherId} onChange={e => upd(“teacherId”, +e.target.value)}>
+{teachers.filter(t => t.deptId === data.deptId).map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+</select>
+</div>
+<div className="form-group">
+<label className="form-label">ჯგუფი</label>
+<select className=“form-input form-select” value={data.groupId} onChange={e => upd(“groupId”, +e.target.value)}>
+{groups.filter(g => g.deptId === data.deptId).map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+</select>
+</div>
+</div>
+{dept && (
+<div style={{ marginTop: 12, padding: “10px 14px”, background: “var(–bg3)”, borderRadius: 8, display: “flex”, alignItems: “center”, gap: 10 }}>
+<span style={{ fontSize: “1.3rem” }}>{dept.icon}</span>
+<div>
+<div className="text-xs text-muted">მიმდინარე</div>
+<div style={{ fontSize: “.85rem”, fontWeight: 600 }}>{dept.name} · {getGroupName(groups, data.groupId)} · {getTeacherName(teachers, data.teacherId)}</div>
+</div>
+</div>
+)}
+</>
+)}
+{tab === 1 && (
+<>
+{[{ label: “მშობელი 1”, state: p1, setState: setP1 }, { label: “მშობელი 2”, state: p2, setState: setP2 }].map(({ label, state, setState }) => (
+<div key={label} style={{ marginBottom: 20 }}>
+<div style={{ fontSize: “.78rem”, fontWeight: 700, color: “var(–text2)”, marginBottom: 10, textTransform: “uppercase”, letterSpacing: “.08em” }}>{label}</div>
+<div className="form-row cols-2">
+<div className="form-group">
+<label className="form-label">სახელი</label>
+<input className=“form-input” value={state.name} onChange={e => setState(s => ({ …s, name: e.target.value }))} />
+</div>
+<div className="form-group">
+<label className="form-label">გვარი</label>
+<input className=“form-input” value={state.lastName} onChange={e => setState(s => ({ …s, lastName: e.target.value }))} />
+</div>
+</div>
+<div className="form-row cols-3">
+<div className="form-group">
+<label className="form-label">ტელეფონი</label>
+<input className=“form-input” value={state.phone} onChange={e => setState(s => ({ …s, phone: e.target.value }))} />
+</div>
+<div className="form-group">
+<label className="form-label">ელ. ფოსტა</label>
+<input className=“form-input” value={state.email} onChange={e => setState(s => ({ …s, email: e.target.value }))} />
+</div>
+<div className="form-group">
+<label className="form-label">პირადი ნომერი</label>
+<input className=“form-input” value={state.personalId} onChange={e => setState(s => ({ …s, personalId: e.target.value }))} />
+</div>
+</div>
+{label !== “მშობელი 2” && <div className="divider" />}
+</div>
+))}
+</>
+)}
+{tab === 2 && (
+<>
+{[“2025”, “2026”].map(yr => {
+const paid = paidCount(yr);
+const pct = Math.round((paid / 12) * 100);
+const color = pct >= 75 ? “var(–green)” : pct >= 40 ? “var(–amber)” : “var(–red)”;
+return (
+<div key={yr} style={{ marginBottom: 22 }}>
+<div className="flex-between mb-8">
+<div style={{ fontWeight: 700, fontSize: “.9rem” }}>📅 {yr} წელი</div>
+<div className="flex gap-8">
+<span style={{ fontSize: “.8rem”, color: “var(–green)” }}>✓ {paid} თვე</span>
+<span style={{ fontSize: “.8rem”, color: “var(–red)” }}>✗ {12 - paid} თვე</span>
+<span style={{ fontSize: “.85rem”, fontWeight: 700, color }}>{paid * 50} ₾</span>
+</div>
+</div>
+<div className="progress-bar mb-8">
+<div className=“progress-fill” style={{ width: `${pct}%`, background: color }} />
+</div>
+<div className="months-row">
+{MONTHS_GEO.map((m, i) => <div key={i} className="pay-month-label">{m}</div>)}
+</div>
+<div className="payment-grid">
+{Array.from({ length: 12 }, (_, i) => {
+const p = data.payments[yr]?.[i + 1];
+return (
+<div
+key={i}
+className={`pay-cell ${p?.paid ? "paid" : "unpaid"}`}
+onClick={() => togglePayment(yr, i + 1)}
+title={p?.paid ? `გადახდილია ${p.date}` : “გადახდილი არ არის”}
+>
+{p?.paid ? “✓” : “✗”}
+</div>
+);
+})}
+</div>
+</div>
+);
+})}
+<div className="divider" />
+<div style={{ fontWeight: 600, fontSize: “.85rem”, marginBottom: 10 }}>📋 გადახდის ისტორია</div>
+<div style={{ display: “flex”, flexDirection: “column”, gap: 6 }}>
+{[“2025”, “2026”].flatMap(yr =>
+Object.entries(data.payments[yr] || {})
+.filter(([, p]) => p.paid)
+.map(([m, p]) => (
+<div key={`${yr}-${m}`} className=“flex-between” style={{ padding: “7px 12px”, background: “var(–bg3)”, borderRadius: 7 }}>
+<span className="text-sm">{MONTHS_FULL[+m - 1]} {yr}</span>
+<span className="text-sm">{p.date}</span>
+<span style={{ color: “var(–green)”, fontWeight: 700, fontSize: “.85rem” }}>{p.amount} ₾</span>
+</div>
+))
+)}
+</div>
+</>
+)}
+</div>
+<div className="modal-footer">
+<button className=“btn btn-danger btn-sm” onClick={() => { onDelete(student.id); onClose(); }}>🗑 წაშლა</button>
+<button className="btn btn-secondary btn-sm" onClick={onClose}>გაუქმება</button>
+<button className="btn btn-primary btn-sm" onClick={handleSave}>💾 შენახვა</button>
+</div>
+</div>
+</div>
+);
+}
+
+// ─── TEACHER MODAL ────────────────────────────────────────────────────────────
+function TeacherModal({ teacher, departments, groups, students, onSave, onDelete, onClose }) {
+const [data, setData] = useState({ …teacher });
+function upd(f, v) { setData(d => ({ …d, [f]: v })); }
+
+const myGroups = groups.filter(g => g.teacherId === teacher.id);
+const myStudents = students.filter(s => s.teacherId === teacher.id);
+const dept = departments.find(d => d.id === data.deptId);
+
+return (
+<div className=“modal-overlay” onClick={e => e.target === e.currentTarget && onClose()}>
+<div className="modal">
+<div className="modal-header">
+<h3>
+<span style={{ background: dept?.color + “30”, color: dept?.color, width: 32, height: 32, borderRadius: 8, display: “inline-flex”, alignItems: “center”, justifyContent: “center”, fontSize: “1rem” }}>{dept?.icon}</span>
+{data.name}
+</h3>
+<button className="close-btn" onClick={onClose}>×</button>
+</div>
+<div className="modal-body">
+<div style={{ display: “flex”, gap: 12, marginBottom: 18 }}>
+<div style={{ flex: 1, padding: “12px 14px”, background: “var(–bg3)”, borderRadius: 8, textAlign: “center” }}>
+<div style={{ fontSize: “1.5rem”, fontWeight: 800, color: “var(–accent)” }}>{myStudents.length}</div>
+<div className="text-xs text-muted">მოსწავლე</div>
+</div>
+<div style={{ flex: 1, padding: “12px 14px”, background: “var(–bg3)”, borderRadius: 8, textAlign: “center” }}>
+<div style={{ fontSize: “1.5rem”, fontWeight: 800, color: “var(–green)” }}>{myGroups.length}</div>
+<div className="text-xs text-muted">ჯგუფი</div>
+</div>
+</div>
+{myGroups.length > 0 && (
+<div style={{ display: “flex”, gap: 6, flexWrap: “wrap”, marginBottom: 16 }}>
+{myGroups.map(g => <span key={g.id} className="chip">{g.name}</span>)}
+</div>
+)}
+<div className="divider" />
+<div className="form-row cols-2">
+<div className="form-group">
+<label className="form-label">სახელი და გვარი</label>
+<input className=“form-input” value={data.name} onChange={e => upd(“name”, e.target.value)} />
+</div>
+<div className="form-group">
+<label className="form-label">სპეციალობა / საგანი</label>
+<input className=“form-input” value={data.subject} onChange={e => upd(“subject”, e.target.value)} />
+</div>
+</div>
+<div className="form-row cols-2">
+<div className="form-group">
+<label className="form-label">ტელეფონი</label>
+<input className=“form-input” value={data.phone} onChange={e => upd(“phone”, e.target.value)} />
+</div>
+<div className="form-group">
+<label className="form-label">ელ. ფოსტა</label>
+<input className=“form-input” value={data.email} onChange={e => upd(“email”, e.target.value)} />
+</div>
+</div>
+<div className="form-group">
+<label className="form-label">განყოფილება</label>
+<select className=“form-input form-select” value={data.deptId} onChange={e => upd(“deptId”, +e.target.value)}>
+{departments.map(d => <option key={d.id} value={d.id}>{d.icon} {d.name}</option>)}
+</select>
+</div>
+</div>
+<div className="modal-footer">
+<button className=“btn btn-danger btn-sm” onClick={() => { onDelete(teacher.id); onClose(); }}>🗑 წაშლა</button>
+<button className="btn btn-secondary btn-sm" onClick={onClose}>გაუქმება</button>
+<button className=“btn btn-primary btn-sm” onClick={() => { onSave(data); onClose(); }}>💾 შენახვა</button>
+</div>
+</div>
+</div>
+);
+}
+
+// ─── ADD STUDENT MODAL ────────────────────────────────────────────────────────
+function AddStudentModal({ teachers, groups, departments, onAdd, onClose, defaultDeptId }) {
+const [data, setData] = useState({
+lastName: “”, firstName: “”, gender: “გოგო”,
+enrollDate: new Date().toISOString().split(“T”)[0],
+expelDate: “”, deptId: defaultDeptId || 1, teacherId: 0, groupId: 0,
+parent1: { name: “”, lastName: “”, phone: “”, email: “”, personalId: “” },
+parent2: { name: “”, lastName: “”, phone: “”, email: “”, personalId: “” },
+payments: {
+“2025”: Object.fromEntries(Array.from({ length: 12 }, (*, i) => [i + 1, { paid: false }])),
+“2026”: Object.fromEntries(Array.from({ length: 12 }, (*, i) => [i + 1, { paid: false }])),
+}
+});
+
+const filteredTeachers = teachers.filter(t => t.deptId === data.deptId);
+const filteredGroups = groups.filter(g => g.deptId === data.deptId);
+
+function upd(f, v) { setData(d => ({ …d, [f]: v })); }
+
+function handleAdd() {
+if (!data.lastName || !data.firstName) return;
+onAdd({ …data, id: Date.now(), teacherId: data.teacherId || filteredTeachers[0]?.id || 1, groupId: data.groupId || filteredGroups[0]?.id || 1 });
+onClose();
+}
+
+return (
+<div className=“modal-overlay” onClick={e => e.target === e.currentTarget && onClose()}>
+<div className="modal">
+<div className="modal-header">
+<h3>➕ ახალი მოსწავლე</h3>
+<button className="close-btn" onClick={onClose}>×</button>
+</div>
+<div className="modal-body">
+<div className="form-row cols-2">
+<div className="form-group">
+<label className="form-label">გვარი *</label>
+<input className=“form-input” value={data.lastName} onChange={e => upd(“lastName”, e.target.value)} />
+</div>
+<div className="form-group">
+<label className="form-label">სახელი *</label>
+<input className=“form-input” value={data.firstName} onChange={e => upd(“firstName”, e.target.value)} />
+</div>
+</div>
+<div className="form-row cols-3">
+<div className="form-group">
+<label className="form-label">სქესი</label>
+<select className=“form-input form-select” value={data.gender} onChange={e => upd(“gender”, e.target.value)}>
+<option value="გოგო">გოგო</option>
+<option value="ბიჭი">ბიჭი</option>
+</select>
+</div>
+<div className="form-group">
+<label className="form-label">ჩარიცხვის თარიღი</label>
+<input type=“date” className=“form-input” value={data.enrollDate} onChange={e => upd(“enrollDate”, e.target.value)} />
+</div>
+<div className="form-group">
+<label className="form-label">განყოფილება</label>
+<select className=“form-input form-select” value={data.deptId} onChange={e => upd(“deptId”, +e.target.value)}>
+{departments.map(d => <option key={d.id} value={d.id}>{d.icon} {d.name}</option>)}
+</select>
+</div>
+</div>
+<div className="form-row cols-2">
+<div className="form-group">
+<label className="form-label">პედაგოგი</label>
+<select className=“form-input form-select” value={data.teacherId} onChange={e => upd(“teacherId”, +e.target.value)}>
+{filteredTeachers.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+</select>
+</div>
+<div className="form-group">
+<label className="form-label">ჯგუფი</label>
+<select className=“form-input form-select” value={data.groupId} onChange={e => upd(“groupId”, +e.target.value)}>
+{filteredGroups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+</select>
+</div>
+</div>
+</div>
+<div className="modal-footer">
+<button className="btn btn-secondary btn-sm" onClick={onClose}>გაუქმება</button>
+<button className="btn btn-primary btn-sm" onClick={handleAdd}>➕ დამატება</button>
+</div>
+</div>
+</div>
+);
+}
+
+// ─── ADD TEACHER MODAL ────────────────────────────────────────────────────────
+function AddTeacherModal({ departments, onAdd, onClose }) {
+const [data, setData] = useState({ name: “”, subject: “”, deptId: 1, phone: “”, email: “” });
+function upd(f, v) { setData(d => ({ …d, [f]: v })); }
+function handleAdd() {
+if (!data.name) return;
+onAdd({ …data, id: Date.now() });
+onClose();
+}
+return (
+<div className=“modal-overlay” onClick={e => e.target === e.currentTarget && onClose()}>
+<div className="modal">
+<div className="modal-header">
+<h3>➕ ახალი პედაგოგი</h3>
+<button className="close-btn" onClick={onClose}>×</button>
+</div>
+<div className="modal-body">
+<div className="form-row cols-2">
+<div className="form-group">
+<label className="form-label">სახელი და გვარი *</label>
+<input className=“form-input” value={data.name} onChange={e => upd(“name”, e.target.value)} />
+</div>
+<div className="form-group">
+<label className="form-label">სპეციალობა / საგანი</label>
+<input className=“form-input” value={data.subject} onChange={e => upd(“subject”, e.target.value)} />
+</div>
+</div>
+<div className="form-row cols-2">
+<div className="form-group">
+<label className="form-label">ტელეფონი</label>
+<input className=“form-input” value={data.phone} onChange={e => upd(“phone”, e.target.value)} />
+</div>
+<div className="form-group">
+<label className="form-label">ელ. ფოსტა</label>
+<input className=“form-input” value={data.email} onChange={e => upd(“email”, e.target.value)} />
+</div>
+</div>
+<div className="form-group">
+<label className="form-label">განყოფილება</label>
+<select className=“form-input form-select” value={data.deptId} onChange={e => upd(“deptId”, +e.target.value)}>
+{departments.map(d => <option key={d.id} value={d.id}>{d.icon} {d.name}</option>)}
+</select>
+</div>
+</div>
+<div className="modal-footer">
+<button className="btn btn-secondary btn-sm" onClick={onClose}>გაუქმება</button>
+<button className="btn btn-primary btn-sm" onClick={handleAdd}>➕ დამატება</button>
+</div>
+</div>
+</div>
+);
+}
+
+// ─── EVENT MODAL ──────────────────────────────────────────────────────────────
+function EventModal({ event, departments, teachers, groups, students, onSave, onDelete, onClose, isNew }) {
+const emptyEvent = { id: Date.now(), title: “”, date: new Date().toISOString().split(“T”)[0], status: “upcoming”, venue: “”, description: “”, deptIds: [], performances: [] };
+const [data, setData] = useState(event ? { …event, performances: event.performances || [] } : emptyEvent);
+const [newPerf, setNewPerf] = useState({ studentId: “”, title: “”, author: “” });
+
+function toggleDept(id) {
+setData(d => ({ …d, deptIds: d.deptIds.includes(id) ? d.deptIds.filter(x => x !== id) : […d.deptIds, id] }));
+}
+
+function addPerf() {
+if (!newPerf.studentId || !newPerf.title) return;
+setData(d => ({ …d, performances: […d.performances, { …newPerf, id: Date.now(), studentId: +newPerf.studentId }] }));
+setNewPerf({ studentId: “”, title: “”, author: “” });
+}
+
+function removePerf(id) { setData(d => ({ …d, performances: d.performances.filter(p => p.id !== id) })); }
+
+const [perfTab, setPerfTab] = useState(0);
+
+return (
+<div className=“modal-overlay” onClick={e => e.target === e.currentTarget && onClose()}>
+<div className="modal modal-lg">
+<div className="modal-header">
+<h3>{isNew ? “➕ ახალი ღონისძიება” : “✏️ ღონისძიება”}</h3>
+<button className="close-btn" onClick={onClose}>×</button>
+</div>
+<div className=“tabs” style={{ padding: “0 22px”, marginBottom: 0 }}>
+{[“📋 ინფო”, “🎭 საკონცერტო ნომრები”].map((t, i) => (
+<div key={i} className={`tab${perfTab === i ? " active" : ""}`} onClick={() => setPerfTab(i)}>{t}</div>
+))}
+</div>
+<div className="modal-body">
+{perfTab === 0 && (
+<>
+<div className="form-row cols-2">
+<div className="form-group">
+<label className="form-label">სახელწოდება *</label>
+<input className=“form-input” value={data.title} onChange={e => setData(d => ({ …d, title: e.target.value }))} />
+</div>
+<div className="form-group">
+<label className="form-label">სტატუსი</label>
+<select className=“form-input form-select” value={data.status} onChange={e => setData(d => ({ …d, status: e.target.value }))}>
+<option value="upcoming">მომავალი</option>
+<option value="current">მიმდინარე</option>
+<option value="past">წარსული</option>
+<option value="archive">არქივი</option>
+</select>
+</div>
+</div>
+<div className="form-row cols-2">
+<div className="form-group">
+<label className="form-label">თარიღი</label>
+<input type=“date” className=“form-input” value={data.date} onChange={e => setData(d => ({ …d, date: e.target.value }))} />
+</div>
+<div className="form-group">
+<label className="form-label">ადგილი / ვენა</label>
+<input className=“form-input” value={data.venue} onChange={e => setData(d => ({ …d, venue: e.target.value }))} />
+</div>
+</div>
+<div className="form-group mb-12">
+<label className="form-label">აღწერა</label>
+<textarea className=“form-input” rows={3} style={{ resize: “vertical” }} value={data.description} onChange={e => setData(d => ({ …d, description: e.target.value }))} />
+</div>
+<div>
+<div className="form-label mb-8">მონაწილე განყოფილებები</div>
+<div style={{ display: “flex”, flexWrap: “wrap”, gap: 6 }}>
+{departments.map(d => (
+<span key={d.id} onClick={() => toggleDept(d.id)}
+style={{ padding: “4px 12px”, borderRadius: 999, border: `1px solid ${data.deptIds.includes(d.id) ? d.color : "var(--border)"}`, background: data.deptIds.includes(d.id) ? d.color + “22” : “var(–bg3)”, color: data.deptIds.includes(d.id) ? d.color : “var(–text2)”, cursor: “pointer”, fontSize: “.75rem”, transition: “all .15s” }}>
+{d.icon} {d.name}
+</span>
+))}
+</div>
+</div>
+</>
+)}
+{perfTab === 1 && (
+<>
+<div style={{ background: “var(–bg3)”, borderRadius: 10, padding: 14, marginBottom: 16 }}>
+<div className="form-label mb-8">ახალი საკონცერტო ნომრის დამატება</div>
+<div className="form-row cols-3">
+<div className="form-group">
+<label className="form-label">მოსწავლე</label>
+<select className=“form-input form-select” value={newPerf.studentId} onChange={e => setNewPerf(p => ({ …p, studentId: e.target.value }))}>
+<option value="">— აირჩიეთ —</option>
+{students.map(s => <option key={s.id} value={s.id}>{s.lastName} {s.firstName}</option>)}
+</select>
+</div>
+<div className="form-group">
+<label className="form-label">ნომრის სახელი *</label>
+<input className=“form-input” value={newPerf.title} onChange={e => setNewPerf(p => ({ …p, title: e.target.value }))} placeholder=“ნომრის დასახელება” />
+</div>
+<div className="form-group">
+<label className="form-label">ავტორი</label>
+<input className=“form-input” value={newPerf.author} onChange={e => setNewPerf(p => ({ …p, author: e.target.value }))} placeholder=“კომპოზიტორი / ავტ.” />
+</div>
+</div>
+<button className="btn btn-primary btn-sm mt-8" onClick={addPerf}>➕ დამატება</button>
+</div>
+<div style={{ display: “flex”, flexDirection: “column”, gap: 8 }}>
+{data.performances.length === 0 && <div className="empty-state"><div className="empty-icon">🎭</div><div>ჯერ ნომრები არ არის</div></div>}
+{data.performances.map((p, i) => {
+const st = students.find(s => s.id === p.studentId);
+const grp = groups.find(g => g.id === st?.groupId);
+const dept = departments.find(d => d.id === st?.deptId);
+const teacher = teachers.find(t => t.id === st?.teacherId);
+return (
+<div key={p.id} style={{ padding: “10px 14px”, background: “var(–bg3)”, borderRadius: 8, display: “flex”, alignItems: “center”, gap: 12 }}>
+<span style={{ color: “var(–text3)”, fontSize: “.75rem”, minWidth: 20 }}>{i + 1}.</span>
+<div style={{ flex: 1 }}>
+<div style={{ fontWeight: 600, fontSize: “.85rem” }}>{p.title}</div>
+{p.author && <div className="text-xs text-muted">ავტ: {p.author}</div>}
+</div>
+{st && (
+<div style={{ textAlign: “right”, fontSize: “.75rem” }}>
+<div style={{ fontWeight: 500 }}>{st.lastName} {st.firstName}</div>
+<div style={{ color: “var(–text3)” }}>{dept?.icon} {grp?.name} · {teacher?.name}</div>
+</div>
+)}
+<button className=“btn btn-icon btn-danger” onClick={() => removePerf(p.id)}>×</button>
+</div>
+);
+})}
+</div>
+</>
+)}
+</div>
+<div className="modal-footer">
+{!isNew && <button className=“btn btn-danger btn-sm” onClick={() => { onDelete(event.id); onClose(); }}>🗑 წაშლა</button>}
+<button className="btn btn-secondary btn-sm" onClick={onClose}>გაუქმება</button>
+<button className=“btn btn-primary btn-sm” onClick={() => { onSave(data); onClose(); }}>💾 შენახვა</button>
+</div>
+</div>
+</div>
+);
+}
+
+// ─── STUDENT LIST VIEW ────────────────────────────────────────────────────────
+function StudentListView({ students, groups, teachers, departments, onStudentClick }) {
+const girls = students.filter(s => s.gender === “გოგო”).sort((a, b) => a.lastName.localeCompare(b.lastName, “ka”));
+const boys = students.filter(s => s.gender === “ბიჭი”).sort((a, b) => a.lastName.localeCompare(b.lastName, “ka”));
+
+return (
+<div className="student-cols">
+<div>
+<div className="student-col-header girls">👧 გოგოები — {girls.length}</div>
+<div style={{ display: “flex”, flexDirection: “column”, gap: 4 }}>
+{girls.map(s => (
+<div key={s.id} className=“student-row” onClick={() => onStudentClick(s)}>
+<div>
+<div className="sname">{s.lastName} {s.firstName}</div>
+<div className="text-xs text-muted mt-4">{getDeptIcon(s.deptId)} {getTeacherName(teachers, s.teacherId)}</div>
+</div>
+<div style={{ display: “flex”, alignItems: “center”, gap: 6 }}>
+<span className="sgroup">{getGroupName(groups, s.groupId)}</span>
+<span className="arrow">›</span>
+</div>
+</div>
+))}
+{girls.length === 0 && <div className=“text-muted” style={{ padding: “16px 0” }}>გოგოები არ არიან</div>}
+</div>
+</div>
+<div>
+<div className="student-col-header boys">👦 ბიჭები — {boys.length}</div>
+<div style={{ display: “flex”, flexDirection: “column”, gap: 4 }}>
+{boys.map(s => (
+<div key={s.id} className=“student-row” onClick={() => onStudentClick(s)}>
+<div>
+<div className="sname">{s.lastName} {s.firstName}</div>
+<div className="text-xs text-muted mt-4">{getDeptIcon(s.deptId)} {getTeacherName(teachers, s.teacherId)}</div>
+</div>
+<div style={{ display: “flex”, alignItems: “center”, gap: 6 }}>
+<span className="sgroup">{getGroupName(groups, s.groupId)}</span>
+<span className="arrow">›</span>
+</div>
+</div>
+))}
+{boys.length === 0 && <div className=“text-muted” style={{ padding: “16px 0” }}>ბიჭები არ არიან</div>}
+</div>
+</div>
+</div>
+);
+}
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+export default function App() {
+const [page, setPage] = useState(“home”); // home, departments, teachers, stats, events
+const [activeDeptId, setActiveDeptId] = useState(null);
+const [activeGroupId, setActiveGroupId] = useState(null);
+const [activeTeacherDeptId, setActiveTeacherDeptId] = useState(null);
+
+const [students, setStudents] = useState(initStudents);
+const [teachers, setTeachers] = useState(initTeachers);
+const [groups] = useState(initGroups);
+const [events, setEvents] = useState(initEvents);
+
+const [selectedStudent, setSelectedStudent] = useState(null);
+const [selectedTeacher, setSelectedTeacher] = useState(null);
+const [showAddStudent, setShowAddStudent] = useState(false);
+const [showAddTeacher, setShowAddTeacher] = useState(false);
+const [showAddEvent, setShowAddEvent] = useState(false);
+const [selectedEvent, setSelectedEvent] = useState(null);
+
+const [statsFilter, setStatsFilter] = useState({ deptId: null, groupId: null, teacherId: null, gender: null });
+const [statsView, setStatsView] = useState(“overview”);
+
+const [search, setSearch] = useState(””);
+const [eventTab, setEventTab] = useState(“all”);
+
+// Nav helpers
+function navDept(id) { setActiveDeptId(id); setActiveGroupId(null); setPage(“departments”); }
+function navGroup(id) { setActiveGroupId(id); }
+
+// Stats
+const totalStudents = students.length;
+const totalGirls = students.filter(s => s.gender === “გოგო”).length;
+const totalBoys = students.filter(s => s.gender === “ბიჭი”).length;
+
+function deptStudentCount(dId) { return students.filter(s => s.deptId === dId).length; }
+function deptTeacherCount(dId) { return teachers.filter(t => t.deptId === dId).length; }
+function deptGroupCount(dId) { return groups.filter(g => g.deptId === dId).length; }
+
+// Actions
+function saveStudent(updated) {
+setStudents(ss => ss.map(s => s.id === updated.id ? updated : s));
+}
+function deleteStudent(id) { setStudents(ss => ss.filter(s => s.id !== id)); }
+function addStudent(s) { setStudents(ss => […ss, s]); }
+
+function saveTeacher(updated) { setTeachers(tt => tt.map(t => t.id === updated.id ? updated : t)); }
+function deleteTeacher(id) { setTeachers(tt => tt.filter(t => t.id !== id)); }
+function addTeacher(t) { setTeachers(tt => […tt, t]); }
+
+function saveEvent(ev) {
+if (events.find(e => e.id === ev.id)) setEvents(es => es.map(e => e.id === ev.id ? ev : e));
+else setEvents(es => […es, ev]);
+}
+function deleteEvent(id) { setEvents(es => es.filter(e => e.id !== id)); }
+
+// Filtered students for stats
+const filteredStudents = useMemo(() => {
+let s = students;
+if (statsFilter.deptId) s = s.filter(x => x.deptId === statsFilter.deptId);
+if (statsFilter.groupId) s = s.filter(x => x.groupId === statsFilter.groupId);
+if (statsFilter.teacherId) s = s.filter(x => x.teacherId === statsFilter.teacherId);
+if (statsFilter.gender) s = s.filter(x => x.gender === statsFilter.gender);
+if (search) s = s.filter(x => `${x.lastName} ${x.firstName}`.toLowerCase().includes(search.toLowerCase()));
+return s;
+}, [students, statsFilter, search]);
+
+// Events filter
+const filteredEvents = useMemo(() => {
+if (eventTab === “all”) return events;
+return events.filter(e => e.status === eventTab);
+}, [events, eventTab]);
+
+const statusLabel = { upcoming: “მომავალი”, current: “მიმდინარე”, past: “წარსული”, archive: “არქივი” };
+const statusDot = { upcoming: “🔵”, current: “🟢”, past: “⚪”, archive: “🟣” };
+
+const currentGroup = groups.find(g => g.id === activeGroupId);
+const currentDept = DEPARTMENTS.find(d => d.id === activeDeptId);
+const groupStudents = students.filter(s => s.groupId === activeGroupId);
+const deptStudents = students.filter(s => s.deptId === activeDeptId);
+const deptGroups = groups.filter(g => g.deptId === activeDeptId);
+
+return (
+<>
+<style>{css}</style>
+<div className="app">
+{/* SIDEBAR */}
+<div className="sidebar">
+<div className="sidebar-logo">
+<div className="school-num">№26</div>
+<div className="school-name">ხელოვნების სკოლა<br />მართვის სისტემა</div>
+</div>
+<div className="nav-section">მთავარი</div>
+{[
+{ id: “home”, icon: “🏠”, label: “მთავარი” },
+{ id: “departments”, icon: “🏫”, label: “განყოფილებები” },
+{ id: “teachers”, icon: “👨‍🏫”, label: “პედაგოგები” },
+{ id: “stats”, icon: “📊”, label: “სტატისტიკა” },
+{ id: “events”, icon: “🎪”, label: “ღონისძიებები” },
+].map(item => (
+<div key={item.id} className={`nav-item${page === item.id ? " active" : ""}`} onClick={() => { setPage(item.id); setActiveDeptId(null); setActiveGroupId(null); }}>
+<span className="icon">{item.icon}</span>{item.label}
+</div>
+))}
+<div className=“nav-section” style={{ marginTop: 8 }}>განყოფილებები</div>
+{DEPARTMENTS.map(d => (
+<div key={d.id} className={`dept-nav${activeDeptId === d.id && page === "departments" ? " active" : ""}`} onClick={() => navDept(d.id)}>
+<span>{d.icon}</span><span style={{ overflow: “hidden”, textOverflow: “ellipsis”, whiteSpace: “nowrap” }}>{d.name}</span>
+</div>
+))}
+</div>
+
+```
+    {/* MAIN CONTENT */}
+    <div className="main">
+      {/* HOME */}
+      {page === "home" && (
+        <>
+          <div className="page-header">
+            <h2>🏠 მთავარი სტატისტიკა</h2>
+          </div>
+          <div className="content">
+            <div className="grid-4 mb-16">
+              {[
+                { label: "სულ მოსწავლე", value: totalStudents, sub: "აქტიური", color: "var(--accent)", onClick: () => { setPage("stats"); setStatsView("list"); setStatsFilter({}); } },
+                { label: "გოგოები", value: totalGirls, sub: `${Math.round(totalGirls / totalStudents * 100)}%`, color: "var(--pink)", onClick: () => { setPage("stats"); setStatsView("list"); setStatsFilter({ gender: "გოგო" }); } },
+                { label: "ბიჭები", value: totalBoys, sub: `${Math.round(totalBoys / totalStudents * 100)}%`, color: "#60a5fa", onClick: () => { setPage("stats"); setStatsView("list"); setStatsFilter({ gender: "ბიჭი" }); } },
+                { label: "პედაგოგი", value: teachers.length, sub: "10 განყოფილება", color: "var(--green)", onClick: () => setPage("teachers") },
+              ].map((s, i) => (
+                <div key={i} className="stat-card" onClick={s.onClick} style={{ "--accent-color": s.color }}>
+                  <div className="stat-label">{s.label}</div>
+                  <div className="stat-value" style={{ color: s.color }}>{s.value}</div>
+                  <div className="stat-sub">{s.sub}</div>
+                </div>
+              ))}
+            </div>
+            <div className="section-header">
+              <h3>🏫 განყოფილებები</h3>
+            </div>
+            <div className="grid-5">
+              {DEPARTMENTS.map(d => (
+                <div key={d.id} className="dept-card" onClick={() => navDept(d.id)} style={{ borderTop: `3px solid ${d.color}` }}>
+                  <div className="dept-icon">{d.icon}</div>
+                  <div className="dept-name">{d.name}</div>
+                  <div className="dept-stats">
+                    <span>👥 {deptStudentCount(d.id)}</span>
+                    <span>👨‍🏫 {deptTeacherCount(d.id)}</span>
+                    <span>📋 {deptGroupCount(d.id)}</span>
+                  </div>
+                  <div className="progress-bar">
+                    <div className="progress-fill" style={{ width: `${Math.min(100, deptStudentCount(d.id) / 2)}%`, background: d.color }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* DEPARTMENTS */}
+      {page === "departments" && (
+        <>
+          {!activeDeptId && (
+            <>
+              <div className="page-header">
+                <h2>🏫 განყოფილებები</h2>
+              </div>
+              <div className="content">
+                <div className="grid-3">
+                  {DEPARTMENTS.map(d => (
+                    <div key={d.id} className="dept-card" onClick={() => navDept(d.id)} style={{ borderTop: `3px solid ${d.color}` }}>
+                      <div className="dept-icon" style={{ fontSize: "2.2rem" }}>{d.icon}</div>
+                      <div className="dept-name" style={{ fontSize: ".95rem" }}>{d.name}</div>
+                      <div className="dept-stats">
+                        <span>👥 {deptStudentCount(d.id)} მოს.</span>
+                        <span>👨‍🏫 {deptTeacherCount(d.id)} პედ.</span>
+                        <span>📋 {deptGroupCount(d.id)} ჯგ.</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+
+          {activeDeptId && !activeGroupId && currentDept && (
+            <>
+              <div className="breadcrumb">
+                <span onClick={() => { setActiveDeptId(null); setActiveGroupId(null); }}>განყოფილებები</span>
+                <span className="sep">›</span>
+                <span className="current">{currentDept.icon} {currentDept.name}</span>
+              </div>
+              <div className="page-header">
+                <h2>{currentDept.icon} {currentDept.name}</h2>
+                <button className="btn btn-primary btn-sm" onClick={() => setShowAddStudent(true)}>➕ მოსწავლე</button>
+              </div>
+              <div className="content">
+                {/* Groups */}
+                <div className="section-header mb-12">
+                  <h3>📋 ჯგუფები</h3>
+                </div>
+                <div className="grid-3 mb-16">
+                  {deptGroups.map(g => {
+                    const t = teachers.find(x => x.id === g.teacherId);
+                    const gs = students.filter(s => s.groupId === g.id);
+                    return (
+                      <div key={g.id} className="card clickable" onClick={() => navGroup(g.id)} style={{ borderLeft: `3px solid ${currentDept.color}` }}>
+                        <div className="flex-between mb-8">
+                          <div style={{ fontWeight: 700 }}>{g.name}</div>
+                          <span className="arrow" style={{ fontSize: "1rem" }}>›</span>
+                        </div>
+                        <div className="text-sm text-muted mb-8">👨‍🏫 {t?.name || "—"}</div>
+                        <div className="flex gap-8">
+                          <span className="badge badge-girl">👧 {gs.filter(s => s.gender === "გოგო").length}</span>
+                          <span className="badge badge-boy">👦 {gs.filter(s => s.gender === "ბიჭი").length}</span>
+                          <span className="badge badge-blue">სულ {gs.length}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {/* Dept teachers */}
+                <div className="section-header mb-12">
+                  <h3>👨‍🏫 პედაგოგები</h3>
+                </div>
+                <div className="grid-2 mb-16">
+                  {teachers.filter(t => t.deptId === activeDeptId).map(t => {
+                    const tStudents = students.filter(s => s.teacherId === t.id);
+                    return (
+                      <div key={t.id} className="teacher-card" onClick={() => setSelectedTeacher(t)}>
+                        <div className="teacher-avatar" style={{ background: currentDept.color + "30", color: currentDept.color }}>
+                          {t.name.charAt(0)}
+                        </div>
+                        <div className="teacher-info">
+                          <div className="tname">{t.name}</div>
+                          <div className="tsubject">{t.subject}</div>
+                          <div className="teacher-meta">
+                            <span className="chip">👥 {tStudents.length} მოს.</span>
+                          </div>
+                        </div>
+                        <span className="arrow">›</span>
+                      </div>
+                    );
+                  })}
+                </div>
+                {/* All dept students */}
+                <div className="section-header mb-12">
+                  <h3>👥 ყველა მოსწავლე ({deptStudents.length})</h3>
+                </div>
+                <StudentListView students={deptStudents} groups={groups} teachers={teachers} departments={DEPARTMENTS} onStudentClick={setSelectedStudent} />
+              </div>
+            </>
+          )}
+
+          {activeDeptId && activeGroupId && currentGroup && (
+            <>
+              <div className="breadcrumb">
+                <span onClick={() => { setActiveDeptId(null); setActiveGroupId(null); }}>განყოფილებები</span>
+                <span className="sep">›</span>
+                <span onClick={() => setActiveGroupId(null)}>{currentDept?.icon} {currentDept?.name}</span>
+                <span className="sep">›</span>
+                <span className="current">{currentGroup.name}</span>
+              </div>
+              <div className="page-header">
+                <h2>{currentGroup.name} — {currentDept?.name}</h2>
+                <button className="btn btn-primary btn-sm" onClick={() => setShowAddStudent(true)}>➕ მოსწავლე</button>
+              </div>
+              <div className="content">
+                <div className="card mb-16" style={{ borderLeft: `3px solid ${currentDept?.color}` }}>
+                  <div className="flex gap-12">
+                    <div>
+                      <div className="text-xs text-muted">პედაგოგი</div>
+                      <div style={{ fontWeight: 600, cursor: "pointer" }} onClick={() => setSelectedTeacher(teachers.find(t => t.id === currentGroup.teacherId))}>
+                        👨‍🏫 {getTeacherName(teachers, currentGroup.teacherId)}
+                      </div>
+                    </div>
+                    <div style={{ width: 1, background: "var(--border)" }} />
+                    <div><div className="text-xs text-muted">სულ მოსწავლე</div><div style={{ fontWeight: 600 }}>👥 {groupStudents.length}</div></div>
+                    <div><div className="text-xs text-muted">გოგო</div><div style={{ color: "var(--pink)", fontWeight: 600 }}>👧 {groupStudents.filter(s => s.gender === "გოგო").length}</div></div>
+                    <div><div className="text-xs text-muted">ბიჭი</div><div style={{ color: "#60a5fa", fontWeight: 600 }}>👦 {groupStudents.filter(s => s.gender === "ბიჭი").length}</div></div>
+                  </div>
+                </div>
+                <StudentListView students={groupStudents} groups={groups} teachers={teachers} departments={DEPARTMENTS} onStudentClick={setSelectedStudent} />
+              </div>
+            </>
+          )}
+        </>
+      )}
+
+      {/* TEACHERS */}
+      {page === "teachers" && (
+        <>
+          <div className="page-header">
+            <h2>👨‍🏫 პედაგოგები</h2>
+            <button className="btn btn-primary btn-sm" onClick={() => setShowAddTeacher(true)}>➕ პედაგოგი</button>
+          </div>
+          <div className="content">
+            <div className="filter-bar mb-16">
+              <span className={`filter-chip${!activeTeacherDeptId ? " active" : ""}`} onClick={() => setActiveTeacherDeptId(null)}>ყველა</span>
+              {DEPARTMENTS.map(d => (
+                <span key={d.id} className={`filter-chip${activeTeacherDeptId === d.id ? " active" : ""}`} onClick={() => setActiveTeacherDeptId(d.id)}>
+                  {d.icon} {d.name}
+                </span>
+              ))}
+            </div>
+            {(activeTeacherDeptId ? DEPARTMENTS.filter(d => d.id === activeTeacherDeptId) : DEPARTMENTS).map(dept => {
+              const deptTeachers = teachers.filter(t => t.deptId === dept.id);
+              if (deptTeachers.length === 0) return null;
+              return (
+                <div key={dept.id} style={{ marginBottom: 24 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, padding: "6px 12px", background: dept.color + "18", borderRadius: 8, borderLeft: `3px solid ${dept.color}` }}>
+                    <span style={{ fontSize: "1.1rem" }}>{dept.icon}</span>
+                    <span style={{ fontWeight: 700, color: dept.color, fontSize: ".9rem" }}>{dept.name}</span>
+                    <span className="badge" style={{ background: dept.color + "22", color: dept.color, marginLeft: "auto" }}>{deptTeachers.length} პედ.</span>
+                  </div>
+                  <div className="grid-2">
+                    {deptTeachers.map(t => {
+                      const tStudents = students.filter(s => s.teacherId === t.id);
+                      const tGroups = groups.filter(g => g.teacherId === t.id);
+                      return (
+                        <div key={t.id} className="teacher-card" onClick={() => setSelectedTeacher(t)}>
+                          <div className="teacher-avatar" style={{ background: dept.color + "30", color: dept.color }}>
+                            {t.name.charAt(0)}
+                          </div>
+                          <div className="teacher-info">
+                            <div className="tname">{t.name}</div>
+                            <div className="tsubject">{t.subject}</div>
+                            <div className="teacher-meta">
+                              <span className="chip">👥 {tStudents.length}</span>
+                              {tGroups.map(g => <span key={g.id} className="chip">{g.name}</span>)}
+                            </div>
+                          </div>
+                          <span className="arrow">›</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+
+      {/* STATS */}
+      {page === "stats" && (
+        <>
+          <div className="page-header">
+            <h2>📊 სტატისტიკა და ანალიტიკა</h2>
+            {statsView === "list" && (
+              <button className="btn btn-secondary btn-sm" onClick={() => { setStatsView("overview"); setStatsFilter({}); }}>← მიმოხილვა</button>
+            )}
+          </div>
+          <div className="content">
+            {statsView === "overview" && (
+              <>
+                <div className="grid-4 mb-16">
+                  {[
+                    { label: "სულ მოსწავლე", value: totalStudents, color: "var(--accent)", filter: {} },
+                    { label: "გოგოები", value: totalGirls, color: "var(--pink)", filter: { gender: "გოგო" } },
+                    { label: "ბიჭები", value: totalBoys, color: "#60a5fa", filter: { gender: "ბიჭი" } },
+                    { label: "ჯგუფები", value: groups.length, color: "var(--green)", filter: null },
+                  ].map((s, i) => (
+                    <div key={i} className="stat-card" onClick={() => s.filter !== null && (setStatsView("list"), setStatsFilter(s.filter))}>
+                      <div className="stat-label">{s.label}</div>
+                      <div className="stat-value" style={{ color: s.color }}>{s.value}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="section-header mb-12">
+                  <h3>📊 განყოფილებების სტატისტიკა</h3>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {DEPARTMENTS.map(d => {
+                    const cnt = deptStudentCount(d.id);
+                    const pct = Math.round((cnt / totalStudents) * 100);
+                    return (
+                      <div key={d.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 14px", background: "var(--bg2)", borderRadius: 10, cursor: "pointer", border: "1px solid var(--border)", transition: "all .15s" }}
+                        onClick={() => { setStatsFilter({ deptId: d.id }); setStatsView("list"); }}>
+                        <span style={{ fontSize: "1.2rem", width: 28 }}>{d.icon}</span>
+                        <span style={{ minWidth: 220, fontSize: ".85rem", fontWeight: 500 }}>{d.name}</span>
+                        <div style={{ flex: 1 }}>
+                          <div className="progress-bar">
+                            <div className="progress-fill" style={{ width: `${pct}%`, background: d.color }} />
+                          </div>
+                        </div>
+                        <span style={{ color: d.color, fontWeight: 700, minWidth: 32, textAlign: "right" }}>{cnt}</span>
+                        <span className="text-xs text-muted" style={{ minWidth: 32, textAlign: "right" }}>{pct}%</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+            {statsView === "list" && (
+              <>
+                <div className="filter-bar mb-16">
+                  <div className="search-box">
+                    <span className="search-icon">🔍</span>
+                    <input placeholder="ძებნა..." value={search} onChange={e => setSearch(e.target.value)} />
+                  </div>
+                  <span className={`filter-chip${!statsFilter.deptId ? " active" : ""}`} onClick={() => setStatsFilter(f => ({ ...f, deptId: null }))}>ყველა განყოფ.</span>
+                  {DEPARTMENTS.map(d => (
+                    <span key={d.id} className={`filter-chip${statsFilter.deptId === d.id ? " active" : ""}`} onClick={() => setStatsFilter(f => ({ ...f, deptId: d.id }))}>
+                      {d.icon} {d.name}
+                    </span>
+                  ))}
+                </div>
+                <div className="filter-bar mb-16" style={{ marginTop: -8 }}>
+                  <span className={`filter-chip${!statsFilter.gender ? " active" : ""}`} onClick={() => setStatsFilter(f => ({ ...f, gender: null }))}>ყველა</span>
+                  <span className={`filter-chip${statsFilter.gender === "გოგო" ? " active" : ""}`} onClick={() => setStatsFilter(f => ({ ...f, gender: "გოგო" }))}>👧 გოგო</span>
+                  <span className={`filter-chip${statsFilter.gender === "ბიჭი" ? " active" : ""}`} onClick={() => setStatsFilter(f => ({ ...f, gender: "ბიჭი" }))}>👦 ბიჭი</span>
+                </div>
+                <div style={{ marginBottom: 12, color: "var(--text2)", fontSize: ".85rem" }}>
+                  ნაჩვენებია <strong style={{ color: "var(--accent)" }}>{filteredStudents.length}</strong> მოსწავლე
+                </div>
+                <StudentListView students={filteredStudents} groups={groups} teachers={teachers} departments={DEPARTMENTS} onStudentClick={setSelectedStudent} />
+              </>
+            )}
+          </div>
+        </>
+      )}
+
+      {/* EVENTS */}
+      {page === "events" && (
+        <>
+          <div className="page-header">
+            <h2>🎪 ღონისძიებები</h2>
+            <button className="btn btn-primary btn-sm" onClick={() => setShowAddEvent(true)}>➕ ღონისძიება</button>
+          </div>
+          <div className="content">
+            <div className="tabs" style={{ marginTop: 0 }}>
+              {[["all", "ყველა"], ["current", "მიმდინარე"], ["upcoming", "მომავალი"], ["past", "წარსული"], ["archive", "არქივი"]].map(([v, l]) => (
+                <div key={v} className={`tab${eventTab === v ? " active" : ""}`} onClick={() => setEventTab(v)}>{l}</div>
+              ))}
+            </div>
+            <div className="grid-2">
+              {filteredEvents.map(ev => {
+                const depts = DEPARTMENTS.filter(d => ev.deptIds?.includes(d.id));
+                const perfCount = ev.performances?.length || 0;
+                return (
+                  <div key={ev.id} className="event-card" onClick={() => setSelectedEvent(ev)}>
+                    <div className={`event-status ${ev.status}`}>{statusDot[ev.status]} {statusLabel[ev.status]}</div>
+                    <div style={{ fontWeight: 700, fontSize: ".95rem", marginBottom: 8 }}>{ev.title}</div>
+                    <div className="text-sm text-muted mb-8">📅 {ev.date} {ev.venue && `· 📍 ${ev.venue}`}</div>
+                    {ev.description && <div className="text-xs text-muted mb-8">{ev.description}</div>}
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8 }}>
+                      {depts.map(d => <span key={d.id} className="chip">{d.icon} {d.name}</span>)}
+                      {perfCount > 0 && <span className="badge badge-purple">🎭 {perfCount} ნომერი</span>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            {filteredEvents.length === 0 && <div className="empty-state"><div className="empty-icon">🎪</div><div>ღონისძიებები არ არის</div></div>}
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+
+  {/* MODALS */}
+  {selectedStudent && (
+    <StudentModal
+      student={selectedStudent}
+      teachers={teachers}
+      groups={groups}
+      departments={DEPARTMENTS}
+      onSave={saveStudent}
+      onDelete={deleteStudent}
+      onClose={() => setSelectedStudent(null)}
+    />
+  )}
+  {selectedTeacher && (
+    <TeacherModal
+      teacher={selectedTeacher}
+      departments={DEPARTMENTS}
+      groups={groups}
+      students={students}
+      onSave={saveTeacher}
+      onDelete={deleteTeacher}
+      onClose={() => setSelectedTeacher(null)}
+    />
+  )}
+  {showAddStudent && (
+    <AddStudentModal
+      teachers={teachers}
+      groups={groups}
+      departments={DEPARTMENTS}
+      onAdd={addStudent}
+      onClose={() => setShowAddStudent(false)}
+      defaultDeptId={activeDeptId}
+    />
+  )}
+  {showAddTeacher && (
+    <AddTeacherModal
+      departments={DEPARTMENTS}
+      onAdd={addTeacher}
+      onClose={() => setShowAddTeacher(false)}
+    />
+  )}
+  {showAddEvent && (
+    <EventModal
+      event={null}
+      isNew={true}
+      departments={DEPARTMENTS}
+      teachers={teachers}
+      groups={groups}
+      students={students}
+      onSave={saveEvent}
+      onDelete={deleteEvent}
+      onClose={() => setShowAddEvent(false)}
+    />
+  )}
+  {selectedEvent && (
+    <EventModal
+      event={selectedEvent}
+      isNew={false}
+      departments={DEPARTMENTS}
+      teachers={teachers}
+      groups={groups}
+      students={students}
+      onSave={saveEvent}
+      onDelete={deleteEvent}
+      onClose={() => setSelectedEvent(null)}
+    />
+  )}
+</>
+```
+
+);
+}
