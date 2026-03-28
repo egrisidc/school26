@@ -1,1478 +1,1085 @@
-import { useState, useMemo } from “react”;
+import { useState, useMemo, useRef, useEffect } from “react”;
 
-// ─── INITIAL DATA ────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════════════════
+const USERS = [
+{ id:1, username:“director”,   password:“dir2026”,  role:“director”,   name:“დირექტორი”,      nameGe:“ნინო ჩიქოვანი”,      icon:“👩‍💼”, color:”#6366f1” },
+{ id:2, username:“accountant”, password:“acc2026”,  role:“accountant”, name:“ბუღალტერი”,      nameGe:“ლია ბახტაძე”,        icon:“💼”,   color:”#10b981” },
+{ id:3, username:“manager”,    password:“mgr2026”,  role:“manager”,    name:“მენეჯერი”,       nameGe:“გიორგი სამხარაძე”,   icon:“📋”,   color:”#f59e0b” },
+{ id:4, username:“admin”,      password:“adm2026”,  role:“admin”,      name:“ადმინისტრატორი”, nameGe:“მარიამ კვარაცხელია”, icon:“⚙️”,   color:”#ec4899” },
+];
+const PERMS = {
+director:   [“home”,“departments”,“teachers”,“stats”,“finance”,“events”,“add_student”,“add_teacher”,“add_event”,“edit_finance”],
+accountant: [“home”,“stats”,“finance”,“departments_view”],
+manager:    [“home”,“departments”,“teachers”,“stats”,“events”,“add_student”,“add_teacher”,“add_event”],
+admin:      [“home”,“departments”,“teachers”,“stats”,“finance_view”,“events”,“add_student”,“add_teacher”,“add_event”],
+};
+const can = (user, p) => user && PERMS[user.role]?.includes(p);
 
+// ═══════════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════════
 const DEPARTMENTS = [
-{ id: 1, name: “საფორტეპიანო”, icon: “🎹”, color: “#6366f1” },
-{ id: 2, name: “ქართული ხალხური ცეკვა”, icon: “🩰”, color: “#ec4899” },
-{ id: 3, name: “თეატრალური განყოფილება”, icon: “🎭”, color: “#f59e0b” },
-{ id: 4, name: “გიტარა”, icon: “🎸”, color: “#10b981” },
-{ id: 5, name: “ვიოლინო”, icon: “🎻”, color: “#8b5cf6” },
-{ id: 6, name: “ხალხურ საკრავთა განყოფილება”, icon: “🪗”, color: “#ef4444” },
-{ id: 7, name: “გალობა/ხალხური სიმღერა”, icon: “🎼”, color: “#0ea5e9” },
-{ id: 8, name: “ვოკალურ-საესტრადო განყოფილება”, icon: “🎤”, color: “#f97316” },
-{ id: 9, name: “ფერწერა-სახვითი და გამოყენებითი ხელოვნება”, icon: “🎨”, color: “#14b8a6” },
-{ id: 10, name: “ჩასაბერი ინსტრუმენტები”, icon: “🎷”, color: “#a855f7” },
+{id:1, name:“საფორტეპიანო”,                              icon:“🎹”, color:”#6366f1”},
+{id:2, name:“ქართული ხალხური ცეკვა”,                    icon:“🩰”, color:”#ec4899”},
+{id:3, name:“თეატრალური განყოფილება”,                    icon:“🎭”, color:”#f59e0b”},
+{id:4, name:“გიტარა”,                                    icon:“🎸”, color:”#10b981”},
+{id:5, name:“ვიოლინო”,                                   icon:“🎻”, color:”#8b5cf6”},
+{id:6, name:“ხალხურ საკრავთა განყოფილება”,               icon:“🪗”, color:”#ef4444”},
+{id:7, name:“გალობა/ხალხური სიმღერა”,                   icon:“🎼”, color:”#0ea5e9”},
+{id:8, name:“ვოკალურ-საესტრადო განყოფილება”,            icon:“🎤”, color:”#f97316”},
+{id:9, name:“ფერწერა-სახვ. და გამოყ. ხელოვნება”,        icon:“🎨”, color:”#14b8a6”},
+{id:10,name:“ჩასაბერი ინსტრუმენტები”,                   icon:“🎷”, color:”#a855f7”},
 ];
 
-const initTeachers = [
-{ id: 1, name: “მარინე კვარაცხელია”, subject: “ფორტეპიანო”, deptId: 1, phone: “599-111-001”, email: “m.kvaratskhelia@school26.ge” },
-{ id: 2, name: “გიორგი ბერიძე”, subject: “ფორტეპიანო / სოლფეჯიო”, deptId: 1, phone: “599-111-002”, email: “g.beridze@school26.ge” },
-{ id: 3, name: “ნინო ჯავახიშვილი”, subject: “ფორტეპიანო”, deptId: 1, phone: “599-111-003”, email: “n.javakhishvili@school26.ge” },
-{ id: 4, name: “თამარ გაბელია”, subject: “ქართული ცეკვა”, deptId: 2, phone: “599-111-004”, email: “t.gabelia@school26.ge” },
-{ id: 5, name: “დავით ჩიქოვანი”, subject: “ქართული ცეკვა / მუსიკა”, deptId: 2, phone: “599-111-005”, email: “d.chikovani@school26.ge” },
-{ id: 6, name: “ანა მიქელაძე”, subject: “თეატრი”, deptId: 3, phone: “599-111-006”, email: “a.mikeladze@school26.ge” },
-{ id: 7, name: “ზვიად ელიავა”, subject: “თეატრი / სცენმეტყველება”, deptId: 3, phone: “599-111-007”, email: “z.eliava@school26.ge” },
-{ id: 8, name: “ლუკა სამხარაძე”, subject: “გიტარა”, deptId: 4, phone: “599-111-008”, email: “l.samkharadze@school26.ge” },
-{ id: 9, name: “სოფიო ნიჟარაძე”, subject: “გიტარა / მუსიკის თეორია”, deptId: 4, phone: “599-111-009”, email: “s.nizharadze@school26.ge” },
-{ id: 10, name: “კახა ხარაბაძე”, subject: “ვიოლინო”, deptId: 5, phone: “599-111-010”, email: “k.kharabadze@school26.ge” },
-{ id: 11, name: “ეკა ჩიტაური”, subject: “ვიოლინო / ვიოლა”, deptId: 5, phone: “599-111-011”, email: “e.chitauri@school26.ge” },
-{ id: 12, name: “ოთარ ბუჯიაშვილი”, subject: “პანდური / ჩონგური”, deptId: 6, phone: “599-111-012”, email: “o.bujia@school26.ge” },
-{ id: 13, name: “ირმა ჩხეიძე”, subject: “ხალხური სიმღერა”, deptId: 7, phone: “599-111-013”, email: “i.chkheidze@school26.ge” },
-{ id: 14, name: “ნოდარ მჭედლიძე”, subject: “გალობა”, deptId: 7, phone: “599-111-014”, email: “n.mchedelidze@school26.ge” },
-{ id: 15, name: “ელენე კვირიკაძე”, subject: “ვოკალი / ესტრადა”, deptId: 8, phone: “599-111-015”, email: “e.kvirikadze@school26.ge” },
-{ id: 16, name: “ბექა ჩხარტიშვილი”, subject: “ვოკალი”, deptId: 8, phone: “599-111-016”, email: “b.chkhartishvili@school26.ge” },
-{ id: 17, name: “მედეა ბახტაძე”, subject: “ფერწერა / ხატვა”, deptId: 9, phone: “599-111-017”, email: “m.bakhtadze@school26.ge” },
-{ id: 18, name: “ლია მამულაძე”, subject: “გამოყენებითი ხელოვნება”, deptId: 9, phone: “599-111-018”, email: “l.mamuladze@school26.ge” },
-{ id: 19, name: “გრიგოლ ბარდაველიძე”, subject: “საყვირი / ტრომბონი”, deptId: 10, phone: “599-111-019”, email: “g.bardavelidze@school26.ge” },
-{ id: 20, name: “ვახტანგ გოგიაშვილი”, subject: “ფლეიტა / კლარნეტი”, deptId: 10, phone: “599-111-020”, email: “v.gogiashvili@school26.ge” },
-{ id: 21, name: “თინა სულაბერიძე”, subject: “მუსიკის ისტორია”, deptId: 1, phone: “599-111-021”, email: “t.sulaberidze@school26.ge” },
+const INIT_TEACHERS = [
+{id:1, name:“მარინე კვარაცხელია”,  subject:“ფორტეპიანო”,              deptId:1,  phone:“599-111-001”, email:“m.kvaratskhelia@school26.ge”},
+{id:2, name:“გიორგი ბერიძე”,        subject:“ფორტ. / სოლფეჯიო”,        deptId:1,  phone:“599-111-002”, email:“g.beridze@school26.ge”},
+{id:3, name:“ნინო ჯავახიშვილი”,     subject:“ფორტეპიანო”,              deptId:1,  phone:“599-111-003”, email:“n.javakhishvili@school26.ge”},
+{id:4, name:“თამარ გაბელია”,        subject:“ქართ. ცეკვა”,             deptId:2,  phone:“599-111-004”, email:“t.gabelia@school26.ge”},
+{id:5, name:“დავით ჩიქოვანი”,       subject:“ქართ. ცეკვა / მუსიკა”,    deptId:2,  phone:“599-111-005”, email:“d.chikovani@school26.ge”},
+{id:6, name:“ანა მიქელაძე”,         subject:“თეატრი”,                  deptId:3,  phone:“599-111-006”, email:“a.mikeladze@school26.ge”},
+{id:7, name:“ზვიად ელიავა”,         subject:“თეატრი / სცენმ.”,          deptId:3,  phone:“599-111-007”, email:“z.eliava@school26.ge”},
+{id:8, name:“ლუკა სამხარაძე”,       subject:“გიტარა”,                  deptId:4,  phone:“599-111-008”, email:“l.samkharadze@school26.ge”},
+{id:9, name:“სოფიო ნიჟარაძე”,       subject:“გიტ. / მუს. თეორია”,      deptId:4,  phone:“599-111-009”, email:“s.nizharadze@school26.ge”},
+{id:10,name:“კახა ხარაბაძე”,        subject:“ვიოლინო”,                 deptId:5,  phone:“599-111-010”, email:“k.kharabadze@school26.ge”},
+{id:11,name:“ეკა ჩიტაური”,          subject:“ვიოლინო / ვიოლა”,         deptId:5,  phone:“599-111-011”, email:“e.chitauri@school26.ge”},
+{id:12,name:“ოთარ ბუჯიაშვილი”,      subject:“პანდური / ჩონგური”,        deptId:6,  phone:“599-111-012”, email:“o.bujia@school26.ge”},
+{id:13,name:“ირმა ჩხეიძე”,          subject:“ხალხური სიმღ.”,            deptId:7,  phone:“599-111-013”, email:“i.chkheidze@school26.ge”},
+{id:14,name:“ნოდარ მჭედლიძე”,       subject:“გალობა”,                  deptId:7,  phone:“599-111-014”, email:“n.mchedelidze@school26.ge”},
+{id:15,name:“ელენე კვირიკაძე”,       subject:“ვოკალი / ესტრადა”,         deptId:8,  phone:“599-111-015”, email:“e.kvirikadze@school26.ge”},
+{id:16,name:“ბექა ჩხარტიშვილი”,     subject:“ვოკალი”,                  deptId:8,  phone:“599-111-016”, email:“b.chkhartishvili@school26.ge”},
+{id:17,name:“მედეა ბახტაძე”,        subject:“ფერწერა / ხატვა”,          deptId:9,  phone:“599-111-017”, email:“m.bakhtadze@school26.ge”},
+{id:18,name:“ლია მამულაძე”,         subject:“გამოყ. ხელოვნება”,         deptId:9,  phone:“599-111-018”, email:“l.mamuladze@school26.ge”},
+{id:19,name:“გრიგოლ ბარდაველიძე”,   subject:“საყვირი / ტრომბ.”,         deptId:10, phone:“599-111-019”, email:“g.bardavelidze@school26.ge”},
+{id:20,name:“ვახტანგ გოგიაშვილი”,   subject:“ფლეიტა / კლარნ.”,         deptId:10, phone:“599-111-020”, email:“v.gogiashvili@school26.ge”},
+{id:21,name:“თინა სულაბერიძე”,      subject:“მუსიკის ისტ.”,             deptId:1,  phone:“599-111-021”, email:“t.sulaberidze@school26.ge”},
 ];
 
-const initGroups = [
-{ id: 1, name: “I ჯგუფი”, deptId: 1, teacherId: 1 },
-{ id: 2, name: “II ჯგუფი”, deptId: 1, teacherId: 2 },
-{ id: 3, name: “III ჯგუფი”, deptId: 1, teacherId: 3 },
-{ id: 4, name: “I ჯგუფი”, deptId: 2, teacherId: 4 },
-{ id: 5, name: “II ჯგუფი”, deptId: 2, teacherId: 5 },
-{ id: 6, name: “I ჯგუფი”, deptId: 3, teacherId: 6 },
-{ id: 7, name: “II ჯგუფი”, deptId: 3, teacherId: 7 },
-{ id: 8, name: “I ჯგუფი”, deptId: 4, teacherId: 8 },
-{ id: 9, name: “II ჯგუფი”, deptId: 4, teacherId: 9 },
-{ id: 10, name: “I ჯგუფი”, deptId: 5, teacherId: 10 },
-{ id: 11, name: “II ჯგუფი”, deptId: 5, teacherId: 11 },
-{ id: 12, name: “I ჯგუფი”, deptId: 6, teacherId: 12 },
-{ id: 13, name: “II ჯგუფი”, deptId: 6, teacherId: 12 },
-{ id: 14, name: “I ჯგუფი”, deptId: 7, teacherId: 13 },
-{ id: 15, name: “II ჯგუფი”, deptId: 7, teacherId: 14 },
-{ id: 16, name: “I ჯგუფი”, deptId: 8, teacherId: 15 },
-{ id: 17, name: “II ჯგუფი”, deptId: 8, teacherId: 16 },
-{ id: 18, name: “I ჯგუფი”, deptId: 9, teacherId: 17 },
-{ id: 19, name: “II ჯგუფი”, deptId: 9, teacherId: 18 },
-{ id: 20, name: “I ჯგუფი”, deptId: 10, teacherId: 19 },
-{ id: 21, name: “II ჯგუფი”, deptId: 10, teacherId: 20 },
-{ id: 22, name: “III ჯგუფი”, deptId: 2, teacherId: 4 },
+const INIT_GROUPS = [
+{id:1,name:“I ჯგ.”,deptId:1,teacherId:1},{id:2,name:“II ჯგ.”,deptId:1,teacherId:2},{id:3,name:“III ჯგ.”,deptId:1,teacherId:3},
+{id:4,name:“I ჯგ.”,deptId:2,teacherId:4},{id:5,name:“II ჯგ.”,deptId:2,teacherId:5},{id:22,name:“III ჯგ.”,deptId:2,teacherId:4},
+{id:6,name:“I ჯგ.”,deptId:3,teacherId:6},{id:7,name:“II ჯგ.”,deptId:3,teacherId:7},
+{id:8,name:“I ჯგ.”,deptId:4,teacherId:8},{id:9,name:“II ჯგ.”,deptId:4,teacherId:9},
+{id:10,name:“I ჯგ.”,deptId:5,teacherId:10},{id:11,name:“II ჯგ.”,deptId:5,teacherId:11},
+{id:12,name:“I ჯგ.”,deptId:6,teacherId:12},{id:13,name:“II ჯგ.”,deptId:6,teacherId:12},
+{id:14,name:“I ჯგ.”,deptId:7,teacherId:13},{id:15,name:“II ჯგ.”,deptId:7,teacherId:14},
+{id:16,name:“I ჯგ.”,deptId:8,teacherId:15},{id:17,name:“II ჯგ.”,deptId:8,teacherId:16},
+{id:18,name:“I ჯგ.”,deptId:9,teacherId:17},{id:19,name:“II ჯგ.”,deptId:9,teacherId:18},
+{id:20,name:“I ჯგ.”,deptId:10,teacherId:19},{id:21,name:“II ჯგ.”,deptId:10,teacherId:20},
 ];
 
-const GEO_NAMES_F = [“მარიამი”,“სოფიო”,“ანი”,“ნინო”,“თამარი”,“ეკა”,“ლელა”,“ქეთი”,“სალომე”,“ნათია”,“მარიკა”,“ია”,“ხათუნა”,“ნანი”,“ლია”,“ელენე”,“ნუნი”,“თინა”,“ირმა”,“კეტი”];
-const GEO_NAMES_M = [“გიორგი”,“დავითი”,“ლუკა”,“ნიკა”,“ბექა”,“გიო”,“ანდრო”,“ლაშა”,“სანდრო”,“ვახო”,“ზურა”,“გრიშა”,“კახა”,“ოთარ”,“გოგა”,“ნოდარ”,“ზვიადი”,“ლევანი”,“ვახტანგ”,“მურადი”];
-const GEO_LASTNAMES = [“ბერიძე”,“კვარაცხელია”,“გელაშვილი”,“ჭიჭინაძე”,“მიქელაძე”,“სამხარაძე”,“ნიჟარაძე”,“ჯაფარიძე”,“გოგიაშვილი”,“ხარაბაძე”,“ელიავა”,“ჩიქოვანი”,“მჭედლიძე”,“ჩხეიძე”,“ბახტაძე”,“მამულაძე”,“სულაბერიძე”,“ბუჯიაშვილი”,“ბარდაველიძე”,“კვირიკაძე”,“ჭელიძე”,“ორბელიანი”,“ბაგრატიონი”,“ქართველიშვილი”,“ლომიძე”];
+const GF=[“მარიამი”,“სოფიო”,“ანი”,“ნინო”,“თამარი”,“ეკა”,“ლელა”,“ქეთი”,“სალომე”,“ნათია”,“მარიკა”,“ია”,“ელენე”,“ნუნი”,“ლია”,“ხათუნა”,“ნანი”,“თინა”,“ირმა”,“კეტი”];
+const GM=[“გიორგი”,“დავითი”,“ლუკა”,“ნიკა”,“ბექა”,“გიო”,“ანდრო”,“ლაშა”,“სანდრო”,“ვახო”,“ზურა”,“კახა”,“ოთარ”,“გოგა”,“ნოდარ”,“ლევანი”,“ვახტანგ”,“მურადი”,“ზვიადი”,“გრიშა”];
+const GL=[“ბერიძე”,“კვარაცხელია”,“გელაშვილი”,“ჭიჭინაძე”,“მიქელაძე”,“სამხარაძე”,“ნიჟარაძე”,“ჯაფარიძე”,“გოგიაშვილი”,“ხარაბაძე”,“ელიავა”,“ჩიქოვანი”,“მჭედლიძე”,“ჩხეიძე”,“ბახტაძე”,“მამულაძე”,“სულაბერიძე”,“ბუჯიაშვილი”,“ბარდაველიძე”,“კვირიკაძე”,“ჭელიძე”,“ლომიძე”,“ორბელიანი”,“ქართველიშვილი”];
+const ri = a => a[Math.floor(Math.random()*a.length)];
+const rn = (a,b) => a + Math.floor(Math.random()*(b-a+1));
 
-function randItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-function randInt(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
-function randDate(y1, y2) {
-const d = new Date(randInt(y1, y2), randInt(0, 11), randInt(1, 28));
-return d.toISOString().split(“T”)[0];
-}
+const FEE=50, CY=2026, CM=3;
+const MGeo=[“იან”,“თებ”,“მარ”,“აპრ”,“მაი”,“ივნ”,“ივლ”,“აგვ”,“სექ”,“ოქტ”,“ნოე”,“დეკ”];
+const MFull=[“იანვარი”,“თებერვალი”,“მარტი”,“აპრილი”,“მაისი”,“ივნისი”,“ივლისი”,“აგვისტო”,“სექტემბერი”,“ოქტომბერი”,“ნოემბერი”,“დეკემბერი”];
+const SLB={upcoming:“მომავალი”,current:“მიმდინარე”,past:“წარსული”,archive:“არქივი”};
+const gDept = id => DEPARTMENTS.find(d=>d.id===id);
+const gTName = (ts,id) => ts.find(t=>t.id===id)?.name||””;
+const gGName = (gs,id) => gs.find(g=>g.id===id)?.name||””;
 
-let sid = 1;
-const initStudents = [];
-initGroups.forEach(g => {
-const count = randInt(6, 14);
-for (let i = 0; i < count; i++) {
-const female = Math.random() < 0.5;
-const firstName = female ? randItem(GEO_NAMES_F) : randItem(GEO_NAMES_M);
-const enrolDate = randDate(2020, 2024);
-const payments = {};
-[“2025”,“2026”].forEach(yr => {
-payments[yr] = {};
-for (let m = 1; m <= 12; m++) {
-payments[yr][m] = Math.random() < 0.7 ? { paid: true, date: `${yr}-${String(m).padStart(2,"0")}-${randInt(1,28)}`, amount: 50 } : { paid: false };
+let _sid=1;
+const INIT_STUDENTS=[];
+INIT_GROUPS.forEach(g=>{
+const cnt=rn(5,13);
+for(let i=0;i<cnt;i++){
+const f=Math.random()<0.5;
+const pays={};
+[“2025”,“2026”].forEach(yr=>{
+pays[yr]={};
+const mx=yr===“2026”?CM:12;
+for(let m=1;m<=12;m++){
+pays[yr][m]=m<=mx&&Math.random()<0.72?{paid:true,date:`${yr}-${String(m).padStart(2,"0")}-${rn(1,28)}`,amount:FEE}:{paid:false};
 }
 });
-initStudents.push({
-id: sid++,
-lastName: randItem(GEO_LASTNAMES),
-firstName,
-gender: female ? “გოგო” : “ბიჭი”,
-enrollDate: enrolDate,
-expelDate: “”,
-deptId: g.deptId,
-teacherId: g.teacherId,
-groupId: g.id,
-parent1: { name: female ? randItem(GEO_NAMES_F) : randItem(GEO_NAMES_M), lastName: randItem(GEO_LASTNAMES), phone: `59${randInt(1,9)}-${randInt(100,999)}-${randInt(100,999)}`, email: “”, personalId: `${randInt(10000000000,99999999999)}` },
-parent2: { name: randItem(GEO_NAMES_M), lastName: randItem(GEO_LASTNAMES), phone: `59${randInt(1,9)}-${randInt(100,999)}-${randInt(100,999)}`, email: “”, personalId: `${randInt(10000000000,99999999999)}` },
-payments,
+INIT_STUDENTS.push({
+id:_sid++, lastName:ri(GL), firstName:f?ri(GF):ri(GM), gender:f?“გოგო”:“ბიჭი”,
+enrollDate:`202${rn(0,4)}-0${rn(1,9)}-${rn(10,28)}`, expelDate:””,
+deptId:g.deptId, teacherId:g.teacherId, groupId:g.id, payments:pays,
+parent1:{name:f?ri(GF):ri(GM),lastName:ri(GL),phone:`59${rn(1,9)}-${rn(100,999)}-${rn(100,999)}`,email:””,personalId:`${rn(10000000000,99999999999)}`},
+parent2:{name:ri(GM),lastName:ri(GL),phone:`59${rn(1,9)}-${rn(100,999)}-${rn(100,999)}`,email:””,personalId:`${rn(10000000000,99999999999)}`},
 });
 }
 });
 
-const initEvents = [
-{ id: 1, title: “გაზაფხულის კონცერტი”, date: “2026-05-15”, status: “upcoming”, deptIds: [1,2,3], description: “წლიური გაზაფხულის კონცერტი”, venue: “სკოლის საკონცერტო დარბაზი” },
-{ id: 2, title: “ახალი წლის სპექტაკლი”, date: “2025-12-28”, status: “past”, deptIds: [3,8], description: “”, venue: “მუნიციპალური თეატრი” },
-{ id: 3, title: “ფოლკლორული ფესტივალი”, date: “2026-04-20”, status: “upcoming”, deptIds: [2,6,7], description: “”, venue: “სკოლის მოედანი” },
-{ id: 4, title: “ჩვენება 2025”, date: “2025-06-10”, status: “archive”, deptIds: [1,4,5,9], description: “”, venue: “სკოლის საკონცერტო დარბაზი” },
-{ id: 5, title: “ოსტატობის გაკვეთილი”, date: “2026-03-10”, status: “current”, deptIds: [1], description: “ფორტეპიანოს ოსტატობის გაკვეთილი”, venue: “სასწავლო კლასი 201” },
+const INIT_EVENTS=[
+{id:1,title:“გაზაფხულის კონცერტი”,date:“2026-05-15”,status:“upcoming”,deptIds:[1,2,3],description:“წლიური კონცერტი”,venue:“სკოლის დარბაზი”,performances:[]},
+{id:2,title:“ახალი წლის სპექტაკლი”,date:“2025-12-28”,status:“past”,deptIds:[3,8],description:””,venue:“მუნ. თეატრი”,performances:[]},
+{id:3,title:“ფოლკლ. ფესტივალი”,date:“2026-04-20”,status:“upcoming”,deptIds:[2,6,7],description:””,venue:“სკოლის მოედანი”,performances:[]},
+{id:4,title:“ოსტ. გაკ. — ფ-ნო”,date:“2026-03-10”,status:“current”,deptIds:[1],description:“ფ-ს ოსტ. გაკ.”,venue:“კლ. 201”,performances:[]},
 ];
 
-// ─── STYLES ──────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// FINANCE ENGINE
+// ═══════════════════════════════════════════════════════════════
+function calcFin(students, teachers, groups){
+const years=[“2025”,“2026”];
+const byYear={}, byMonth={}, byDept={}, byTeacher={}, byGroup={};
+years.forEach(yr=>{
+const mx=yr===String(CY)?CM:12;
+let exp=0,col=0;
+for(let m=1;m<=mx;m++){
+let me=0,mc=0;
+students.forEach(s=>{me+=FEE;if(s.payments[yr]?.[m]?.paid)mc+=FEE;});
+exp+=me;col+=mc;
+if(!byMonth[yr])byMonth[yr]={};
+byMonth[yr][m]={exp:me,col:mc,debt:me-mc};
+}
+byYear[yr]={exp,col,debt:exp-col,rate:exp?Math.round(col/exp*100):0};
+});
+DEPARTMENTS.forEach(dept=>{
+const ds=students.filter(s=>s.deptId===dept.id);
+years.forEach(yr=>{
+const mx=yr===String(CY)?CM:12;
+let exp=0,col=0;
+ds.forEach(s=>{for(let m=1;m<=mx;m++){exp+=FEE;if(s.payments[yr]?.[m]?.paid)col+=FEE;}});
+if(!byDept[dept.id])byDept[dept.id]={};
+byDept[dept.id][yr]={exp,col,debt:exp-col,rate:exp?Math.round(col/exp*100):0};
+});
+});
+teachers.forEach(t=>{
+const ts=students.filter(s=>s.teacherId===t.id);
+years.forEach(yr=>{
+const mx=yr===String(CY)?CM:12;
+let exp=0,col=0;
+ts.forEach(s=>{for(let m=1;m<=mx;m++){exp+=FEE;if(s.payments[yr]?.[m]?.paid)col+=FEE;}});
+if(!byTeacher[t.id])byTeacher[t.id]={};
+byTeacher[t.id][yr]={exp,col,debt:exp-col,rate:exp?Math.round(col/exp*100):0,cnt:ts.length};
+});
+});
+groups.forEach(g=>{
+const gs=students.filter(s=>s.groupId===g.id);
+years.forEach(yr=>{
+const mx=yr===String(CY)?CM:12;
+let exp=0,col=0;
+gs.forEach(s=>{for(let m=1;m<=mx;m++){exp+=FEE;if(s.payments[yr]?.[m]?.paid)col+=FEE;}});
+if(!byGroup[g.id])byGroup[g.id]={};
+byGroup[g.id][yr]={exp,col,debt:exp-col,rate:exp?Math.round(col/exp*100):0,cnt:gs.length};
+});
+});
+return {byYear,byMonth,byDept,byTeacher,byGroup};
+}
 
-const css = `
-@import url(‘https://fonts.googleapis.com/css2?family=BPG+Nino+Mtavruli&family=Noto+Sans+Georgian:wght@300;400;500;600;700&display=swap’);
+// ═══════════════════════════════════════════════════════════════
+// CSS
+// ═══════════════════════════════════════════════════════════════
+const CSS=`
+@import url(‘https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700;800&display=swap’);
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-–bg:#0f1117;–bg2:#161b27;–bg3:#1e2535;–bg4:#252d3d;
+–bg:#0d1117;–bg2:#161b27;–bg3:#1e2535;–bg4:#252d3d;
 –border:#2d3748;–border2:#3d4f6a;
 –text:#e8edf5;–text2:#9aafc8;–text3:#6b7fa0;
-–accent:#4f8ef7;–accent2:#38bdf8;
-–pink:#f472b6;–green:#34d399;–amber:#fbbf24;–red:#f87171;–purple:#a78bfa;
-–radius:10px;–radius2:16px;
-–shadow:0 4px 24px rgba(0,0,0,.45);
+–accent:#4f8ef7;–green:#34d399;–red:#f87171;–amber:#fbbf24;–pink:#f472b6;–purple:#a78bfa;–cyan:#38bdf8;
 }
-body{font-family:‘Noto Sans Georgian’,sans-serif;background:var(–bg);color:var(–text);min-height:100vh;overflow-x:hidden}
-h1,h2,h3{font-family:‘Noto Sans Georgian’,sans-serif;font-weight:700}
+body{font-family:‘Noto Sans Georgian’,sans-serif;background:var(–bg);color:var(–text);min-height:100vh;font-size:13px}
 .app{display:flex;height:100vh;overflow:hidden}
 
 /* SIDEBAR */
-.sidebar{width:260px;min-width:260px;background:var(–bg2);border-right:1px solid var(–border);display:flex;flex-direction:column;overflow-y:auto;z-index:100}
-.sidebar-logo{padding:20px 18px 14px;border-bottom:1px solid var(–border)}
-.sidebar-logo .school-num{font-size:2rem;font-weight:800;color:var(–accent);line-height:1}
-.sidebar-logo .school-name{font-size:.75rem;color:var(–text2);margin-top:2px;line-height:1.4}
-.nav-section{padding:12px 10px 4px;font-size:.65rem;color:var(–text3);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;color:var(–text2);font-size:.85rem;transition:all .15s;margin:1px 6px}
-.nav-item:hover{background:var(–bg3);color:var(–text)}
-.nav-item.active{background:linear-gradient(90deg,rgba(79,142,247,.18),rgba(79,142,247,.06));color:var(–accent);border-left:2px solid var(–accent)}
-.nav-item .icon{width:20px;text-align:center;font-size:1rem}
-.dept-nav{margin:1px 6px 1px 20px;padding:7px 12px;border-radius:6px;cursor:pointer;color:var(–text3);font-size:.78rem;display:flex;align-items:center;gap:8px;transition:all .15s}
-.dept-nav:hover{color:var(–text2);background:var(–bg3)}
-.dept-nav.active{color:var(–text);background:var(–bg3)}
+.sb{width:244px;min-width:244px;background:var(–bg2);border-right:1px solid var(–border);display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:15px 14px 11px;border-bottom:1px solid var(–border)}
+.sb-logo .n{font-size:1.9rem;font-weight:800;color:var(–accent);line-height:1}
+.sb-logo .s{font-size:.67rem;color:var(–text2);margin-top:2px;line-height:1.4}
+.sb-u{display:flex;align-items:center;gap:7px;padding:8px 11px;margin:6px 5px;background:var(–bg3);border-radius:7px;border:1px solid var(–border)}
+.ns{padding:8px 11px 2px;font-size:.59rem;color:var(–text3);letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+.ni{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:6px;cursor:pointer;color:var(–text2);font-size:.79rem;transition:all .14s;margin:1px 4px}
+.ni:hover{background:var(–bg3);color:var(–text)}
+.ni.active{background:linear-gradient(90deg,rgba(79,142,247,.22),rgba(79,142,247,.04));color:var(–accent);border-left:2px solid var(–accent)}
+.dn{margin:1px 4px 1px 15px;padding:5px 8px;border-radius:5px;cursor:pointer;color:var(–text3);font-size:.72rem;display:flex;align-items:center;gap:6px;transition:all .14s}
+.dn:hover{color:var(–text2);background:var(–bg3)}.dn.act{color:var(–text);background:var(–bg3)}
 
 /* MAIN */
 .main{flex:1;overflow-y:auto;background:var(–bg)}
-.page-header{padding:24px 28px 0;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;padding-bottom:16px}
-.page-header h2{font-size:1.25rem;display:flex;align-items:center;gap:10px}
-.content{padding:24px 28px}
+.ph{padding:17px 22px 0;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;padding-bottom:12px}
+.ph h2{font-size:1.07rem;display:flex;align-items:center;gap:7px;font-weight:700}
+.ct{padding:18px 22px}
 
 /* CARDS */
-.card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–radius2);padding:20px;transition:all .2s}
-.card:hover{border-color:var(–border2);transform:translateY(-1px);box-shadow:var(–shadow)}
-.card.clickable{cursor:pointer}
+.card{background:var(–bg2);border:1px solid var(–border);border-radius:13px;padding:15px;transition:all .18s}
+.card.cl{cursor:pointer}.card.cl:hover{border-color:var(–border2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,.45)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 
-/* GRID */
-.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+/* STAT */
+.sc{background:var(–bg2);border:1px solid var(–border);border-radius:13px;padding:14px 16px;cursor:pointer;transition:all .18s}
+.sc:hover{border-color:var(–accent);transform:translateY(-2px);box-shadow:0 6px 24px rgba(79,142,247,.14)}
 
-/* STAT CARDS */
-.stat-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–radius2);padding:18px 20px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
-.stat-card:hover{border-color:var(–accent);transform:translateY(-2px);box-shadow:0 8px 32px rgba(79,142,247,.2)}
-.stat-card .stat-label{font-size:.75rem;color:var(–text2);margin-bottom:6px}
-.stat-card .stat-value{font-size:2rem;font-weight:800;line-height:1}
-.stat-card .stat-sub{font-size:.72rem;color:var(–text3);margin-top:4px}
-.stat-card::after{content:’’;position:absolute;top:0;right:0;width:60px;height:60px;border-radius:50%;opacity:.08;transform:translate(20px,-20px)}
-
-/* DEPT CARD */
-.dept-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–radius2);padding:18px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:10px}
-.dept-card:hover{border-color:var(–border2);transform:translateY(-2px);box-shadow:var(–shadow)}
-.dept-card .dept-icon{font-size:2rem;line-height:1}
-.dept-card .dept-name{font-size:.85rem;font-weight:600;line-height:1.3}
-.dept-card .dept-stats{display:flex;gap:10px;font-size:.72rem;color:var(–text3)}
-.dept-card .dept-stats span{display:flex;align-items:center;gap:3px}
+/* DEPT */
+.dc{background:var(–bg2);border:1px solid var(–border);border-radius:13px;padding:13px;cursor:pointer;transition:all .18s;display:flex;flex-direction:column;gap:7px}
+.dc:hover{border-color:var(–border2);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.45)}
 
 /* BREADCRUMB */
-.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(–text3);padding:12px 28px;border-bottom:1px solid var(–border);background:var(–bg2)}
-.breadcrumb span{cursor:pointer;transition:color .15s}.breadcrumb span:hover{color:var(–accent)}
-.breadcrumb .sep{color:var(–border2)}
-.breadcrumb .current{color:var(–text);font-weight:500;cursor:default}
+.bc{display:flex;align-items:center;gap:4px;font-size:.74rem;color:var(–text3);padding:8px 22px;border-bottom:1px solid var(–border);background:var(–bg2)}
+.bc span{cursor:pointer;transition:color .13s}.bc span:hover{color:var(–accent)}.bc .sep{color:var(–border2);cursor:default}.bc .cur{color:var(–text);font-weight:500;cursor:default}
 
-/* STUDENT LIST */
-.student-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.student-col-header{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:6px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.student-col-header.girls{background:rgba(244,114,182,.1);color:var(–pink)}
-.student-col-header.boys{background:rgba(96,165,250,.1);color:#60a5fa}
-.student-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;cursor:pointer;border:1px solid transparent;transition:all .15s;background:var(–bg3)}
-.student-row:hover{border-color:var(–border2);background:var(–bg4)}
-.student-row .sname{font-size:.85rem;font-weight:500}
-.student-row .sgroup{font-size:.7rem;color:var(–text3);background:var(–bg4);padding:2px 7px;border-radius:4px}
-.arrow{color:var(–text3);font-size:.8rem}
+/* STUDENTS */
+.sl2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.sch{font-size:.67rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 9px;border-radius:5px;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.sch.g{background:rgba(244,114,182,.1);color:var(–pink)}.sch.b{background:rgba(96,165,250,.1);color:#60a5fa}
+.sr{display:flex;align-items:center;justify-content:space-between;padding:7px 9px;border-radius:6px;cursor:pointer;border:1px solid transparent;transition:all .13s;background:var(–bg3);margin-bottom:3px}
+.sr:hover{border-color:var(–border2);background:var(–bg4)}
 
-/* BUTTON */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:500;transition:all .15s}
-.btn-primary{background:var(–accent);color:#fff}.btn-primary:hover{background:#3b7de8}
-.btn-secondary{background:var(–bg3);color:var(–text2);border:1px solid var(–border)}.btn-secondary:hover{background:var(–bg4);color:var(–text)}
-.btn-danger{background:rgba(248,113,113,.12);color:var(–red);border:1px solid rgba(248,113,113,.2)}.btn-danger:hover{background:rgba(248,113,113,.2)}
-.btn-sm{padding:5px 11px;font-size:.76rem}
-.btn-icon{width:32px;height:32px;padding:0;justify-content:center;border-radius:6px}
+/* BTNS */
+.btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:6px;border:none;cursor:pointer;font-family:inherit;font-size:.77rem;font-weight:500;transition:all .13s}
+.bp{background:var(–accent);color:#fff}.bp:hover{background:#3b7de8}
+.bs{background:var(–bg3);color:var(–text2);border:1px solid var(–border)}.bs:hover{background:var(–bg4);color:var(–text)}
+.bd{background:rgba(248,113,113,.1);color:var(–red);border:1px solid rgba(248,113,113,.2)}.bd:hover{background:rgba(248,113,113,.2)}
+.bg2{background:rgba(52,211,153,.1);color:var(–green);border:1px solid rgba(52,211,153,.2)}.bg2:hover{background:rgba(52,211,153,.2)}
+.bsm{padding:4px 9px;font-size:.73rem}.bxs{padding:3px 7px;font-size:.68rem}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
-.modal{background:var(–bg2);border:1px solid var(–border2);border-radius:var(–radius2);width:100%;max-width:680px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.6)}
-.modal-lg{max-width:820px}
-.modal-header{padding:18px 22px;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.modal-header h3{font-size:1rem;display:flex;align-items:center;gap:8px}
-.modal-body{padding:22px;overflow-y:auto;flex:1}
-.modal-footer{padding:16px 22px;border-top:1px solid var(–border);display:flex;justify-content:flex-end;gap:10px;flex-shrink:0}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1000;display:flex;align-items:center;justify-content:center;padding:12px}
+.md{background:var(–bg2);border:1px solid var(–border2);border-radius:13px;width:100%;max-width:630px;max-height:93vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.6)}
+.md-lg{max-width:780px}.md-xl{max-width:940px}
+.mh{padding:13px 17px;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.mh h3{font-size:.9rem;display:flex;align-items:center;gap:6px;font-weight:700}
+.mb{padding:17px;overflow-y:auto;flex:1}
+.mf{padding:11px 17px;border-top:1px solid var(–border);display:flex;justify-content:flex-end;gap:7px;flex-shrink:0}
 
 /* TABS */
-.tabs{display:flex;gap:4px;border-bottom:1px solid var(–border);margin-bottom:20px}
-.tab{padding:9px 18px;cursor:pointer;font-size:.83rem;color:var(–text2);border-bottom:2px solid transparent;transition:all .15s;border-radius:6px 6px 0 0}
-.tab:hover{color:var(–text);background:var(–bg3)}
-.tab.active{color:var(–accent);border-bottom-color:var(–accent);font-weight:600}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(–border);margin-bottom:15px}
+.tab{padding:7px 13px;cursor:pointer;font-size:.77rem;color:var(–text2);border-bottom:2px solid transparent;transition:all .13s;border-radius:4px 4px 0 0}
+.tab:hover{color:var(–text);background:var(–bg3)}.tab.act{color:var(–accent);border-bottom-color:var(–accent);font-weight:600}
 
 /* FORM */
-.form-row{display:grid;gap:14px;margin-bottom:14px}
-.form-row.cols-2{grid-template-columns:1fr 1fr}
-.form-row.cols-3{grid-template-columns:1fr 1fr 1fr}
-.form-group{display:flex;flex-direction:column;gap:5px}
-.form-label{font-size:.75rem;color:var(–text2);font-weight:500}
-.form-input{background:var(–bg3);border:1px solid var(–border);border-radius:8px;padding:8px 12px;color:var(–text);font-family:inherit;font-size:.85rem;transition:border-color .15s;outline:none}
-.form-input:focus{border-color:var(–accent)}
-.form-select{appearance:none;background-image:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘12’ height=‘8’ viewBox=‘0 0 12 8’%3E%3Cpath d=‘M1 1l5 5 5-5’ stroke=’%236b7fa0’ fill=‘none’ stroke-width=‘1.5’/%3E%3C/svg%3E”);background-repeat:no-repeat;background-position:right 10px center}
+.fr{display:grid;gap:10px;margin-bottom:10px}.fr.c2{grid-template-columns:1fr 1fr}.fr.c3{grid-template-columns:1fr 1fr 1fr}
+.fg{display:flex;flex-direction:column;gap:3px}
+.fl{font-size:.68rem;color:var(–text2);font-weight:500}
+.fi{background:var(–bg3);border:1px solid var(–border);border-radius:6px;padding:6px 9px;color:var(–text);font-family:inherit;font-size:.79rem;outline:none;width:100%;transition:border-color .13s}
+.fi:focus{border-color:var(–accent)}
+.fsel{appearance:none;background-image:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘9’ height=‘6’%3E%3Cpath d=‘M1 1l3.5 3.5L8 1’ stroke=’%236b7fa0’ fill=‘none’ stroke-width=‘1.4’/%3E%3C/svg%3E”);background-repeat:no-repeat;background-position:right 8px center}
 
 /* BADGE */
-.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:999px;font-size:.7rem;font-weight:600}
-.badge-girl{background:rgba(244,114,182,.15);color:var(–pink)}
-.badge-boy{background:rgba(96,165,250,.15);color:#60a5fa}
-.badge-green{background:rgba(52,211,153,.15);color:var(–green)}
-.badge-red{background:rgba(248,113,113,.15);color:var(–red)}
-.badge-amber{background:rgba(251,191,36,.15);color:var(–amber)}
-.badge-purple{background:rgba(167,139,250,.15);color:var(–purple)}
-.badge-blue{background:rgba(56,189,248,.15);color:var(–accent2)}
+.bdg{display:inline-flex;align-items:center;padding:1px 7px;border-radius:999px;font-size:.65rem;font-weight:600}
+.bdg-g{background:rgba(244,114,182,.15);color:var(–pink)}.bdg-b{background:rgba(96,165,250,.15);color:#60a5fa}
+.bdg-gr{background:rgba(52,211,153,.15);color:var(–green)}.bdg-r{background:rgba(248,113,113,.15);color:var(–red)}
+.bdg-a{background:rgba(251,191,36,.15);color:var(–amber)}.bdg-p{background:rgba(167,139,250,.15);color:var(–purple)}
+.bdg-c{background:rgba(56,189,248,.15);color:var(–cyan)}
 
-/* PAYMENT GRID */
-.payment-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:16px}
-.pay-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;cursor:default;position:relative}
-.pay-cell.paid{background:rgba(52,211,153,.2);color:var(–green);border:1px solid rgba(52,211,153,.3)}
-.pay-cell.unpaid{background:rgba(248,113,113,.1);color:var(–red);border:1px solid rgba(248,113,113,.2)}
-.pay-month-label{font-size:.62rem;color:var(–text3);text-align:center;margin-top:2px}
+/* PAY GRID */
+.pg{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-bottom:9px}
+.pc{aspect-ratio:1;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;cursor:pointer;transition:all .13s}
+.pc.paid{background:rgba(52,211,153,.2);color:var(–green);border:1px solid rgba(52,211,153,.3)}.pc.paid:hover{background:rgba(52,211,153,.35)}
+.pc.unpd{background:rgba(248,113,113,.1);color:var(–red);border:1px solid rgba(248,113,113,.2)}.pc.unpd:hover{background:rgba(248,113,113,.2)}
+.pc.fut{background:var(–bg4);color:var(–text3);border:1px solid var(–border);cursor:default}
+.pmr{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-bottom:3px}
 
-/* EVENTS */
-.event-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–radius2);padding:16px 18px;cursor:pointer;transition:all .2s}
-.event-card:hover{border-color:var(–border2);transform:translateY(-1px)}
-.event-status{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:999px;margin-bottom:10px}
-.event-status.upcoming{background:rgba(56,189,248,.1);color:var(–accent2)}
-.event-status.current{background:rgba(52,211,153,.1);color:var(–green)}
-.event-status.past{background:rgba(107,127,160,.1);color:var(–text3)}
-.event-status.archive{background:rgba(167,139,250,.1);color:var(–purple)}
+/* PROGRESS */
+.pb{height:4px;border-radius:999px;background:var(–bg3);overflow:hidden;margin:2px 0}
+.pf{height:100%;border-radius:999px;transition:width .35s}
 
-/* TEACHER CARD */
-.teacher-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–radius2);padding:16px 18px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px}
-.teacher-card:hover{border-color:var(–border2);transform:translateY(-1px);box-shadow:var(–shadow)}
-.teacher-avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;flex-shrink:0}
-.teacher-info{flex:1;min-width:0}
-.teacher-info .tname{font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.teacher-info .tsubject{font-size:.75rem;color:var(–text2);margin-top:2px}
-.teacher-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+/* EVENT */
+.ec{background:var(–bg2);border:1px solid var(–border);border-radius:13px;padding:12px 14px;cursor:pointer;transition:all .18s}
+.ec:hover{border-color:var(–border2);transform:translateY(-1px)}
+.es{display:inline-flex;align-items:center;gap:3px;font-size:.66rem;font-weight:600;padding:2px 8px;border-radius:999px;margin-bottom:6px}
+.es.upcoming{background:rgba(56,189,248,.1);color:var(–cyan)}.es.current{background:rgba(52,211,153,.1);color:var(–green)}
+.es.past{background:rgba(107,127,160,.1);color:var(–text3)}.es.archive{background:rgba(167,139,250,.1);color:var(–purple)}
 
-/* FILTER BAR */
-.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
-.filter-chip{padding:5px 12px;border-radius:999px;border:1px solid var(–border);background:var(–bg3);color:var(–text2);font-size:.78rem;cursor:pointer;transition:all .15s}
-.filter-chip:hover{border-color:var(–border2);color:var(–text)}
-.filter-chip.active{background:rgba(79,142,247,.15);border-color:var(–accent);color:var(–accent)}
+/* TEACHER */
+.tc{background:var(–bg2);border:1px solid var(–border);border-radius:13px;padding:12px 14px;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:10px}
+.tc:hover{border-color:var(–border2);transform:translateY(-1px);box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.ta{width:37px;height:37px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;flex-shrink:0}
+
+/* FILTER */
+.fb{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:13px;align-items:center}
+.fc{padding:3px 10px;border-radius:999px;border:1px solid var(–border);background:var(–bg3);color:var(–text2);font-size:.72rem;cursor:pointer;transition:all .13s}
+.fc:hover{border-color:var(–border2);color:var(–text)}.fc.act{background:rgba(79,142,247,.15);border-color:var(–accent);color:var(–accent)}
 
 /* SEARCH */
-.search-box{position:relative;flex:1;max-width:280px}
-.search-box input{width:100%;background:var(–bg3);border:1px solid var(–border);border-radius:8px;padding:7px 12px 7px 34px;color:var(–text);font-family:inherit;font-size:.82rem;outline:none;transition:border-color .15s}
-.search-box input:focus{border-color:var(–accent)}
-.search-box .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(–text3);font-size:.9rem}
+.srchw{position:relative;flex:1;max-width:245px}
+.srchw input{width:100%;background:var(–bg3);border:1px solid var(–border);border-radius:6px;padding:5px 9px 5px 26px;color:var(–text);font-family:inherit;font-size:.77rem;outline:none;transition:border-color .13s}
+.srchw input:focus{border-color:var(–accent)}.srchw .si{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(–text3);font-size:.8rem}
 
-/* PROGRESS BAR */
-.progress-bar{height:6px;border-radius:999px;background:var(–bg3);overflow:hidden;margin:4px 0}
-.progress-fill{height:100%;border-radius:999px;transition:width .4s}
+/* FINANCE */
+.fc2{background:var(–bg2);border:1px solid var(–border);border-radius:13px;padding:13px 15px}
+.ftbl{width:100%;border-collapse:collapse}
+.ftbl th{background:var(–bg3);padding:6px 8px;text-align:left;font-size:.68rem;color:var(–text2);font-weight:600;white-space:nowrap}
+.ftbl td{padding:6px 8px;font-size:.75rem;border-bottom:1px solid var(–border)}.ftbl tr:hover td{background:var(–bg3)}
+.ftbl .nr{text-align:right;font-variant-numeric:tabular-nums}
 
-/* SECTION HEADER */
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.section-header h3{font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:8px}
+/* AI */
+.ai-p{position:fixed;right:0;top:0;bottom:0;width:335px;background:var(–bg2);border-left:1px solid var(–border);z-index:500;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .28s ease}
+.ai-p.open{transform:translateX(0)}
+.ai-msgs{flex:1;overflow-y:auto;padding:11px;display:flex;flex-direction:column;gap:8px}
+.ai-m{max-width:93%;padding:8px 10px;border-radius:9px;font-size:.77rem;line-height:1.55;white-space:pre-wrap}
+.ai-m.u{background:var(–accent);color:#fff;align-self:flex-end;border-radius:9px 9px 2px 9px}
+.ai-m.b{background:var(–bg3);color:var(–text);align-self:flex-start;border-radius:9px 9px 9px 2px;border:1px solid var(–border)}
+.ai-fab{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(–accent),var(–purple));color:#fff;border:none;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(79,142,247,.4);z-index:490;transition:all .18s}
+.ai-fab:hover{transform:scale(1.09)}
 
-/* SCROLLBAR */
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(–border2);border-radius:999px}
+/* LOGIN */
+.ls{position:fixed;inset:0;background:var(–bg);display:flex;align-items:center;justify-content:center;z-index:9999}
+.lb{background:var(–bg2);border:1px solid var(–border2);border-radius:17px;padding:34px;width:345px;box-shadow:0 24px 80px rgba(0,0,0,.5)}
 
-/* CLOSE BTN */
-.close-btn{width:30px;height:30px;border-radius:6px;border:none;background:var(–bg3);color:var(–text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .15s}
-.close-btn:hover{background:var(–bg4);color:var(–text)}
-
-/* MONTH NAMES */
-.months-row{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:4px}
-
-/* INPUT INLINE */
-.inline-edit{background:transparent;border:none;border-bottom:1px dashed var(–border2);color:var(–text);font-family:inherit;font-size:inherit;font-weight:inherit;width:100%;outline:none;padding:2px 0}
-.inline-edit:focus{border-bottom-color:var(–accent)}
-
-.divider{height:1px;background:var(–border);margin:16px 0}
-.text-muted{color:var(–text3);font-size:.8rem}
-.flex{display:flex;align-items:center;gap:8px}
-.flex-between{display:flex;align-items:center;justify-content:space-between}
-.mt-4{margin-top:4px}.mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}
-.mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}.mb-16{margin-bottom:16px}
-.gap-8{gap:8px}.gap-12{gap:12px}
-.font-bold{font-weight:700}.font-600{font-weight:600}
-.text-sm{font-size:.8rem}.text-xs{font-size:.72rem}
-.chip{padding:2px 8px;border-radius:4px;font-size:.7rem;background:var(–bg4);color:var(–text2)}
-.empty-state{text-align:center;padding:40px;color:var(–text3)}
-.empty-state .empty-icon{font-size:2.5rem;margin-bottom:10px}
+/* MISC */
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(–border2);border-radius:999px}
+.div{height:1px;background:var(–border);margin:11px 0}
+.tm{color:var(–text3)}.tsx{font-size:.78rem}.txxs{font-size:.68rem}
+.flex{display:flex;align-items:center;gap:6px}.flb{display:flex;align-items:center;justify-content:space-between}
+.mt4{margin-top:4px}.mt8{margin-top:8px}.mt12{margin-top:12px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb14{margin-bottom:14px}
+.chip{padding:2px 6px;border-radius:4px;font-size:.66rem;background:var(–bg4);color:var(–text2)}
+.empty{text-align:center;padding:30px;color:var(–text3)}.empty .ei{font-size:2rem;margin-bottom:7px}
+.xb{width:26px;height:26px;border-radius:5px;border:none;background:var(–bg3);color:var(–text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.93rem;transition:all .13s}
+.xb:hover{background:var(–bg4);color:var(–text)}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.sh h3{font-size:.87rem;font-weight:600;display:flex;align-items:center;gap:6px}
 `;
 
-const MONTHS_GEO = [“იან”,“თებ”,“მარ”,“აპრ”,“მაი”,“ივნ”,“ივლ”,“აგვ”,“სექ”,“ოქტ”,“ნოე”,“დეკ”];
-const MONTHS_FULL = [“იანვარი”,“თებერვალი”,“მარტი”,“აპრილი”,“მაისი”,“ივნისი”,“ივლისი”,“აგვისტო”,“სექტემბერი”,“ოქტომბერი”,“ნოემბერი”,“დეკემბერი”];
-
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
-function getDeptColor(deptId) {
-return DEPARTMENTS.find(d => d.id === deptId)?.color || “#4f8ef7”;
-}
-function getDeptName(deptId) {
-return DEPARTMENTS.find(d => d.id === deptId)?.name || “”;
-}
-function getDeptIcon(deptId) {
-return DEPARTMENTS.find(d => d.id === deptId)?.icon || “”;
-}
-function getTeacherName(teachers, id) {
-return teachers.find(t => t.id === id)?.name || “”;
-}
-function getGroupName(groups, id) {
-return groups.find(g => g.id === id)?.name || “”;
-}
-
-// ─── STUDENT CARD MODAL ───────────────────────────────────────────────────────
-function StudentModal({ student, teachers, groups, departments, onSave, onDelete, onClose }) {
-const [tab, setTab] = useState(0);
-const [data, setData] = useState({ …student });
-const [p1, setP1] = useState({ …student.parent1 });
-const [p2, setP2] = useState({ …student.parent2 });
-
-function upd(field, val) { setData(d => ({ …d, [field]: val })); }
-
-const paidCount = (yr) => Object.values(data.payments[yr] || {}).filter(p => p.paid).length;
-const totalFee = (yr) => paidCount(yr) * 50;
-
-function togglePayment(yr, m) {
-const cur = data.payments[yr]?.[m];
-const updated = {
-…data.payments,
-[yr]: {
-…data.payments[yr],
-[m]: cur?.paid
-? { paid: false }
-: { paid: true, date: new Date().toISOString().split(“T”)[0], amount: 50 }
-}
-};
-setData(d => ({ …d, payments: updated }));
-}
-
-function handleSave() {
-onSave({ …data, parent1: p1, parent2: p2 });
-onClose();
-}
-
-const dept = departments.find(d => d.id === data.deptId);
-
-return (
-<div className=“modal-overlay” onClick={e => e.target === e.currentTarget && onClose()}>
-<div className="modal modal-lg">
-<div className="modal-header">
-<h3>
-<span style={{ fontSize: “1.2rem” }}>{data.gender === “გოგო” ? “👧” : “👦”}</span>
-{data.lastName} {data.firstName}
-<span className={`badge ${data.gender === "გოგო" ? "badge-girl" : "badge-boy"}`}>{data.gender}</span>
-</h3>
-<button className="close-btn" onClick={onClose}>×</button>
+// ═══════════════════════════════════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════════════════════════════════
+function LoginScreen({onLogin}){
+const [u,setU]=useState(””), [p,setP]=useState(””), [err,setErr]=useState(””);
+function go(){const usr=USERS.find(x=>x.username===u&&x.password===p);if(usr){onLogin(usr);}else setErr(“❌ მომხმ. ან პაროლი არასწ.”);}
+return(
+<div className="ls"><div className="lb">
+<div style={{textAlign:“center”,marginBottom:22}}>
+<div style={{fontSize:“2.5rem”,fontWeight:800,color:“var(–accent)”,lineHeight:1}}>№26</div>
+<div style={{fontSize:”.8rem”,color:“var(–text2)”,marginTop:3}}>ხელოვნების სკოლა · მართვის სისტ.</div>
 </div>
-<div className=“tabs” style={{ padding: “0 22px”, marginBottom: 0 }}>
-{[“👤 მოსწავლე”, “👨‍👩‍👧 მშობლები”, “💳 გადასახადი”].map((t, i) => (
-<div key={i} className={`tab${tab === i ? " active" : ""}`} onClick={() => setTab(i)}>{t}</div>
-))}
-</div>
-<div className="modal-body">
-{tab === 0 && (
-<>
-<div className="form-row cols-2">
-<div className="form-group">
-<label className="form-label">გვარი</label>
-<input className=“form-input” value={data.lastName} onChange={e => upd(“lastName”, e.target.value)} />
-</div>
-<div className="form-group">
-<label className="form-label">სახელი</label>
-<input className=“form-input” value={data.firstName} onChange={e => upd(“firstName”, e.target.value)} />
-</div>
-</div>
-<div className="form-row cols-3">
-<div className="form-group">
-<label className="form-label">სქესი</label>
-<select className=“form-input form-select” value={data.gender} onChange={e => upd(“gender”, e.target.value)}>
-<option value="გოგო">გოგო</option>
-<option value="ბიჭი">ბიჭი</option>
-</select>
-</div>
-<div className="form-group">
-<label className="form-label">ჩარიცხვის თარიღი</label>
-<input type=“date” className=“form-input” value={data.enrollDate} onChange={e => upd(“enrollDate”, e.target.value)} />
-</div>
-<div className="form-group">
-<label className="form-label">გარიცხვის თარიღი</label>
-<input type=“date” className=“form-input” value={data.expelDate} onChange={e => upd(“expelDate”, e.target.value)} />
-</div>
-</div>
-<div className="divider" />
-<div className="form-row cols-3">
-<div className="form-group">
-<label className="form-label">განყოფილება</label>
-<select className=“form-input form-select” value={data.deptId} onChange={e => upd(“deptId”, +e.target.value)}>
-{departments.map(d => <option key={d.id} value={d.id}>{d.icon} {d.name}</option>)}
-</select>
-</div>
-<div className="form-group">
-<label className="form-label">პედაგოგი</label>
-<select className=“form-input form-select” value={data.teacherId} onChange={e => upd(“teacherId”, +e.target.value)}>
-{teachers.filter(t => t.deptId === data.deptId).map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-</select>
-</div>
-<div className="form-group">
-<label className="form-label">ჯგუფი</label>
-<select className=“form-input form-select” value={data.groupId} onChange={e => upd(“groupId”, +e.target.value)}>
-{groups.filter(g => g.deptId === data.deptId).map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
-</select>
-</div>
-</div>
-{dept && (
-<div style={{ marginTop: 12, padding: “10px 14px”, background: “var(–bg3)”, borderRadius: 8, display: “flex”, alignItems: “center”, gap: 10 }}>
-<span style={{ fontSize: “1.3rem” }}>{dept.icon}</span>
-<div>
-<div className="text-xs text-muted">მიმდინარე</div>
-<div style={{ fontSize: “.85rem”, fontWeight: 600 }}>{dept.name} · {getGroupName(groups, data.groupId)} · {getTeacherName(teachers, data.teacherId)}</div>
-</div>
-</div>
-)}
-</>
-)}
-{tab === 1 && (
-<>
-{[{ label: “მშობელი 1”, state: p1, setState: setP1 }, { label: “მშობელი 2”, state: p2, setState: setP2 }].map(({ label, state, setState }) => (
-<div key={label} style={{ marginBottom: 20 }}>
-<div style={{ fontSize: “.78rem”, fontWeight: 700, color: “var(–text2)”, marginBottom: 10, textTransform: “uppercase”, letterSpacing: “.08em” }}>{label}</div>
-<div className="form-row cols-2">
-<div className="form-group">
-<label className="form-label">სახელი</label>
-<input className=“form-input” value={state.name} onChange={e => setState(s => ({ …s, name: e.target.value }))} />
-</div>
-<div className="form-group">
-<label className="form-label">გვარი</label>
-<input className=“form-input” value={state.lastName} onChange={e => setState(s => ({ …s, lastName: e.target.value }))} />
-</div>
-</div>
-<div className="form-row cols-3">
-<div className="form-group">
-<label className="form-label">ტელეფონი</label>
-<input className=“form-input” value={state.phone} onChange={e => setState(s => ({ …s, phone: e.target.value }))} />
-</div>
-<div className="form-group">
-<label className="form-label">ელ. ფოსტა</label>
-<input className=“form-input” value={state.email} onChange={e => setState(s => ({ …s, email: e.target.value }))} />
-</div>
-<div className="form-group">
-<label className="form-label">პირადი ნომერი</label>
-<input className=“form-input” value={state.personalId} onChange={e => setState(s => ({ …s, personalId: e.target.value }))} />
-</div>
-</div>
-{label !== “მშობელი 2” && <div className="divider" />}
+<div className="fg mb8"><label className="fl">მომხმარებელი</label><input className=“fi” value={u} onChange={e=>setU(e.target.value)} onKeyDown={e=>e.key===“Enter”&&go()} autoFocus placeholder=“username”/></div>
+<div className="fg mb12"><label className="fl">პაროლი</label><input className=“fi” type=“password” value={p} onChange={e=>setP(e.target.value)} onKeyDown={e=>e.key===“Enter”&&go()} placeholder=“password”/></div>
+{err&&<div style={{color:“var(–red)”,fontSize:”.74rem”,marginBottom:9}}>{err}</div>}
+<button className=“btn bp” style={{width:“100%”,justifyContent:“center”}} onClick={go}>🔑 შესვლა</button>
+<div style={{marginTop:16,borderTop:“1px solid var(–border)”,paddingTop:12}}>
+<div style={{fontSize:”.63rem”,color:“var(–text3)”,marginBottom:6}}>სატესტო ანგარ.:</div>
+{USERS.map(usr=>(
+<div key={usr.id} onClick={()=>{setU(usr.username);setP(usr.password);}}
+style={{display:“flex”,alignItems:“center”,gap:6,padding:“4px 8px”,borderRadius:5,cursor:“pointer”,marginBottom:3,background:“var(–bg3)”,fontSize:”.71rem”}}>
+<span>{usr.icon}</span><span style={{color:usr.color,fontWeight:600}}>{usr.name}</span>
+<span style={{color:“var(–text3)”,marginLeft:“auto”}}>{usr.username}/{usr.password}</span>
 </div>
 ))}
-</>
-)}
-{tab === 2 && (
-<>
-{[“2025”, “2026”].map(yr => {
-const paid = paidCount(yr);
-const pct = Math.round((paid / 12) * 100);
-const color = pct >= 75 ? “var(–green)” : pct >= 40 ? “var(–amber)” : “var(–red)”;
-return (
-<div key={yr} style={{ marginBottom: 22 }}>
-<div className="flex-between mb-8">
-<div style={{ fontWeight: 700, fontSize: “.9rem” }}>📅 {yr} წელი</div>
-<div className="flex gap-8">
-<span style={{ fontSize: “.8rem”, color: “var(–green)” }}>✓ {paid} თვე</span>
-<span style={{ fontSize: “.8rem”, color: “var(–red)” }}>✗ {12 - paid} თვე</span>
-<span style={{ fontSize: “.85rem”, fontWeight: 700, color }}>{paid * 50} ₾</span>
 </div>
+</div></div>
+);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STUDENT LIST VIEW
+// ═══════════════════════════════════════════════════════════════
+function SLV({students,groups,teachers,onStudent}){
+const girls=[…students.filter(s=>s.gender===“გოგო”)].sort((a,b)=>a.lastName.localeCompare(b.lastName));
+const boys=[…students.filter(s=>s.gender===“ბიჭი”)].sort((a,b)=>a.lastName.localeCompare(b.lastName));
+const Row=({s})=>(
+<div className=“sr” onClick={()=>onStudent(s)}>
+<div><div style={{fontSize:”.79rem”,fontWeight:500}}>{s.lastName} {s.firstName}</div><div style={{fontSize:”.67rem”,color:“var(–text3)”,marginTop:3}}>{gDept(s.deptId)?.icon} {gTName(teachers,s.teacherId)}</div></div>
+<div className="flex"><span className="chip">{gGName(groups,s.groupId)}</span><span style={{color:“var(–text3)”}}>›</span></div>
 </div>
-<div className="progress-bar mb-8">
-<div className=“progress-fill” style={{ width: `${pct}%`, background: color }} />
+);
+return(
+<div className="sl2">
+<div><div className="sch g">👧 {girls.length}</div>{girls.map(s=><Row key={s.id} s={s}/>)}</div>
+<div><div className="sch b">👦 {boys.length}</div>{boys.map(s=><Row key={s.id} s={s}/>)}</div>
 </div>
-<div className="months-row">
-{MONTHS_GEO.map((m, i) => <div key={i} className="pay-month-label">{m}</div>)}
+);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STUDENT MODAL
+// ═══════════════════════════════════════════════════════════════
+function StudentModal({student,teachers,groups,onSave,onDelete,onClose}){
+const [tab,setTab]=useState(0);
+const [d,setD]=useState({…student});
+const [p1,setP1]=useState({…student.parent1});
+const [p2,setP2]=useState({…student.parent2});
+const upd=(f,v)=>setD(x=>({…x,[f]:v}));
+function tog(yr,m){
+const cur=d.payments[yr]?.[m];
+setD(x=>({…x,payments:{…x.payments,[yr]:{…x.payments[yr],[m]:cur?.paid?{paid:false}:{paid:true,date:new Date().toISOString().split(“T”)[0],amount:FEE}}}}));
+}
+const dept=gDept(d.deptId);
+return(
+<div className=“mo” onClick={e=>e.target===e.currentTarget&&onClose()}>
+<div className="md md-lg">
+<div className="mh">
+<h3>{d.gender===“გოგო”?“👧”:“👦”} {d.lastName} {d.firstName}<span className={`bdg ${d.gender==="გოგო"?"bdg-g":"bdg-b"}`}>{d.gender}</span></h3>
+<button className="xb" onClick={onClose}>×</button>
 </div>
-<div className="payment-grid">
-{Array.from({ length: 12 }, (_, i) => {
-const p = data.payments[yr]?.[i + 1];
-return (
-<div
-key={i}
-className={`pay-cell ${p?.paid ? "paid" : "unpaid"}`}
-onClick={() => togglePayment(yr, i + 1)}
-title={p?.paid ? `გადახდილია ${p.date}` : “გადახდილი არ არის”}
->
-{p?.paid ? “✓” : “✗”}
+<div className=“tabs” style={{padding:“0 17px”,marginBottom:0}}>
+{[“👤 მოსწ.”,“👨‍👩‍👧 მშობ.”,“💳 გადას.”].map((t,i)=><div key={i} className={`tab${tab===i?" act":""}`} onClick={()=>setTab(i)}>{t}</div>)}
+</div>
+<div className="mb">
+{tab===0&&<>
+<div className="fr c2"><div className="fg"><label className="fl">გვარი</label><input className=“fi” value={d.lastName} onChange={e=>upd(“lastName”,e.target.value)}/></div><div className="fg"><label className="fl">სახელი</label><input className=“fi” value={d.firstName} onChange={e=>upd(“firstName”,e.target.value)}/></div></div>
+<div className="fr c3">
+<div className="fg"><label className="fl">სქესი</label><select className=“fi fsel” value={d.gender} onChange={e=>upd(“gender”,e.target.value)}><option>გოგო</option><option>ბიჭი</option></select></div>
+<div className="fg"><label className="fl">ჩარიც.</label><input type=“date” className=“fi” value={d.enrollDate} onChange={e=>upd(“enrollDate”,e.target.value)}/></div>
+<div className="fg"><label className="fl">გარიც.</label><input type=“date” className=“fi” value={d.expelDate} onChange={e=>upd(“expelDate”,e.target.value)}/></div>
+</div>
+<div className="div"/>
+<div className="fr c3">
+<div className="fg"><label className="fl">განყ.</label><select className=“fi fsel” value={d.deptId} onChange={e=>upd(“deptId”,+e.target.value)}>{DEPARTMENTS.map(x=><option key={x.id} value={x.id}>{x.icon} {x.name}</option>)}</select></div>
+<div className="fg"><label className="fl">პედ.</label><select className=“fi fsel” value={d.teacherId} onChange={e=>upd(“teacherId”,+e.target.value)}>{teachers.filter(t=>t.deptId===d.deptId).map(t=><option key={t.id} value={t.id}>{t.name}</option>)}</select></div>
+<div className="fg"><label className="fl">ჯგ.</label><select className=“fi fsel” value={d.groupId} onChange={e=>upd(“groupId”,+e.target.value)}>{groups.filter(g=>g.deptId===d.deptId).map(g=><option key={g.id} value={g.id}>{g.name}</option>)}</select></div>
+</div>
+{dept&&<div style={{marginTop:8,padding:“7px 10px”,background:“var(–bg3)”,borderRadius:6,display:“flex”,alignItems:“center”,gap:7}}><span style={{fontSize:“1.05rem”}}>{dept.icon}</span><span className="tsx">{dept.name} · {gGName(groups,d.groupId)} · {gTName(teachers,d.teacherId)}</span></div>}
+</>}
+{tab===1&&[{l:“მშობ. 1”,s:p1,set:setP1},{l:“მშობ. 2”,s:p2,set:setP2}].map(({l,s,set})=>(
+<div key={l} style={{marginBottom:13}}>
+<div style={{fontSize:”.68rem”,fontWeight:700,color:“var(–text2)”,marginBottom:7,textTransform:“uppercase”,letterSpacing:”.08em”}}>{l}</div>
+<div className="fr c2"><div className="fg"><label className="fl">სახ.</label><input className=“fi” value={s.name} onChange={e=>set(x=>({…x,name:e.target.value}))}/></div><div className="fg"><label className="fl">გვ.</label><input className=“fi” value={s.lastName} onChange={e=>set(x=>({…x,lastName:e.target.value}))}/></div></div>
+<div className="fr c3"><div className="fg"><label className="fl">ტელ.</label><input className=“fi” value={s.phone} onChange={e=>set(x=>({…x,phone:e.target.value}))}/></div><div className="fg"><label className="fl">ელ.ფ.</label><input className=“fi” value={s.email} onChange={e=>set(x=>({…x,email:e.target.value}))}/></div><div className="fg"><label className="fl">პ.№</label><input className=“fi” value={s.personalId} onChange={e=>set(x=>({…x,personalId:e.target.value}))}/></div></div>
+{l===“მშობ. 1”&&<div className="div"/>}
+</div>
+))}
+{tab===2&&<>
+{[“2025”,“2026”].map(yr=>{
+const mx=yr===String(CY)?CM:12;
+const paid=Object.entries(d.payments[yr]||{}).filter(([m,p])=>+m<=mx&&p.paid).length;
+const col=paid*FEE, exp=mx*FEE, pct=exp?Math.round(col/exp*100):0;
+const clr=pct>=80?“var(–green)”:pct>=50?“var(–amber)”:“var(–red)”;
+return(
+<div key={yr} style={{marginBottom:16}}>
+<div className="flb mb8"><div style={{fontWeight:700,fontSize:”.83rem”}}>📅 {yr}</div><div className="flex"><span className=“tsx” style={{color:“var(–green)”}}>✓{paid}თ</span><span className=“tsx” style={{color:“var(–red)”}}>✗{mx-paid}დ</span><span style={{fontWeight:700,fontSize:”.8rem”,color:clr}}>{col}/{exp}₾</span></div></div>
+<div className="pb mb8"><div className=“pf” style={{width:`${pct}%`,background:clr}}/></div>
+<div className="pmr">{MGeo.map((m,i)=><div key={i} style={{fontSize:”.57rem”,color:“var(–text3)”,textAlign:“center”}}>{m}</div>)}</div>
+<div className="pg">{Array.from({length:12},(_,i)=>{const m=i+1,fut=m>mx,pp=d.payments[yr]?.[m];return(<div key={i} className={`pc ${fut?"fut":pp?.paid?"paid":"unpd"}`} onClick={()=>!fut&&tog(yr,m)} title={fut?”—”:pp?.paid?`გად.${pp.date}`:“გ/ა”}>{fut?”—”:pp?.paid?“✓”:“✗”}</div>);})}</div>
 </div>
 );
 })}
+<div className="div"/>
+<div style={{fontWeight:600,fontSize:”.79rem”,marginBottom:7}}>📋 ისტ.</div>
+{[“2025”,“2026”].flatMap(yr=>Object.entries(d.payments[yr]||{}).filter(([,p])=>p.paid).map(([m,p])=>(
+<div key={`${yr}-${m}`} className=“flb” style={{padding:“5px 8px”,background:“var(–bg3)”,borderRadius:5,marginBottom:3}}>
+<span className="tsx">{MFull[+m-1]} {yr}</span><span style={{fontSize:”.73rem”,color:“var(–text3)”}}>{p.date}</span><span style={{color:“var(–green)”,fontWeight:700,fontSize:”.79rem”}}>{p.amount}₾</span>
 </div>
+)))}
+</>}
 </div>
-);
-})}
-<div className="divider" />
-<div style={{ fontWeight: 600, fontSize: “.85rem”, marginBottom: 10 }}>📋 გადახდის ისტორია</div>
-<div style={{ display: “flex”, flexDirection: “column”, gap: 6 }}>
-{[“2025”, “2026”].flatMap(yr =>
-Object.entries(data.payments[yr] || {})
-.filter(([, p]) => p.paid)
-.map(([m, p]) => (
-<div key={`${yr}-${m}`} className=“flex-between” style={{ padding: “7px 12px”, background: “var(–bg3)”, borderRadius: 7 }}>
-<span className="text-sm">{MONTHS_FULL[+m - 1]} {yr}</span>
-<span className="text-sm">{p.date}</span>
-<span style={{ color: “var(–green)”, fontWeight: 700, fontSize: “.85rem” }}>{p.amount} ₾</span>
-</div>
-))
-)}
-</div>
-</>
-)}
-</div>
-<div className="modal-footer">
-<button className=“btn btn-danger btn-sm” onClick={() => { onDelete(student.id); onClose(); }}>🗑 წაშლა</button>
-<button className="btn btn-secondary btn-sm" onClick={onClose}>გაუქმება</button>
-<button className="btn btn-primary btn-sm" onClick={handleSave}>💾 შენახვა</button>
-</div>
+<div className="mf"><button className=“btn bd bsm” onClick={()=>{onDelete(student.id);onClose();}}>🗑</button><button className="btn bs bsm" onClick={onClose}>გაუქ.</button><button className=“btn bp bsm” onClick={()=>{onSave({…d,parent1:p1,parent2:p2});onClose();}}>💾 შენახ.</button></div>
 </div>
 </div>
 );
 }
 
-// ─── TEACHER MODAL ────────────────────────────────────────────────────────────
-function TeacherModal({ teacher, departments, groups, students, onSave, onDelete, onClose }) {
-const [data, setData] = useState({ …teacher });
-function upd(f, v) { setData(d => ({ …d, [f]: v })); }
-
-const myGroups = groups.filter(g => g.teacherId === teacher.id);
-const myStudents = students.filter(s => s.teacherId === teacher.id);
-const dept = departments.find(d => d.id === data.deptId);
-
-return (
-<div className=“modal-overlay” onClick={e => e.target === e.currentTarget && onClose()}>
-<div className="modal">
-<div className="modal-header">
-<h3>
-<span style={{ background: dept?.color + “30”, color: dept?.color, width: 32, height: 32, borderRadius: 8, display: “inline-flex”, alignItems: “center”, justifyContent: “center”, fontSize: “1rem” }}>{dept?.icon}</span>
-{data.name}
-</h3>
-<button className="close-btn" onClick={onClose}>×</button>
+// ═══════════════════════════════════════════════════════════════
+// TEACHER MODAL
+// ═══════════════════════════════════════════════════════════════
+function TeacherModal({teacher,groups,students,onSave,onDelete,onClose,onStudentClick,onGroupNav}){
+const [d,setD]=useState({…teacher});
+const [tt,setTT]=useState(0);
+const dept=gDept(d.deptId);
+const myG=groups.filter(g=>g.teacherId===teacher.id);
+const myS=students.filter(s=>s.teacherId===teacher.id);
+return(
+<div className=“mo” onClick={e=>e.target===e.currentTarget&&onClose()}>
+<div className="md md-lg">
+<div className="mh">
+<h3><span style={{background:dept?.color+“30”,color:dept?.color,width:27,height:27,borderRadius:6,display:“inline-flex”,alignItems:“center”,justifyContent:“center”}}>{dept?.icon}</span>{d.name}</h3>
+<button className="xb" onClick={onClose}>×</button>
 </div>
-<div className="modal-body">
-<div style={{ display: “flex”, gap: 12, marginBottom: 18 }}>
-<div style={{ flex: 1, padding: “12px 14px”, background: “var(–bg3)”, borderRadius: 8, textAlign: “center” }}>
-<div style={{ fontSize: “1.5rem”, fontWeight: 800, color: “var(–accent)” }}>{myStudents.length}</div>
-<div className="text-xs text-muted">მოსწავლე</div>
+<div className=“tabs” style={{padding:“0 17px”,marginBottom:0}}>
+{[“📋 მონ.”,“👥 მოსწ.”].map((t,i)=><div key={i} className={`tab${tt===i?" act":""}`} onClick={()=>setTT(i)}>{t}</div>)}
 </div>
-<div style={{ flex: 1, padding: “12px 14px”, background: “var(–bg3)”, borderRadius: 8, textAlign: “center” }}>
-<div style={{ fontSize: “1.5rem”, fontWeight: 800, color: “var(–green)” }}>{myGroups.length}</div>
-<div className="text-xs text-muted">ჯგუფი</div>
+<div className="mb">
+{tt===0&&<>
+<div style={{display:“flex”,gap:8,marginBottom:13}}>
+<div style={{flex:1,padding:“8px 10px”,background:“var(–bg3)”,borderRadius:6,textAlign:“center”}}><div style={{fontSize:“1.3rem”,fontWeight:800,color:“var(–accent)”}}>{myS.length}</div><div style={{fontSize:”.65rem”,color:“var(–text3)”}}>მოსწ.</div></div>
+<div style={{flex:1,padding:“8px 10px”,background:“var(–bg3)”,borderRadius:6,textAlign:“center”}}><div style={{fontSize:“1.3rem”,fontWeight:800,color:“var(–green)”}}>{myG.length}</div><div style={{fontSize:”.65rem”,color:“var(–text3)”}}>ჯგ.</div></div>
 </div>
+<div style={{display:“flex”,gap:5,flexWrap:“wrap”,marginBottom:11}}>
+{myG.map(g=><span key={g.id} className=“chip” style={{cursor:“pointer”,border:“1px solid var(–border2)”}} onClick={()=>{onGroupNav(g);onClose();}}>📋 {g.name}</span>)}
 </div>
-{myGroups.length > 0 && (
-<div style={{ display: “flex”, gap: 6, flexWrap: “wrap”, marginBottom: 16 }}>
-{myGroups.map(g => <span key={g.id} className="chip">{g.name}</span>)}
+<div className="div"/>
+<div className="fr c2"><div className="fg"><label className="fl">სახ. და გვ.</label><input className=“fi” value={d.name} onChange={e=>setD(x=>({…x,name:e.target.value}))}/></div><div className="fg"><label className="fl">სპეც.</label><input className=“fi” value={d.subject} onChange={e=>setD(x=>({…x,subject:e.target.value}))}/></div></div>
+<div className="fr c2"><div className="fg"><label className="fl">ტელ.</label><input className=“fi” value={d.phone} onChange={e=>setD(x=>({…x,phone:e.target.value}))}/></div><div className="fg"><label className="fl">ელ.ფ.</label><input className=“fi” value={d.email} onChange={e=>setD(x=>({…x,email:e.target.value}))}/></div></div>
+<div className="fg"><label className="fl">განყ.</label><select className=“fi fsel” value={d.deptId} onChange={e=>setD(x=>({…x,deptId:+e.target.value}))}>{DEPARTMENTS.map(x=><option key={x.id} value={x.id}>{x.icon} {x.name}</option>)}</select></div>
+</>}
+{tt===1&&<SLV students={myS} groups={groups} teachers={[teacher]} onStudent={s=>{onStudentClick(s);onClose();}}/>}
 </div>
-)}
-<div className="divider" />
-<div className="form-row cols-2">
-<div className="form-group">
-<label className="form-label">სახელი და გვარი</label>
-<input className=“form-input” value={data.name} onChange={e => upd(“name”, e.target.value)} />
-</div>
-<div className="form-group">
-<label className="form-label">სპეციალობა / საგანი</label>
-<input className=“form-input” value={data.subject} onChange={e => upd(“subject”, e.target.value)} />
-</div>
-</div>
-<div className="form-row cols-2">
-<div className="form-group">
-<label className="form-label">ტელეფონი</label>
-<input className=“form-input” value={data.phone} onChange={e => upd(“phone”, e.target.value)} />
-</div>
-<div className="form-group">
-<label className="form-label">ელ. ფოსტა</label>
-<input className=“form-input” value={data.email} onChange={e => upd(“email”, e.target.value)} />
-</div>
-</div>
-<div className="form-group">
-<label className="form-label">განყოფილება</label>
-<select className=“form-input form-select” value={data.deptId} onChange={e => upd(“deptId”, +e.target.value)}>
-{departments.map(d => <option key={d.id} value={d.id}>{d.icon} {d.name}</option>)}
-</select>
-</div>
-</div>
-<div className="modal-footer">
-<button className=“btn btn-danger btn-sm” onClick={() => { onDelete(teacher.id); onClose(); }}>🗑 წაშლა</button>
-<button className="btn btn-secondary btn-sm" onClick={onClose}>გაუქმება</button>
-<button className=“btn btn-primary btn-sm” onClick={() => { onSave(data); onClose(); }}>💾 შენახვა</button>
-</div>
+<div className="mf"><button className=“btn bd bsm” onClick={()=>{onDelete(teacher.id);onClose();}}>🗑</button><button className="btn bs bsm" onClick={onClose}>გაუქ.</button><button className=“btn bp bsm” onClick={()=>{onSave(d);onClose();}}>💾</button></div>
 </div>
 </div>
 );
 }
 
-// ─── ADD STUDENT MODAL ────────────────────────────────────────────────────────
-function AddStudentModal({ teachers, groups, departments, onAdd, onClose, defaultDeptId }) {
-const [data, setData] = useState({
-lastName: “”, firstName: “”, gender: “გოგო”,
-enrollDate: new Date().toISOString().split(“T”)[0],
-expelDate: “”, deptId: defaultDeptId || 1, teacherId: 0, groupId: 0,
-parent1: { name: “”, lastName: “”, phone: “”, email: “”, personalId: “” },
-parent2: { name: “”, lastName: “”, phone: “”, email: “”, personalId: “” },
-payments: {
-“2025”: Object.fromEntries(Array.from({ length: 12 }, (*, i) => [i + 1, { paid: false }])),
-“2026”: Object.fromEntries(Array.from({ length: 12 }, (*, i) => [i + 1, { paid: false }])),
-}
-});
-
-const filteredTeachers = teachers.filter(t => t.deptId === data.deptId);
-const filteredGroups = groups.filter(g => g.deptId === data.deptId);
-
-function upd(f, v) { setData(d => ({ …d, [f]: v })); }
-
-function handleAdd() {
-if (!data.lastName || !data.firstName) return;
-onAdd({ …data, id: Date.now(), teacherId: data.teacherId || filteredTeachers[0]?.id || 1, groupId: data.groupId || filteredGroups[0]?.id || 1 });
+// ═══════════════════════════════════════════════════════════════
+// ADD MODALS
+// ═══════════════════════════════════════════════════════════════
+function AddStudentModal({teachers,groups,onAdd,onClose,defaultDeptId}){
+const [d,setD]=useState({lastName:””,firstName:””,gender:“გოგო”,enrollDate:new Date().toISOString().split(“T”)[0],expelDate:””,deptId:defaultDeptId||1,teacherId:0,groupId:0});
+const upd=(f,v)=>setD(x=>({…x,[f]:v}));
+const ft=teachers.filter(t=>t.deptId===d.deptId), fg=groups.filter(g=>g.deptId===d.deptId);
+function go(){
+if(!d.lastName||!d.firstName)return;
+const pays={};[“2025”,“2026”].forEach(yr=>{pays[yr]={};for(let m=1;m<=12;m++)pays[yr][m]={paid:false};});
+onAdd({…d,id:Date.now(),teacherId:d.teacherId||ft[0]?.id||1,groupId:d.groupId||fg[0]?.id||1,payments:pays,parent1:{name:””,lastName:””,phone:””,email:””,personalId:””},parent2:{name:””,lastName:””,phone:””,email:””,personalId:””}});
 onClose();
 }
-
-return (
-<div className=“modal-overlay” onClick={e => e.target === e.currentTarget && onClose()}>
-<div className="modal">
-<div className="modal-header">
-<h3>➕ ახალი მოსწავლე</h3>
-<button className="close-btn" onClick={onClose}>×</button>
+return(
+<div className=“mo” onClick={e=>e.target===e.currentTarget&&onClose()}><div className="md"><div className="mh"><h3>➕ ახ. მოსწ.</h3><button className="xb" onClick={onClose}>×</button></div>
+<div className="mb">
+<div className="fr c2"><div className="fg"><label className="fl">გვ.*</label><input className=“fi” value={d.lastName} onChange={e=>upd(“lastName”,e.target.value)}/></div><div className="fg"><label className="fl">სახ.*</label><input className=“fi” value={d.firstName} onChange={e=>upd(“firstName”,e.target.value)}/></div></div>
+<div className="fr c3"><div className="fg"><label className="fl">სქ.</label><select className=“fi fsel” value={d.gender} onChange={e=>upd(“gender”,e.target.value)}><option>გოგო</option><option>ბიჭი</option></select></div><div className="fg"><label className="fl">ჩ.თ.</label><input type=“date” className=“fi” value={d.enrollDate} onChange={e=>upd(“enrollDate”,e.target.value)}/></div><div className="fg"><label className="fl">განყ.</label><select className=“fi fsel” value={d.deptId} onChange={e=>upd(“deptId”,+e.target.value)}>{DEPARTMENTS.map(x=><option key={x.id} value={x.id}>{x.icon} {x.name}</option>)}</select></div></div>
+<div className="fr c2"><div className="fg"><label className="fl">პედ.</label><select className=“fi fsel” value={d.teacherId} onChange={e=>upd(“teacherId”,+e.target.value)}>{ft.map(t=><option key={t.id} value={t.id}>{t.name}</option>)}</select></div><div className="fg"><label className="fl">ჯგ.</label><select className=“fi fsel” value={d.groupId} onChange={e=>upd(“groupId”,+e.target.value)}>{fg.map(g=><option key={g.id} value={g.id}>{g.name}</option>)}</select></div></div>
 </div>
-<div className="modal-body">
-<div className="form-row cols-2">
-<div className="form-group">
-<label className="form-label">გვარი *</label>
-<input className=“form-input” value={data.lastName} onChange={e => upd(“lastName”, e.target.value)} />
-</div>
-<div className="form-group">
-<label className="form-label">სახელი *</label>
-<input className=“form-input” value={data.firstName} onChange={e => upd(“firstName”, e.target.value)} />
-</div>
-</div>
-<div className="form-row cols-3">
-<div className="form-group">
-<label className="form-label">სქესი</label>
-<select className=“form-input form-select” value={data.gender} onChange={e => upd(“gender”, e.target.value)}>
-<option value="გოგო">გოგო</option>
-<option value="ბიჭი">ბიჭი</option>
-</select>
-</div>
-<div className="form-group">
-<label className="form-label">ჩარიცხვის თარიღი</label>
-<input type=“date” className=“form-input” value={data.enrollDate} onChange={e => upd(“enrollDate”, e.target.value)} />
-</div>
-<div className="form-group">
-<label className="form-label">განყოფილება</label>
-<select className=“form-input form-select” value={data.deptId} onChange={e => upd(“deptId”, +e.target.value)}>
-{departments.map(d => <option key={d.id} value={d.id}>{d.icon} {d.name}</option>)}
-</select>
-</div>
-</div>
-<div className="form-row cols-2">
-<div className="form-group">
-<label className="form-label">პედაგოგი</label>
-<select className=“form-input form-select” value={data.teacherId} onChange={e => upd(“teacherId”, +e.target.value)}>
-{filteredTeachers.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-</select>
-</div>
-<div className="form-group">
-<label className="form-label">ჯგუფი</label>
-<select className=“form-input form-select” value={data.groupId} onChange={e => upd(“groupId”, +e.target.value)}>
-{filteredGroups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
-</select>
-</div>
-</div>
-</div>
-<div className="modal-footer">
-<button className="btn btn-secondary btn-sm" onClick={onClose}>გაუქმება</button>
-<button className="btn btn-primary btn-sm" onClick={handleAdd}>➕ დამატება</button>
-</div>
-</div>
-</div>
+<div className="mf"><button className="btn bs bsm" onClick={onClose}>გაუქ.</button><button className="btn bp bsm" onClick={go}>➕</button></div></div></div>
 );
 }
 
-// ─── ADD TEACHER MODAL ────────────────────────────────────────────────────────
-function AddTeacherModal({ departments, onAdd, onClose }) {
-const [data, setData] = useState({ name: “”, subject: “”, deptId: 1, phone: “”, email: “” });
-function upd(f, v) { setData(d => ({ …d, [f]: v })); }
-function handleAdd() {
-if (!data.name) return;
-onAdd({ …data, id: Date.now() });
-onClose();
-}
-return (
-<div className=“modal-overlay” onClick={e => e.target === e.currentTarget && onClose()}>
-<div className="modal">
-<div className="modal-header">
-<h3>➕ ახალი პედაგოგი</h3>
-<button className="close-btn" onClick={onClose}>×</button>
+function AddTeacherModal({onAdd,onClose}){
+const [d,setD]=useState({name:””,subject:””,deptId:1,phone:””,email:””});
+const upd=(f,v)=>setD(x=>({…x,[f]:v}));
+return(
+<div className=“mo” onClick={e=>e.target===e.currentTarget&&onClose()}><div className="md"><div className="mh"><h3>➕ ახ. პედ.</h3><button className="xb" onClick={onClose}>×</button></div>
+<div className="mb">
+<div className="fr c2"><div className="fg"><label className="fl">სახ./გვ.*</label><input className=“fi” value={d.name} onChange={e=>upd(“name”,e.target.value)}/></div><div className="fg"><label className="fl">სპეც.</label><input className=“fi” value={d.subject} onChange={e=>upd(“subject”,e.target.value)}/></div></div>
+<div className="fr c2"><div className="fg"><label className="fl">ტელ.</label><input className=“fi” value={d.phone} onChange={e=>upd(“phone”,e.target.value)}/></div><div className="fg"><label className="fl">ელ.ფ.</label><input className=“fi” value={d.email} onChange={e=>upd(“email”,e.target.value)}/></div></div>
+<div className="fg"><label className="fl">განყ.</label><select className=“fi fsel” value={d.deptId} onChange={e=>upd(“deptId”,+e.target.value)}>{DEPARTMENTS.map(x=><option key={x.id} value={x.id}>{x.icon} {x.name}</option>)}</select></div>
 </div>
-<div className="modal-body">
-<div className="form-row cols-2">
-<div className="form-group">
-<label className="form-label">სახელი და გვარი *</label>
-<input className=“form-input” value={data.name} onChange={e => upd(“name”, e.target.value)} />
-</div>
-<div className="form-group">
-<label className="form-label">სპეციალობა / საგანი</label>
-<input className=“form-input” value={data.subject} onChange={e => upd(“subject”, e.target.value)} />
-</div>
-</div>
-<div className="form-row cols-2">
-<div className="form-group">
-<label className="form-label">ტელეფონი</label>
-<input className=“form-input” value={data.phone} onChange={e => upd(“phone”, e.target.value)} />
-</div>
-<div className="form-group">
-<label className="form-label">ელ. ფოსტა</label>
-<input className=“form-input” value={data.email} onChange={e => upd(“email”, e.target.value)} />
-</div>
-</div>
-<div className="form-group">
-<label className="form-label">განყოფილება</label>
-<select className=“form-input form-select” value={data.deptId} onChange={e => upd(“deptId”, +e.target.value)}>
-{departments.map(d => <option key={d.id} value={d.id}>{d.icon} {d.name}</option>)}
-</select>
-</div>
-</div>
-<div className="modal-footer">
-<button className="btn btn-secondary btn-sm" onClick={onClose}>გაუქმება</button>
-<button className="btn btn-primary btn-sm" onClick={handleAdd}>➕ დამატება</button>
-</div>
-</div>
-</div>
+<div className="mf"><button className="btn bs bsm" onClick={onClose}>გაუქ.</button><button className=“btn bp bsm” onClick={()=>{if(!d.name)return;onAdd({…d,id:Date.now()});onClose();}}>➕</button></div></div></div>
 );
 }
 
-// ─── EVENT MODAL ──────────────────────────────────────────────────────────────
-function EventModal({ event, departments, teachers, groups, students, onSave, onDelete, onClose, isNew }) {
-const emptyEvent = { id: Date.now(), title: “”, date: new Date().toISOString().split(“T”)[0], status: “upcoming”, venue: “”, description: “”, deptIds: [], performances: [] };
-const [data, setData] = useState(event ? { …event, performances: event.performances || [] } : emptyEvent);
-const [newPerf, setNewPerf] = useState({ studentId: “”, title: “”, author: “” });
-
-function toggleDept(id) {
-setData(d => ({ …d, deptIds: d.deptIds.includes(id) ? d.deptIds.filter(x => x !== id) : […d.deptIds, id] }));
+// ═══════════════════════════════════════════════════════════════
+// EVENT MODAL
+// ═══════════════════════════════════════════════════════════════
+function EventModal({event,departments,teachers,groups,students,onSave,onDelete,onClose,isNew}){
+const empty={id:Date.now(),title:””,date:new Date().toISOString().split(“T”)[0],status:“upcoming”,venue:””,description:””,deptIds:[],performances:[]};
+const [d,setD]=useState(event?{…event,performances:event.performances||[]}:empty);
+const [np,setNp]=useState({title:””,author:””,deptId:””,teacherId:””,groupId:””,studentId:””});
+const [pt,setPt]=useState(0);
+function togD(id){setD(x=>({…x,deptIds:x.deptIds.includes(id)?x.deptIds.filter(i=>i!==id):[…x.deptIds,id]}));}
+function addP(){
+if(!np.title)return;
+setD(x=>({…x,performances:[…x.performances,{…np,id:Date.now(),deptId:np.deptId?+np.deptId:null,teacherId:np.teacherId?+np.teacherId:null,groupId:np.groupId?+np.groupId:null,studentId:np.studentId?+np.studentId:null}]}));
+setNp({title:””,author:””,deptId:””,teacherId:””,groupId:””,studentId:””});
 }
-
-function addPerf() {
-if (!newPerf.studentId || !newPerf.title) return;
-setData(d => ({ …d, performances: […d.performances, { …newPerf, id: Date.now(), studentId: +newPerf.studentId }] }));
-setNewPerf({ studentId: “”, title: “”, author: “” });
-}
-
-function removePerf(id) { setData(d => ({ …d, performances: d.performances.filter(p => p.id !== id) })); }
-
-const [perfTab, setPerfTab] = useState(0);
-
-return (
-<div className=“modal-overlay” onClick={e => e.target === e.currentTarget && onClose()}>
-<div className="modal modal-lg">
-<div className="modal-header">
-<h3>{isNew ? “➕ ახალი ღონისძიება” : “✏️ ღონისძიება”}</h3>
-<button className="close-btn" onClick={onClose}>×</button>
+return(
+<div className=“mo” onClick={e=>e.target===e.currentTarget&&onClose()}>
+<div className="md md-xl">
+<div className="mh"><h3>{isNew?“➕ ახ. ღონ.”:“✏️ “+d.title}</h3><button className="xb" onClick={onClose}>×</button></div>
+<div className=“tabs” style={{padding:“0 17px”,marginBottom:0}}>{[“📋 ინფო”,“🎭 საკ. პროგ.”].map((t,i)=><div key={i} className={`tab${pt===i?" act":""}`} onClick={()=>setPt(i)}>{t}</div>)}</div>
+<div className="mb">
+{pt===0&&<>
+<div className="fr c2"><div className="fg"><label className="fl">სახ.*</label><input className=“fi” value={d.title} onChange={e=>setD(x=>({…x,title:e.target.value}))}/></div><div className="fg"><label className="fl">სტ.</label><select className=“fi fsel” value={d.status} onChange={e=>setD(x=>({…x,status:e.target.value}))}><option value="upcoming">მომ.</option><option value="current">მიმდ.</option><option value="past">წარ.</option><option value="archive">არქ.</option></select></div></div>
+<div className="fr c2"><div className="fg"><label className="fl">თარ.</label><input type=“date” className=“fi” value={d.date} onChange={e=>setD(x=>({…x,date:e.target.value}))}/></div><div className="fg"><label className="fl">ადგ.</label><input className=“fi” value={d.venue} onChange={e=>setD(x=>({…x,venue:e.target.value}))}/></div></div>
+<div className="fg mb12"><label className="fl">აღწ.</label><textarea className=“fi” rows={2} style={{resize:“vertical”}} value={d.description} onChange={e=>setD(x=>({…x,description:e.target.value}))}/></div>
+<div><div className="fl mb8">მონ. განყ.</div><div style={{display:“flex”,flexWrap:“wrap”,gap:5}}>{departments.map(x=><span key={x.id} onClick={()=>togD(x.id)} style={{padding:“3px 9px”,borderRadius:999,border:`1px solid ${d.deptIds.includes(x.id)?x.color:"var(--border)"}`,background:d.deptIds.includes(x.id)?x.color+“22”:“var(–bg3)”,color:d.deptIds.includes(x.id)?x.color:“var(–text2)”,cursor:“pointer”,fontSize:”.7rem”,transition:“all .13s”}}>{x.icon} {x.name}</span>)}</div></div>
+</>}
+{pt===1&&<>
+<div style={{background:“var(–bg3)”,borderRadius:8,padding:11,marginBottom:11}}>
+<div className="fl mb8">ახ. ნომ.</div>
+<div className="fr c2"><div className="fg"><label className="fl">ნომ. სახ.*</label><input className=“fi” value={np.title} onChange={e=>setNp(p=>({…p,title:e.target.value}))}/></div><div className="fg"><label className="fl">ავტ./კომ.</label><input className=“fi” value={np.author} onChange={e=>setNp(p=>({…p,author:e.target.value}))}/></div></div>
+<div className="fr c2">
+<div className="fg"><label className="fl">განყ.</label><select className=“fi fsel” value={np.deptId} onChange={e=>setNp(p=>({…p,deptId:e.target.value,teacherId:””,groupId:””,studentId:””}))}>
+<option value="">—განყ.—</option>{departments.map(x=><option key={x.id} value={x.id}>{x.icon} {x.name}</option>)}
+</select></div>
+<div className="fg"><label className="fl">პედ.</label><select className=“fi fsel” value={np.teacherId} onChange={e=>setNp(p=>({…p,teacherId:e.target.value}))}>
+<option value="">—პედ.—</option>{teachers.filter(t=>!np.deptId||t.deptId===+np.deptId).map(t=><option key={t.id} value={t.id}>{t.name}</option>)}
+</select></div>
 </div>
-<div className=“tabs” style={{ padding: “0 22px”, marginBottom: 0 }}>
-{[“📋 ინფო”, “🎭 საკონცერტო ნომრები”].map((t, i) => (
-<div key={i} className={`tab${perfTab === i ? " active" : ""}`} onClick={() => setPerfTab(i)}>{t}</div>
-))}
+<div className="fr c2">
+<div className="fg"><label className="fl">ჯგ.</label><select className=“fi fsel” value={np.groupId} onChange={e=>setNp(p=>({…p,groupId:e.target.value}))}>
+<option value="">—ჯგ.—</option>{groups.filter(g=>!np.deptId||g.deptId===+np.deptId).map(g=><option key={g.id} value={g.id}>{g.name}</option>)}
+</select></div>
+<div className="fg"><label className="fl">მოსწ.</label><select className=“fi fsel” value={np.studentId} onChange={e=>setNp(p=>({…p,studentId:e.target.value}))}>
+<option value="">—მოს.—</option>{students.filter(s=>(!np.deptId||s.deptId===+np.deptId)&&(!np.teacherId||s.teacherId===+np.teacherId)&&(!np.groupId||s.groupId===+np.groupId)).map(s=><option key={s.id} value={s.id}>{s.lastName} {s.firstName}</option>)}
+</select></div>
 </div>
-<div className="modal-body">
-{perfTab === 0 && (
-<>
-<div className="form-row cols-2">
-<div className="form-group">
-<label className="form-label">სახელწოდება *</label>
-<input className=“form-input” value={data.title} onChange={e => setData(d => ({ …d, title: e.target.value }))} />
+<button className="btn bp bsm mt8" onClick={addP}>➕</button>
 </div>
-<div className="form-group">
-<label className="form-label">სტატუსი</label>
-<select className=“form-input form-select” value={data.status} onChange={e => setData(d => ({ …d, status: e.target.value }))}>
-<option value="upcoming">მომავალი</option>
-<option value="current">მიმდინარე</option>
-<option value="past">წარსული</option>
-<option value="archive">არქივი</option>
-</select>
+{!d.performances.length?<div className="empty"><div className="ei">🎭</div>ნომრები არ არის</div>:d.performances.map((p,i)=>{
+const st=p.studentId?students.find(s=>s.id===p.studentId):null;
+const dep=p.deptId?gDept(p.deptId):null;
+const tc=p.teacherId?teachers.find(t=>t.id===p.teacherId):null;
+const gr=p.groupId?groups.find(g=>g.id===p.groupId):null;
+return(<div key={p.id} style={{padding:“7px 10px”,background:“var(–bg3)”,borderRadius:6,display:“flex”,alignItems:“center”,gap:8,marginBottom:4}}>
+<span style={{color:“var(–text3)”,fontSize:”.68rem”,minWidth:16}}>{i+1}.</span>
+<div style={{flex:1}}><div style={{fontWeight:600,fontSize:”.79rem”}}>{p.title}</div>{p.author&&<div style={{fontSize:”.67rem”,color:“var(–text3)”}}>ავტ: {p.author}</div>}</div>
+<div style={{textAlign:“right”,fontSize:”.68rem”}}>
+{dep&&<div>{dep.icon} {dep.name}</div>}
+{tc&&<div style={{color:“var(–text2)”}}>👨‍🏫 {tc.name}</div>}
+{gr&&<div style={{color:“var(–text3)”}}>📋 {gr.name}</div>}
+{st&&<div style={{fontWeight:500}}>👤 {st.lastName} {st.firstName}</div>}
 </div>
-</div>
-<div className="form-row cols-2">
-<div className="form-group">
-<label className="form-label">თარიღი</label>
-<input type=“date” className=“form-input” value={data.date} onChange={e => setData(d => ({ …d, date: e.target.value }))} />
-</div>
-<div className="form-group">
-<label className="form-label">ადგილი / ვენა</label>
-<input className=“form-input” value={data.venue} onChange={e => setData(d => ({ …d, venue: e.target.value }))} />
-</div>
-</div>
-<div className="form-group mb-12">
-<label className="form-label">აღწერა</label>
-<textarea className=“form-input” rows={3} style={{ resize: “vertical” }} value={data.description} onChange={e => setData(d => ({ …d, description: e.target.value }))} />
-</div>
-<div>
-<div className="form-label mb-8">მონაწილე განყოფილებები</div>
-<div style={{ display: “flex”, flexWrap: “wrap”, gap: 6 }}>
-{departments.map(d => (
-<span key={d.id} onClick={() => toggleDept(d.id)}
-style={{ padding: “4px 12px”, borderRadius: 999, border: `1px solid ${data.deptIds.includes(d.id) ? d.color : "var(--border)"}`, background: data.deptIds.includes(d.id) ? d.color + “22” : “var(–bg3)”, color: data.deptIds.includes(d.id) ? d.color : “var(–text2)”, cursor: “pointer”, fontSize: “.75rem”, transition: “all .15s” }}>
-{d.icon} {d.name}
-</span>
-))}
-</div>
-</div>
-</>
-)}
-{perfTab === 1 && (
-<>
-<div style={{ background: “var(–bg3)”, borderRadius: 10, padding: 14, marginBottom: 16 }}>
-<div className="form-label mb-8">ახალი საკონცერტო ნომრის დამატება</div>
-<div className="form-row cols-3">
-<div className="form-group">
-<label className="form-label">მოსწავლე</label>
-<select className=“form-input form-select” value={newPerf.studentId} onChange={e => setNewPerf(p => ({ …p, studentId: e.target.value }))}>
-<option value="">— აირჩიეთ —</option>
-{students.map(s => <option key={s.id} value={s.id}>{s.lastName} {s.firstName}</option>)}
-</select>
-</div>
-<div className="form-group">
-<label className="form-label">ნომრის სახელი *</label>
-<input className=“form-input” value={newPerf.title} onChange={e => setNewPerf(p => ({ …p, title: e.target.value }))} placeholder=“ნომრის დასახელება” />
-</div>
-<div className="form-group">
-<label className="form-label">ავტორი</label>
-<input className=“form-input” value={newPerf.author} onChange={e => setNewPerf(p => ({ …p, author: e.target.value }))} placeholder=“კომპოზიტორი / ავტ.” />
-</div>
-</div>
-<button className="btn btn-primary btn-sm mt-8" onClick={addPerf}>➕ დამატება</button>
-</div>
-<div style={{ display: “flex”, flexDirection: “column”, gap: 8 }}>
-{data.performances.length === 0 && <div className="empty-state"><div className="empty-icon">🎭</div><div>ჯერ ნომრები არ არის</div></div>}
-{data.performances.map((p, i) => {
-const st = students.find(s => s.id === p.studentId);
-const grp = groups.find(g => g.id === st?.groupId);
-const dept = departments.find(d => d.id === st?.deptId);
-const teacher = teachers.find(t => t.id === st?.teacherId);
-return (
-<div key={p.id} style={{ padding: “10px 14px”, background: “var(–bg3)”, borderRadius: 8, display: “flex”, alignItems: “center”, gap: 12 }}>
-<span style={{ color: “var(–text3)”, fontSize: “.75rem”, minWidth: 20 }}>{i + 1}.</span>
-<div style={{ flex: 1 }}>
-<div style={{ fontWeight: 600, fontSize: “.85rem” }}>{p.title}</div>
-{p.author && <div className="text-xs text-muted">ავტ: {p.author}</div>}
-</div>
-{st && (
-<div style={{ textAlign: “right”, fontSize: “.75rem” }}>
-<div style={{ fontWeight: 500 }}>{st.lastName} {st.firstName}</div>
-<div style={{ color: “var(–text3)” }}>{dept?.icon} {grp?.name} · {teacher?.name}</div>
-</div>
-)}
-<button className=“btn btn-icon btn-danger” onClick={() => removePerf(p.id)}>×</button>
-</div>
-);
+<button className=“btn bd” style={{width:22,height:22,padding:0,justifyContent:“center”,fontSize:”.76rem”}} onClick={()=>setD(x=>({…x,performances:x.performances.filter(q=>q.id!==p.id)}))}>×</button>
+</div>);
 })}
+</>}
 </div>
-</>
+<div className="mf">{!isNew&&<button className=“btn bd bsm” onClick={()=>{onDelete(event.id);onClose();}}>🗑</button>}<button className="btn bs bsm" onClick={onClose}>გაუქ.</button><button className=“btn bp bsm” onClick={()=>{onSave(d);onClose();}}>💾</button></div>
+</div>
+</div>
+);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FINANCE PAGE
+// ═══════════════════════════════════════════════════════════════
+function FinancePage({students,teachers,groups,canEdit}){
+const [ft,setFt]=useState(0);
+const [yr,setYr]=useState(“2026”);
+const fin=useMemo(()=>calcFin(students,teachers,groups),[students,teachers,groups]);
+const mx=yr===String(CY)?CM:12;
+const yF=fin.byYear[yr]||{exp:0,col:0,debt:0,rate:0};
+const cmF=fin.byMonth[yr]?.[CM]||{exp:0,col:0,debt:0};
+const proj=students.length*12*FEE;
+
+const mRows=useMemo(()=>Array.from({length:mx},(_,i)=>{const m=i+1,r=fin.byMonth[yr]?.[m]||{exp:0,col:0,debt:0};return{m,…r,rate:r.exp?Math.round(r.col/r.exp*100):0};}).sort((a,b)=>b.col-a.col),[fin,yr,mx]);
+const dRows=useMemo(()=>[…DEPARTMENTS].map(d=>{const f=fin.byDept[d.id]?.[yr]||{exp:0,col:0,debt:0,rate:0};return{…d,…f};}).sort((a,b)=>b.col-a.col),[fin,yr]);
+const tRows=useMemo(()=>[…teachers].map(t=>{const f=fin.byTeacher[t.id]?.[yr]||{exp:0,col:0,debt:0,rate:0,cnt:0};const dept=gDept(t.deptId);return{…t,…f,deptIcon:dept?.icon,deptColor:dept?.color};}).sort((a,b)=>b.col-a.col),[fin,teachers,yr]);
+const gRows=useMemo(()=>[…groups].map(g=>{const f=fin.byGroup[g.id]?.[yr]||{exp:0,col:0,debt:0,rate:0,cnt:0};const dept=gDept(g.deptId);const tName=gTName(teachers,g.teacherId);return{…g,…f,deptIcon:dept?.icon,deptColor:dept?.color,tName};}).sort((a,b)=>b.col-a.col),[fin,groups,teachers,yr]);
+const debtRows=useMemo(()=>students.map(s=>{let exp=0,col=0;for(let m=1;m<=mx;m++){exp+=FEE;if(s.payments[yr]?.[m]?.paid)col+=FEE;}return{…s,exp,col,debt:exp-col,rate:exp?Math.round(col/exp*100):0};}).filter(s=>s.debt>0).sort((a,b)=>b.debt-a.debt),[students,yr,mx]);
+
+const FCard=({lbl,val,clr,sub})=>(
+<div className="fc2"><div style={{fontSize:”.67rem”,color:“var(–text2)”,marginBottom:3}}>{lbl}</div>
+<div style={{fontSize:“1.45rem”,fontWeight:800,color:clr}}>{typeof val===“number”?val.toLocaleString()+“₾”:val}</div>
+<div style={{fontSize:”.65rem”,color:“var(–text3)”,marginTop:2}}>{sub}</div></div>
+);
+
+const RateBar=({rate,clr})=>(
+<div style={{display:“flex”,alignItems:“center”,gap:5}}>
+<div className="pb" style={{flex:1,height:4}}><div className=“pf” style={{width:`${rate}%`,background:clr||“var(–accent)”}}/></div>
+<span style={{fontSize:”.69rem”,minWidth:28,textAlign:“right”,color:clr||“var(–accent)”,fontWeight:600}}>{rate}%</span>
+</div>
+);
+
+return(<>
+<div className="ph"><h2>💰 ფინანსები</h2>
+<div className="flex">{[“2025”,“2026”].map(y=><button key={y} className={`btn bsm ${yr===y?"bp":"bs"}`} onClick={()=>setYr(y)}>{y}</button>)}</div>
+</div>
+<div className="ct">
+<div style={{display:“grid”,gridTemplateColumns:“repeat(3,1fr)”,gap:10,marginBottom:16}}>
+<FCard lbl=“სავარ. შემ.” val={yF.exp} clr=“var(–accent)” sub={`${mx}თ×${students.length}მ`}/>
+<FCard lbl=“რეალ. შემ.” val={yF.col} clr=“var(–green)” sub={`${yF.rate}% შეგ.`}/>
+<FCard lbl=“სულ დავ.” val={yF.debt} clr=“var(–red)” sub={`${debtRows.length}მ დავ.`}/>
+<FCard lbl={`მიმდ. (${MGeo[CM-1]})`} val={cmF.col} clr=“var(–amber)” sub={`${cmF.debt}₾ ნაკლ.`}/>
+<FCard lbl=“პროგნ.” val={proj} clr=“var(–purple)” sub={`12×${students.length}×50₾`}/>
+<FCard lbl=”%” val={yF.rate+”%”} clr={yF.rate>=80?“var(–green)”:yF.rate>=60?“var(–amber)”:“var(–red)”} sub=“შეგ.%”/>
+</div>
+<div className="tabs" style={{marginTop:0}}>{[“📅 თვე”,“🏫 განყ.”,“👨‍🏫 პედ.”,“📋 ჯგ.”,“👤 დავ.”].map((t,i)=><div key={i} className={`tab${ft===i?" act":""}`} onClick={()=>setFt(i)}>{t}</div>)}</div>
+
+```
+  {ft===0&&<table className="ftbl" style={{width:"100%"}}><thead><tr><th>თვე</th><th className="nr">სავ.₾</th><th className="nr">შეგ.₾</th><th className="nr">დავ.₾</th><th style={{minWidth:110}}>%</th></tr></thead><tbody>
+    {mRows.map(r=><tr key={r.m}><td style={{fontWeight:500}}>{MFull[r.m-1]} {yr}</td><td className="nr" style={{color:"var(--text3)"}}>{r.exp}₾</td><td className="nr" style={{color:"var(--green)",fontWeight:600}}>{r.col}₾</td><td className="nr" style={{color:r.debt>0?"var(--red)":"var(--text3)"}}>{r.debt}₾</td><td><RateBar rate={r.rate} clr={r.rate>=80?"var(--green)":r.rate>=60?"var(--amber)":"var(--red)"}/></td></tr>)}
+  </tbody></table>}
+
+  {ft===1&&<table className="ftbl" style={{width:"100%"}}><thead><tr><th>განყ.</th><th className="nr">სავ.</th><th className="nr">შეგ.</th><th className="nr">დავ.</th><th style={{minWidth:110}}>%</th></tr></thead><tbody>
+    {dRows.map(d=><tr key={d.id}><td><span style={{marginRight:5}}>{d.icon}</span>{d.name}</td><td className="nr" style={{color:"var(--text3)"}}>{d.exp}₾</td><td className="nr" style={{color:"var(--green)",fontWeight:600}}>{d.col}₾</td><td className="nr" style={{color:d.debt>0?"var(--red)":"var(--text3)"}}>{d.debt}₾</td><td><RateBar rate={d.rate} clr={d.color}/></td></tr>)}
+  </tbody></table>}
+
+  {ft===2&&<table className="ftbl" style={{width:"100%"}}><thead><tr><th>პედ.</th><th>განყ.</th><th className="nr">მ.</th><th className="nr">სავ.</th><th className="nr">შეგ.</th><th className="nr">დავ.</th><th>%</th></tr></thead><tbody>
+    {tRows.map(t=><tr key={t.id}><td style={{fontWeight:500}}>{t.name}</td><td><span style={{fontSize:"1rem"}}>{t.deptIcon}</span></td><td className="nr">{t.cnt}</td><td className="nr" style={{color:"var(--text3)"}}>{t.exp}₾</td><td className="nr" style={{color:"var(--green)",fontWeight:600}}>{t.col}₾</td><td className="nr" style={{color:t.debt>0?"var(--red)":"var(--text3)"}}>{t.debt}₾</td><td><span style={{fontSize:".69rem",color:t.rate>=80?"var(--green)":t.rate>=60?"var(--amber)":"var(--red)",fontWeight:600}}>{t.rate}%</span></td></tr>)}
+  </tbody></table>}
+
+  {ft===3&&<table className="ftbl" style={{width:"100%"}}><thead><tr><th>ჯგ.</th><th>განყ.</th><th>პედ.</th><th className="nr">მ.</th><th className="nr">სავ.</th><th className="nr">შეგ.</th><th className="nr">დავ.</th><th>%</th></tr></thead><tbody>
+    {gRows.map(g=><tr key={g.id}><td style={{fontWeight:500}}>{g.name}</td><td><span>{g.deptIcon}</span></td><td style={{fontSize:".72rem"}}>{g.tName}</td><td className="nr">{g.cnt}</td><td className="nr" style={{color:"var(--text3)"}}>{g.exp}₾</td><td className="nr" style={{color:"var(--green)",fontWeight:600}}>{g.col}₾</td><td className="nr" style={{color:g.debt>0?"var(--red)":"var(--text3)"}}>{g.debt}₾</td><td><span style={{fontSize:".69rem",color:g.rate>=80?"var(--green)":g.rate>=60?"var(--amber)":"var(--red)",fontWeight:600}}>{g.rate}%</span></td></tr>)}
+  </tbody></table>}
+
+  {ft===4&&<>
+    <div className="flb mb12" style={{marginBottom:10}}><span style={{color:"var(--red)",fontWeight:600,fontSize:".8rem"}}>⚠️ {debtRows.length} მოსწ. · სულ {debtRows.reduce((s,d)=>s+d.debt,0)}₾</span></div>
+    <table className="ftbl" style={{width:"100%"}}><thead><tr><th>მოსწ.</th><th>განყ.</th><th>ჯგ.</th><th className="nr">შეგ.</th><th className="nr">დავ.</th><th>%</th></tr></thead><tbody>
+      {debtRows.map(s=>{const dp=gDept(s.deptId),gr=groups.find(g=>g.id===s.groupId);return(<tr key={s.id}><td style={{fontWeight:500}}><span className={`bdg ${s.gender==="გოგო"?"bdg-g":"bdg-b"}`} style={{marginRight:5}}>{s.gender==="გოგო"?"👧":"👦"}</span>{s.lastName} {s.firstName}</td><td style={{fontSize:".7rem"}}>{dp?.icon}</td><td style={{fontSize:".7rem"}}>{gr?.name}</td><td className="nr" style={{color:"var(--green)"}}>{s.col}₾</td><td className="nr" style={{color:"var(--red)",fontWeight:700}}>{s.debt}₾</td><td><span style={{fontSize:".69rem",color:"var(--red)"}}>{s.rate}%</span></td></tr>);})}
+    </tbody></table>
+  </>}
+</div>
+```
+
+</>);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// AI ASSISTANT
+// ═══════════════════════════════════════════════════════════════
+function AIPanel({students,teachers,groups,isOpen,onToggle}){
+const [msgs,setMsgs]=useState([{r:“b”,t:“გამარჯობა! 👋 მე ვარ №26 სკოლის AI ასისტენტი.\n\nდაგეხმარებით:\n• სტატისტიკა და ანალიტიკა\n• გადახდები და დავალიანებები\n• მოსწ./პედ. ინფო\n• ანგარიშები\n\nკითხვა დასვით!”}]);
+const [inp,setInp]=useState(””),  [load,setLoad]=useState(false);
+const endRef=useRef(null);
+useEffect(()=>endRef.current?.scrollIntoView({behavior:“smooth”}),[msgs]);
+const fin=useMemo(()=>calcFin(students,teachers,groups),[students,teachers,groups]);
+
+async function send(){
+if(!inp.trim()||load)return;
+const txt=inp.trim();setInp(””);
+setMsgs(m=>[…m,{r:“u”,t:txt}]);setLoad(true);
+const f26=fin.byYear[“2026”]||{};const f25=fin.byYear[“2025”]||{};
+const topDept=[…DEPARTMENTS].sort((a,b)=>students.filter(s=>s.deptId===b.id).length-students.filter(s=>s.deptId===a.id).length).slice(0,5).map(d=>`${d.name}:${students.filter(s=>s.deptId===d.id).length}მ`).join(”, “);
+const debtCount=students.filter(s=>{let d=0,e=0;for(let m=1;m<=CM;m++){e+=FEE;if(!s.payments[“2026”]?.[m]?.paid)d+=FEE;}return d>0;}).length;
+const sys=`შენ ხარ №26 ხელოვნების სკოლის AI ასისტენტი. პასუხობ ქართულად, მოკლედ და კონკრეტულად.
+
+სკოლის მონ. (${new Date().toLocaleDateString(“ka”)}):
+
+- სულ მოსწ: ${students.length} (👧${students.filter(s=>s.gender===“გოგო”).length}, 👦${students.filter(s=>s.gender===“ბიჭი”).length})
+- პედ: ${teachers.length}, ჯგ: ${groups.length}, განყ: 10
+
+ფინ. 2026 (${CM}თვ): სავ ${f26.exp}₾ | შეგ ${f26.col}₾ | დავ ${f26.debt}₾ | ${f26.rate}%
+ფინ. 2025: სავ ${f25.exp}₾ | შეგ ${f25.col}₾ | ${f25.rate}%
+დავ. მოსწ: ${debtCount} | წლ. პროგ: ${students.length*12*FEE}₾
+
+განყ (კლებ): ${topDept}
+
+გამოყენე emoji, მოკლე წინადადებები. თუ საჭიროა — ცხრილი ან სია.`;
+try{
+const r=await fetch(“https://api.anthropic.com/v1/messages”,{method:“POST”,headers:{“Content-Type”:“application/json”},body:JSON.stringify({model:“claude-sonnet-4-20250514”,max_tokens:800,system:sys,messages:[…msgs.filter(m=>m.r!==“b”||msgs.indexOf(m)>0).map(m=>({role:m.r===“u”?“user”:“assistant”,content:m.t})),{role:“user”,content:txt}]})});
+const data=await r.json();
+setMsgs(m=>[…m,{r:“b”,t:data.content?.[0]?.text||“პასუხი ვ/მ”}]);
+}catch{setMsgs(m=>[…m,{r:“b”,t:“❌ კავშ. შეც. სცადეთ ხელახლა.”}]);}
+setLoad(false);
+}
+
+const qs=[“ამ თვის შეგ.?”,“ვის მეტი დავ?”,“ყველ. განყ. სტ.”,“2025 vs 2026”,“ვინ ყველ. მეტ. გადაიხ.?”];
+return(<>
+<button className="ai-fab" onClick={onToggle}>{isOpen?“✕”:“🤖”}</button>
+<div className={`ai-p${isOpen?" open":""}`}>
+<div style={{padding:“11px 13px”,borderBottom:“1px solid var(–border)”,display:“flex”,alignItems:“center”,justifyContent:“space-between”,flexShrink:0}}>
+<div className="flex"><span style={{fontSize:“1.1rem”}}>🤖</span><div><div style={{fontWeight:700,fontSize:”.83rem”}}>AI ასისტენტი</div><div style={{fontSize:”.62rem”,color:“var(–green)”}}>● Claude AI</div></div></div>
+<button className="xb" onClick={onToggle}>×</button>
+</div>
+<div className="ai-msgs">
+{msgs.map((m,i)=>(
+<div key={i} className={`ai-m ${m.r==="u"?"u":"b"}`}>
+{m.r===“b”&&<div style={{fontSize:”.61rem”,color:“var(–text3)”,marginBottom:3,fontWeight:600}}>🤖 ასისტენტი</div>}
+{m.t}
+</div>
+))}
+{load&&<div className="ai-m b"><div style={{fontSize:”.61rem”,color:“var(–text3)”,marginBottom:3,fontWeight:600}}>🤖 ასისტენტი</div><span style={{color:“var(–text3)”}}>⏳ ვფიქრობ…</span></div>}
+<div ref={endRef}/>
+</div>
+{msgs.length<3&&(
+<div style={{padding:“0 9px 7px”,display:“flex”,flexDirection:“column”,gap:3}}>
+{qs.map((q,i)=><button key={i} className=“btn bs bxs” style={{justifyContent:“flex-start”,textAlign:“left”}} onClick={()=>setInp(q)}>💬 {q}</button>)}
+</div>
 )}
-</div>
-<div className="modal-footer">
-{!isNew && <button className=“btn btn-danger btn-sm” onClick={() => { onDelete(event.id); onClose(); }}>🗑 წაშლა</button>}
-<button className="btn btn-secondary btn-sm" onClick={onClose}>გაუქმება</button>
-<button className=“btn btn-primary btn-sm” onClick={() => { onSave(data); onClose(); }}>💾 შენახვა</button>
+<div style={{padding:“9px”,borderTop:“1px solid var(–border)”,display:“flex”,gap:6,flexShrink:0}}>
+<input style={{flex:1,background:“var(–bg3)”,border:“1px solid var(–border)”,borderRadius:6,padding:“7px 9px”,color:“var(–text)”,fontFamily:“inherit”,fontSize:”.77rem”,outline:“none”}} value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>e.key===“Enter”&&send()} placeholder=“კითხვა…” disabled={load}/>
+<button className="btn bp bsm" onClick={send} disabled={load}>→</button>
 </div>
 </div>
-</div>
-);
+</>);
 }
 
-// ─── STUDENT LIST VIEW ────────────────────────────────────────────────────────
-function StudentListView({ students, groups, teachers, departments, onStudentClick }) {
-const girls = students.filter(s => s.gender === “გოგო”).sort((a, b) => a.lastName.localeCompare(b.lastName, “ka”));
-const boys = students.filter(s => s.gender === “ბიჭი”).sort((a, b) => a.lastName.localeCompare(b.lastName, “ka”));
+// ═══════════════════════════════════════════════════════════════
+// MAIN APP
+// ═══════════════════════════════════════════════════════════════
+export default function App(){
+const [user,setUser]=useState(null);
+const [page,setPage]=useState(“home”);
+const [deptId,setDeptId]=useState(null);
+const [groupId,setGroupId]=useState(null);
+const [tDeptFilter,setTDeptFilter]=useState(null);
+const [aiOpen,setAiOpen]=useState(false);
 
-return (
-<div className="student-cols">
-<div>
-<div className="student-col-header girls">👧 გოგოები — {girls.length}</div>
-<div style={{ display: “flex”, flexDirection: “column”, gap: 4 }}>
-{girls.map(s => (
-<div key={s.id} className=“student-row” onClick={() => onStudentClick(s)}>
-<div>
-<div className="sname">{s.lastName} {s.firstName}</div>
-<div className="text-xs text-muted mt-4">{getDeptIcon(s.deptId)} {getTeacherName(teachers, s.teacherId)}</div>
-</div>
-<div style={{ display: “flex”, alignItems: “center”, gap: 6 }}>
-<span className="sgroup">{getGroupName(groups, s.groupId)}</span>
-<span className="arrow">›</span>
-</div>
-</div>
-))}
-{girls.length === 0 && <div className=“text-muted” style={{ padding: “16px 0” }}>გოგოები არ არიან</div>}
-</div>
-</div>
-<div>
-<div className="student-col-header boys">👦 ბიჭები — {boys.length}</div>
-<div style={{ display: “flex”, flexDirection: “column”, gap: 4 }}>
-{boys.map(s => (
-<div key={s.id} className=“student-row” onClick={() => onStudentClick(s)}>
-<div>
-<div className="sname">{s.lastName} {s.firstName}</div>
-<div className="text-xs text-muted mt-4">{getDeptIcon(s.deptId)} {getTeacherName(teachers, s.teacherId)}</div>
-</div>
-<div style={{ display: “flex”, alignItems: “center”, gap: 6 }}>
-<span className="sgroup">{getGroupName(groups, s.groupId)}</span>
-<span className="arrow">›</span>
-</div>
-</div>
-))}
-{boys.length === 0 && <div className=“text-muted” style={{ padding: “16px 0” }}>ბიჭები არ არიან</div>}
-</div>
-</div>
-</div>
-);
-}
+const [students,setStudents]=useState(INIT_STUDENTS);
+const [teachers,setTeachers]=useState(INIT_TEACHERS);
+const groups=INIT_GROUPS;
+const [events,setEvents]=useState(INIT_EVENTS);
 
-// ─── MAIN APP ─────────────────────────────────────────────────────────────────
-export default function App() {
-const [page, setPage] = useState(“home”); // home, departments, teachers, stats, events
-const [activeDeptId, setActiveDeptId] = useState(null);
-const [activeGroupId, setActiveGroupId] = useState(null);
-const [activeTeacherDeptId, setActiveTeacherDeptId] = useState(null);
+const [selSt,setSelSt]=useState(null);
+const [selTe,setSelTe]=useState(null);
+const [addSt,setAddSt]=useState(false);
+const [addTe,setAddTe]=useState(false);
+const [addEv,setAddEv]=useState(false);
+const [selEv,setSelEv]=useState(null);
 
-const [students, setStudents] = useState(initStudents);
-const [teachers, setTeachers] = useState(initTeachers);
-const [groups] = useState(initGroups);
-const [events, setEvents] = useState(initEvents);
+const [sf,setSf]=useState({});
+const [sv,setSv]=useState(“overview”);
+const [srch,setSrch]=useState(””);
+const [eTab,setETab]=useState(“all”);
 
-const [selectedStudent, setSelectedStudent] = useState(null);
-const [selectedTeacher, setSelectedTeacher] = useState(null);
-const [showAddStudent, setShowAddStudent] = useState(false);
-const [showAddTeacher, setShowAddTeacher] = useState(false);
-const [showAddEvent, setShowAddEvent] = useState(false);
-const [selectedEvent, setSelectedEvent] = useState(null);
+if(!user)return(<><style>{CSS}</style><LoginScreen onLogin={setUser}/></>);
 
-const [statsFilter, setStatsFilter] = useState({ deptId: null, groupId: null, teacherId: null, gender: null });
-const [statsView, setStatsView] = useState(“overview”);
+const navDept=id=>{setDeptId(id);setGroupId(null);setPage(“departments”);};
+const navGrp=g=>{setDeptId(g.deptId);setGroupId(g.id);setPage(“departments”);};
+const nav=p=>{setPage(p);setDeptId(null);setGroupId(null);};
 
-const [search, setSearch] = useState(””);
-const [eventTab, setEventTab] = useState(“all”);
+const saveSt=s=>setStudents(ss=>ss.map(x=>x.id===s.id?s:x));
+const delSt=id=>setStudents(ss=>ss.filter(s=>s.id!==id));
+const saveTe=t=>setTeachers(tt=>tt.map(x=>x.id===t.id?t:x));
+const delTe=id=>setTeachers(tt=>tt.filter(t=>t.id!==id));
+const saveEv=ev=>events.find(e=>e.id===ev.id)?setEvents(es=>es.map(e=>e.id===ev.id?ev:e)):setEvents(es=>[…es,ev]);
+const delEv=id=>setEvents(es=>es.filter(e=>e.id!==id));
 
-// Nav helpers
-function navDept(id) { setActiveDeptId(id); setActiveGroupId(null); setPage(“departments”); }
-function navGroup(id) { setActiveGroupId(id); }
+const total=students.length, girls=students.filter(s=>s.gender===“გოგო”).length, boys=total-girls;
+const dSC=id=>students.filter(s=>s.deptId===id).length;
+const dTC=id=>teachers.filter(t=>t.deptId===id).length;
+const dGC=id=>groups.filter(g=>g.deptId===id).length;
+const sortedD=[…DEPARTMENTS].sort((a,b)=>dSC(b.id)-dSC(a.id));
 
-// Stats
-const totalStudents = students.length;
-const totalGirls = students.filter(s => s.gender === “გოგო”).length;
-const totalBoys = students.filter(s => s.gender === “ბიჭი”).length;
-
-function deptStudentCount(dId) { return students.filter(s => s.deptId === dId).length; }
-function deptTeacherCount(dId) { return teachers.filter(t => t.deptId === dId).length; }
-function deptGroupCount(dId) { return groups.filter(g => g.deptId === dId).length; }
-
-// Actions
-function saveStudent(updated) {
-setStudents(ss => ss.map(s => s.id === updated.id ? updated : s));
-}
-function deleteStudent(id) { setStudents(ss => ss.filter(s => s.id !== id)); }
-function addStudent(s) { setStudents(ss => […ss, s]); }
-
-function saveTeacher(updated) { setTeachers(tt => tt.map(t => t.id === updated.id ? updated : t)); }
-function deleteTeacher(id) { setTeachers(tt => tt.filter(t => t.id !== id)); }
-function addTeacher(t) { setTeachers(tt => […tt, t]); }
-
-function saveEvent(ev) {
-if (events.find(e => e.id === ev.id)) setEvents(es => es.map(e => e.id === ev.id ? ev : e));
-else setEvents(es => […es, ev]);
-}
-function deleteEvent(id) { setEvents(es => es.filter(e => e.id !== id)); }
-
-// Filtered students for stats
-const filteredStudents = useMemo(() => {
-let s = students;
-if (statsFilter.deptId) s = s.filter(x => x.deptId === statsFilter.deptId);
-if (statsFilter.groupId) s = s.filter(x => x.groupId === statsFilter.groupId);
-if (statsFilter.teacherId) s = s.filter(x => x.teacherId === statsFilter.teacherId);
-if (statsFilter.gender) s = s.filter(x => x.gender === statsFilter.gender);
-if (search) s = s.filter(x => `${x.lastName} ${x.firstName}`.toLowerCase().includes(search.toLowerCase()));
+const fSt=useMemo(()=>{
+let s=students;
+if(sf.deptId)s=s.filter(x=>x.deptId===sf.deptId);
+if(sf.groupId)s=s.filter(x=>x.groupId===sf.groupId);
+if(sf.teacherId)s=s.filter(x=>x.teacherId===sf.teacherId);
+if(sf.gender)s=s.filter(x=>x.gender===sf.gender);
+if(srch)s=s.filter(x=>`${x.lastName} ${x.firstName}`.toLowerCase().includes(srch.toLowerCase()));
 return s;
-}, [students, statsFilter, search]);
+},[students,sf,srch]);
 
-// Events filter
-const filteredEvents = useMemo(() => {
-if (eventTab === “all”) return events;
-return events.filter(e => e.status === eventTab);
-}, [events, eventTab]);
+const fEv=useMemo(()=>eTab===“all”?events:events.filter(e=>e.status===eTab),[events,eTab]);
+const curGrp=groups.find(g=>g.id===groupId);
+const curDept=DEPARTMENTS.find(d=>d.id===deptId);
+const grpSt=students.filter(s=>s.groupId===groupId);
+const dSt=students.filter(s=>s.deptId===deptId);
+const dGr=groups.filter(g=>g.deptId===deptId);
 
-const statusLabel = { upcoming: “მომავალი”, current: “მიმდინარე”, past: “წარსული”, archive: “არქივი” };
-const statusDot = { upcoming: “🔵”, current: “🟢”, past: “⚪”, archive: “🟣” };
+const menuItems=[
+{id:“home”,icon:“🏠”,lbl:“მთავარი”},
+{id:“departments”,icon:“🏫”,lbl:“განყოფილებები”},
+{id:“teachers”,icon:“👨‍🏫”,lbl:“პედაგოგები”},
+{id:“stats”,icon:“📊”,lbl:“სტატისტიკა”},
+…(can(user,“finance”)||can(user,“finance_view”)?[{id:“finance”,icon:“💰”,lbl:“ფინანსები”}]:[]),
+{id:“events”,icon:“🎪”,lbl:“ღონისძიებები”},
+];
 
-const currentGroup = groups.find(g => g.id === activeGroupId);
-const currentDept = DEPARTMENTS.find(d => d.id === activeDeptId);
-const groupStudents = students.filter(s => s.groupId === activeGroupId);
-const deptStudents = students.filter(s => s.deptId === activeDeptId);
-const deptGroups = groups.filter(g => g.deptId === activeDeptId);
-
-return (
-<>
-<style>{css}</style>
+return(<>
+<style>{CSS}</style>
 <div className="app">
 {/* SIDEBAR */}
-<div className="sidebar">
-<div className="sidebar-logo">
-<div className="school-num">№26</div>
-<div className="school-name">ხელოვნების სკოლა<br />მართვის სისტემა</div>
+<div className="sb">
+<div className="sb-logo"><div className="n">№26</div><div className="s">ხელოვნ. სკოლა<br/>მართვის სისტ.</div></div>
+<div style={{padding:“5px 4px 0”}}>
+<div className="sb-u">
+<span style={{fontSize:“1.1rem”}}>{user.icon}</span>
+<div>
+<div style={{fontSize:”.74rem”,fontWeight:600,color:user.color,lineHeight:1.2}}>{user.nameGe}</div>
+<div style={{fontSize:”.63rem”,color:“var(–text3)”}}>{user.name}</div>
 </div>
-<div className="nav-section">მთავარი</div>
-{[
-{ id: “home”, icon: “🏠”, label: “მთავარი” },
-{ id: “departments”, icon: “🏫”, label: “განყოფილებები” },
-{ id: “teachers”, icon: “👨‍🏫”, label: “პედაგოგები” },
-{ id: “stats”, icon: “📊”, label: “სტატისტიკა” },
-{ id: “events”, icon: “🎪”, label: “ღონისძიებები” },
-].map(item => (
-<div key={item.id} className={`nav-item${page === item.id ? " active" : ""}`} onClick={() => { setPage(item.id); setActiveDeptId(null); setActiveGroupId(null); }}>
-<span className="icon">{item.icon}</span>{item.label}
+<span style={{marginLeft:“auto”,cursor:“pointer”,color:“var(–text3)”,fontSize:”.77rem”}} onClick={()=>setUser(null)} title=“გამ.”>⏻</span>
 </div>
-))}
-<div className=“nav-section” style={{ marginTop: 8 }}>განყოფილებები</div>
-{DEPARTMENTS.map(d => (
-<div key={d.id} className={`dept-nav${activeDeptId === d.id && page === "departments" ? " active" : ""}`} onClick={() => navDept(d.id)}>
-<span>{d.icon}</span><span style={{ overflow: “hidden”, textOverflow: “ellipsis”, whiteSpace: “nowrap” }}>{d.name}</span>
+</div>
+<div className="ns">ნავიგ.</div>
+{menuItems.map(item=>(
+<div key={item.id} className={`ni${page===item.id?" active":""}`} onClick={()=>nav(item.id)}>
+<span style={{width:17,textAlign:“center”}}>{item.icon}</span>{item.lbl}
 </div>
 ))}
+<div className="ns" style={{marginTop:5}}>განყ.</div>
+{DEPARTMENTS.map(d=>(
+<div key={d.id} className={`dn${deptId===d.id&&page==="departments"?" act":""}`} onClick={()=>navDept(d.id)}>
+<span>{d.icon}</span><span style={{overflow:“hidden”,textOverflow:“ellipsis”,whiteSpace:“nowrap”}}>{d.name}</span>
+</div>
+))}
+<div style={{padding:“9px 11px 4px”,marginTop:“auto”,borderTop:“1px solid var(–border)”,fontSize:”.61rem”,color:“var(–text3)”}}>№26 · v2.0 · 2026</div>
 </div>
 
 ```
-    {/* MAIN CONTENT */}
-    <div className="main">
-      {/* HOME */}
-      {page === "home" && (
-        <>
-          <div className="page-header">
-            <h2>🏠 მთავარი სტატისტიკა</h2>
-          </div>
-          <div className="content">
-            <div className="grid-4 mb-16">
-              {[
-                { label: "სულ მოსწავლე", value: totalStudents, sub: "აქტიური", color: "var(--accent)", onClick: () => { setPage("stats"); setStatsView("list"); setStatsFilter({}); } },
-                { label: "გოგოები", value: totalGirls, sub: `${Math.round(totalGirls / totalStudents * 100)}%`, color: "var(--pink)", onClick: () => { setPage("stats"); setStatsView("list"); setStatsFilter({ gender: "გოგო" }); } },
-                { label: "ბიჭები", value: totalBoys, sub: `${Math.round(totalBoys / totalStudents * 100)}%`, color: "#60a5fa", onClick: () => { setPage("stats"); setStatsView("list"); setStatsFilter({ gender: "ბიჭი" }); } },
-                { label: "პედაგოგი", value: teachers.length, sub: "10 განყოფილება", color: "var(--green)", onClick: () => setPage("teachers") },
-              ].map((s, i) => (
-                <div key={i} className="stat-card" onClick={s.onClick} style={{ "--accent-color": s.color }}>
-                  <div className="stat-label">{s.label}</div>
-                  <div className="stat-value" style={{ color: s.color }}>{s.value}</div>
-                  <div className="stat-sub">{s.sub}</div>
-                </div>
-              ))}
-            </div>
-            <div className="section-header">
-              <h3>🏫 განყოფილებები</h3>
-            </div>
-            <div className="grid-5">
-              {DEPARTMENTS.map(d => (
-                <div key={d.id} className="dept-card" onClick={() => navDept(d.id)} style={{ borderTop: `3px solid ${d.color}` }}>
-                  <div className="dept-icon">{d.icon}</div>
-                  <div className="dept-name">{d.name}</div>
-                  <div className="dept-stats">
-                    <span>👥 {deptStudentCount(d.id)}</span>
-                    <span>👨‍🏫 {deptTeacherCount(d.id)}</span>
-                    <span>📋 {deptGroupCount(d.id)}</span>
-                  </div>
-                  <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: `${Math.min(100, deptStudentCount(d.id) / 2)}%`, background: d.color }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
+  {/* MAIN */}
+  <div className="main">
 
-      {/* DEPARTMENTS */}
-      {page === "departments" && (
-        <>
-          {!activeDeptId && (
-            <>
-              <div className="page-header">
-                <h2>🏫 განყოფილებები</h2>
-              </div>
-              <div className="content">
-                <div className="grid-3">
-                  {DEPARTMENTS.map(d => (
-                    <div key={d.id} className="dept-card" onClick={() => navDept(d.id)} style={{ borderTop: `3px solid ${d.color}` }}>
-                      <div className="dept-icon" style={{ fontSize: "2.2rem" }}>{d.icon}</div>
-                      <div className="dept-name" style={{ fontSize: ".95rem" }}>{d.name}</div>
-                      <div className="dept-stats">
-                        <span>👥 {deptStudentCount(d.id)} მოს.</span>
-                        <span>👨‍🏫 {deptTeacherCount(d.id)} პედ.</span>
-                        <span>📋 {deptGroupCount(d.id)} ჯგ.</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-
-          {activeDeptId && !activeGroupId && currentDept && (
-            <>
-              <div className="breadcrumb">
-                <span onClick={() => { setActiveDeptId(null); setActiveGroupId(null); }}>განყოფილებები</span>
-                <span className="sep">›</span>
-                <span className="current">{currentDept.icon} {currentDept.name}</span>
-              </div>
-              <div className="page-header">
-                <h2>{currentDept.icon} {currentDept.name}</h2>
-                <button className="btn btn-primary btn-sm" onClick={() => setShowAddStudent(true)}>➕ მოსწავლე</button>
-              </div>
-              <div className="content">
-                {/* Groups */}
-                <div className="section-header mb-12">
-                  <h3>📋 ჯგუფები</h3>
-                </div>
-                <div className="grid-3 mb-16">
-                  {deptGroups.map(g => {
-                    const t = teachers.find(x => x.id === g.teacherId);
-                    const gs = students.filter(s => s.groupId === g.id);
-                    return (
-                      <div key={g.id} className="card clickable" onClick={() => navGroup(g.id)} style={{ borderLeft: `3px solid ${currentDept.color}` }}>
-                        <div className="flex-between mb-8">
-                          <div style={{ fontWeight: 700 }}>{g.name}</div>
-                          <span className="arrow" style={{ fontSize: "1rem" }}>›</span>
-                        </div>
-                        <div className="text-sm text-muted mb-8">👨‍🏫 {t?.name || "—"}</div>
-                        <div className="flex gap-8">
-                          <span className="badge badge-girl">👧 {gs.filter(s => s.gender === "გოგო").length}</span>
-                          <span className="badge badge-boy">👦 {gs.filter(s => s.gender === "ბიჭი").length}</span>
-                          <span className="badge badge-blue">სულ {gs.length}</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                {/* Dept teachers */}
-                <div className="section-header mb-12">
-                  <h3>👨‍🏫 პედაგოგები</h3>
-                </div>
-                <div className="grid-2 mb-16">
-                  {teachers.filter(t => t.deptId === activeDeptId).map(t => {
-                    const tStudents = students.filter(s => s.teacherId === t.id);
-                    return (
-                      <div key={t.id} className="teacher-card" onClick={() => setSelectedTeacher(t)}>
-                        <div className="teacher-avatar" style={{ background: currentDept.color + "30", color: currentDept.color }}>
-                          {t.name.charAt(0)}
-                        </div>
-                        <div className="teacher-info">
-                          <div className="tname">{t.name}</div>
-                          <div className="tsubject">{t.subject}</div>
-                          <div className="teacher-meta">
-                            <span className="chip">👥 {tStudents.length} მოს.</span>
-                          </div>
-                        </div>
-                        <span className="arrow">›</span>
-                      </div>
-                    );
-                  })}
-                </div>
-                {/* All dept students */}
-                <div className="section-header mb-12">
-                  <h3>👥 ყველა მოსწავლე ({deptStudents.length})</h3>
-                </div>
-                <StudentListView students={deptStudents} groups={groups} teachers={teachers} departments={DEPARTMENTS} onStudentClick={setSelectedStudent} />
-              </div>
-            </>
-          )}
-
-          {activeDeptId && activeGroupId && currentGroup && (
-            <>
-              <div className="breadcrumb">
-                <span onClick={() => { setActiveDeptId(null); setActiveGroupId(null); }}>განყოფილებები</span>
-                <span className="sep">›</span>
-                <span onClick={() => setActiveGroupId(null)}>{currentDept?.icon} {currentDept?.name}</span>
-                <span className="sep">›</span>
-                <span className="current">{currentGroup.name}</span>
-              </div>
-              <div className="page-header">
-                <h2>{currentGroup.name} — {currentDept?.name}</h2>
-                <button className="btn btn-primary btn-sm" onClick={() => setShowAddStudent(true)}>➕ მოსწავლე</button>
-              </div>
-              <div className="content">
-                <div className="card mb-16" style={{ borderLeft: `3px solid ${currentDept?.color}` }}>
-                  <div className="flex gap-12">
-                    <div>
-                      <div className="text-xs text-muted">პედაგოგი</div>
-                      <div style={{ fontWeight: 600, cursor: "pointer" }} onClick={() => setSelectedTeacher(teachers.find(t => t.id === currentGroup.teacherId))}>
-                        👨‍🏫 {getTeacherName(teachers, currentGroup.teacherId)}
-                      </div>
-                    </div>
-                    <div style={{ width: 1, background: "var(--border)" }} />
-                    <div><div className="text-xs text-muted">სულ მოსწავლე</div><div style={{ fontWeight: 600 }}>👥 {groupStudents.length}</div></div>
-                    <div><div className="text-xs text-muted">გოგო</div><div style={{ color: "var(--pink)", fontWeight: 600 }}>👧 {groupStudents.filter(s => s.gender === "გოგო").length}</div></div>
-                    <div><div className="text-xs text-muted">ბიჭი</div><div style={{ color: "#60a5fa", fontWeight: 600 }}>👦 {groupStudents.filter(s => s.gender === "ბიჭი").length}</div></div>
-                  </div>
-                </div>
-                <StudentListView students={groupStudents} groups={groups} teachers={teachers} departments={DEPARTMENTS} onStudentClick={setSelectedStudent} />
-              </div>
-            </>
-          )}
-        </>
-      )}
-
-      {/* TEACHERS */}
-      {page === "teachers" && (
-        <>
-          <div className="page-header">
-            <h2>👨‍🏫 პედაგოგები</h2>
-            <button className="btn btn-primary btn-sm" onClick={() => setShowAddTeacher(true)}>➕ პედაგოგი</button>
-          </div>
-          <div className="content">
-            <div className="filter-bar mb-16">
-              <span className={`filter-chip${!activeTeacherDeptId ? " active" : ""}`} onClick={() => setActiveTeacherDeptId(null)}>ყველა</span>
-              {DEPARTMENTS.map(d => (
-                <span key={d.id} className={`filter-chip${activeTeacherDeptId === d.id ? " active" : ""}`} onClick={() => setActiveTeacherDeptId(d.id)}>
-                  {d.icon} {d.name}
-                </span>
-              ))}
+    {/* HOME */}
+    {page==="home"&&<>
+      <div className="ph"><h2>🏠 მთავარი</h2></div>
+      <div className="ct">
+        <div className="g4 mb12">
+          {[
+            {l:"სულ მოსწ.",v:total,c:"var(--accent)",action:()=>{setSv("list");setSf({});nav("stats");}},
+            {l:"გოგო",v:girls,c:"var(--pink)",action:()=>{setSv("list");setSf({gender:"გოგო"});nav("stats");}},
+            {l:"ბიჭი",v:boys,c:"#60a5fa",action:()=>{setSv("list");setSf({gender:"ბიჭი"});nav("stats");}},
+            {l:"პედ.",v:teachers.length,c:"var(--green)",action:()=>nav("teachers")},
+          ].map((s,i)=>(
+            <div key={i} className="sc" onClick={s.action}>
+              <div style={{fontSize:".69rem",color:"var(--text2)",marginBottom:4}}>{s.l}</div>
+              <div style={{fontSize:"1.65rem",fontWeight:800,color:s.c}}>{s.v}</div>
             </div>
-            {(activeTeacherDeptId ? DEPARTMENTS.filter(d => d.id === activeTeacherDeptId) : DEPARTMENTS).map(dept => {
-              const deptTeachers = teachers.filter(t => t.deptId === dept.id);
-              if (deptTeachers.length === 0) return null;
-              return (
-                <div key={dept.id} style={{ marginBottom: 24 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, padding: "6px 12px", background: dept.color + "18", borderRadius: 8, borderLeft: `3px solid ${dept.color}` }}>
-                    <span style={{ fontSize: "1.1rem" }}>{dept.icon}</span>
-                    <span style={{ fontWeight: 700, color: dept.color, fontSize: ".9rem" }}>{dept.name}</span>
-                    <span className="badge" style={{ background: dept.color + "22", color: dept.color, marginLeft: "auto" }}>{deptTeachers.length} პედ.</span>
-                  </div>
-                  <div className="grid-2">
-                    {deptTeachers.map(t => {
-                      const tStudents = students.filter(s => s.teacherId === t.id);
-                      const tGroups = groups.filter(g => g.teacherId === t.id);
-                      return (
-                        <div key={t.id} className="teacher-card" onClick={() => setSelectedTeacher(t)}>
-                          <div className="teacher-avatar" style={{ background: dept.color + "30", color: dept.color }}>
-                            {t.name.charAt(0)}
-                          </div>
-                          <div className="teacher-info">
-                            <div className="tname">{t.name}</div>
-                            <div className="tsubject">{t.subject}</div>
-                            <div className="teacher-meta">
-                              <span className="chip">👥 {tStudents.length}</span>
-                              {tGroups.map(g => <span key={g.id} className="chip">{g.name}</span>)}
-                            </div>
-                          </div>
-                          <span className="arrow">›</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </>
-      )}
-
-      {/* STATS */}
-      {page === "stats" && (
-        <>
-          <div className="page-header">
-            <h2>📊 სტატისტიკა და ანალიტიკა</h2>
-            {statsView === "list" && (
-              <button className="btn btn-secondary btn-sm" onClick={() => { setStatsView("overview"); setStatsFilter({}); }}>← მიმოხილვა</button>
-            )}
-          </div>
-          <div className="content">
-            {statsView === "overview" && (
-              <>
-                <div className="grid-4 mb-16">
-                  {[
-                    { label: "სულ მოსწავლე", value: totalStudents, color: "var(--accent)", filter: {} },
-                    { label: "გოგოები", value: totalGirls, color: "var(--pink)", filter: { gender: "გოგო" } },
-                    { label: "ბიჭები", value: totalBoys, color: "#60a5fa", filter: { gender: "ბიჭი" } },
-                    { label: "ჯგუფები", value: groups.length, color: "var(--green)", filter: null },
-                  ].map((s, i) => (
-                    <div key={i} className="stat-card" onClick={() => s.filter !== null && (setStatsView("list"), setStatsFilter(s.filter))}>
-                      <div className="stat-label">{s.label}</div>
-                      <div className="stat-value" style={{ color: s.color }}>{s.value}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="section-header mb-12">
-                  <h3>📊 განყოფილებების სტატისტიკა</h3>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {DEPARTMENTS.map(d => {
-                    const cnt = deptStudentCount(d.id);
-                    const pct = Math.round((cnt / totalStudents) * 100);
-                    return (
-                      <div key={d.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 14px", background: "var(--bg2)", borderRadius: 10, cursor: "pointer", border: "1px solid var(--border)", transition: "all .15s" }}
-                        onClick={() => { setStatsFilter({ deptId: d.id }); setStatsView("list"); }}>
-                        <span style={{ fontSize: "1.2rem", width: 28 }}>{d.icon}</span>
-                        <span style={{ minWidth: 220, fontSize: ".85rem", fontWeight: 500 }}>{d.name}</span>
-                        <div style={{ flex: 1 }}>
-                          <div className="progress-bar">
-                            <div className="progress-fill" style={{ width: `${pct}%`, background: d.color }} />
-                          </div>
-                        </div>
-                        <span style={{ color: d.color, fontWeight: 700, minWidth: 32, textAlign: "right" }}>{cnt}</span>
-                        <span className="text-xs text-muted" style={{ minWidth: 32, textAlign: "right" }}>{pct}%</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-            {statsView === "list" && (
-              <>
-                <div className="filter-bar mb-16">
-                  <div className="search-box">
-                    <span className="search-icon">🔍</span>
-                    <input placeholder="ძებნა..." value={search} onChange={e => setSearch(e.target.value)} />
-                  </div>
-                  <span className={`filter-chip${!statsFilter.deptId ? " active" : ""}`} onClick={() => setStatsFilter(f => ({ ...f, deptId: null }))}>ყველა განყოფ.</span>
-                  {DEPARTMENTS.map(d => (
-                    <span key={d.id} className={`filter-chip${statsFilter.deptId === d.id ? " active" : ""}`} onClick={() => setStatsFilter(f => ({ ...f, deptId: d.id }))}>
-                      {d.icon} {d.name}
-                    </span>
-                  ))}
-                </div>
-                <div className="filter-bar mb-16" style={{ marginTop: -8 }}>
-                  <span className={`filter-chip${!statsFilter.gender ? " active" : ""}`} onClick={() => setStatsFilter(f => ({ ...f, gender: null }))}>ყველა</span>
-                  <span className={`filter-chip${statsFilter.gender === "გოგო" ? " active" : ""}`} onClick={() => setStatsFilter(f => ({ ...f, gender: "გოგო" }))}>👧 გოგო</span>
-                  <span className={`filter-chip${statsFilter.gender === "ბიჭი" ? " active" : ""}`} onClick={() => setStatsFilter(f => ({ ...f, gender: "ბიჭი" }))}>👦 ბიჭი</span>
-                </div>
-                <div style={{ marginBottom: 12, color: "var(--text2)", fontSize: ".85rem" }}>
-                  ნაჩვენებია <strong style={{ color: "var(--accent)" }}>{filteredStudents.length}</strong> მოსწავლე
-                </div>
-                <StudentListView students={filteredStudents} groups={groups} teachers={teachers} departments={DEPARTMENTS} onStudentClick={setSelectedStudent} />
-              </>
-            )}
-          </div>
-        </>
-      )}
-
-      {/* EVENTS */}
-      {page === "events" && (
-        <>
-          <div className="page-header">
-            <h2>🎪 ღონისძიებები</h2>
-            <button className="btn btn-primary btn-sm" onClick={() => setShowAddEvent(true)}>➕ ღონისძიება</button>
-          </div>
-          <div className="content">
-            <div className="tabs" style={{ marginTop: 0 }}>
-              {[["all", "ყველა"], ["current", "მიმდინარე"], ["upcoming", "მომავალი"], ["past", "წარსული"], ["archive", "არქივი"]].map(([v, l]) => (
-                <div key={v} className={`tab${eventTab === v ? " active" : ""}`} onClick={() => setEventTab(v)}>{l}</div>
-              ))}
+          ))}
+        </div>
+        <div className="sh"><h3>🏫 განყ. (კლებ.)</h3></div>
+        <div className="g5">
+          {sortedD.map(d=>(
+            <div key={d.id} className="dc" onClick={()=>navDept(d.id)} style={{borderTop:`3px solid ${d.color}`}}>
+              <div style={{fontSize:"1.75rem"}}>{d.icon}</div>
+              <div style={{fontWeight:600,fontSize:".79rem",lineHeight:1.3}}>{d.name}</div>
+              <div style={{display:"flex",gap:7,fontSize:".67rem",color:"var(--text3)"}}><span>👥{dSC(d.id)}</span><span>👨‍🏫{dTC(d.id)}</span><span>📋{dGC(d.id)}</span></div>
+              <div className="pb"><div className="pf" style={{width:`${Math.min(100,dSC(d.id)/total*100*4)}%`,background:d.color}}/></div>
             </div>
-            <div className="grid-2">
-              {filteredEvents.map(ev => {
-                const depts = DEPARTMENTS.filter(d => ev.deptIds?.includes(d.id));
-                const perfCount = ev.performances?.length || 0;
-                return (
-                  <div key={ev.id} className="event-card" onClick={() => setSelectedEvent(ev)}>
-                    <div className={`event-status ${ev.status}`}>{statusDot[ev.status]} {statusLabel[ev.status]}</div>
-                    <div style={{ fontWeight: 700, fontSize: ".95rem", marginBottom: 8 }}>{ev.title}</div>
-                    <div className="text-sm text-muted mb-8">📅 {ev.date} {ev.venue && `· 📍 ${ev.venue}`}</div>
-                    {ev.description && <div className="text-xs text-muted mb-8">{ev.description}</div>}
-                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8 }}>
-                      {depts.map(d => <span key={d.id} className="chip">{d.icon} {d.name}</span>)}
-                      {perfCount > 0 && <span className="badge badge-purple">🎭 {perfCount} ნომერი</span>}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            {filteredEvents.length === 0 && <div className="empty-state"><div className="empty-icon">🎪</div><div>ღონისძიებები არ არის</div></div>}
+          ))}
+        </div>
+      </div>
+    </>}
+
+    {/* DEPARTMENTS */}
+    {page==="departments"&&<>
+      {!deptId&&<>
+        <div className="ph"><h2>🏫 განყ.</h2></div>
+        <div className="ct"><div className="g3">{sortedD.map(d=>(
+          <div key={d.id} className="dc" onClick={()=>navDept(d.id)} style={{borderTop:`3px solid ${d.color}`}}>
+            <div style={{fontSize:"1.9rem"}}>{d.icon}</div><div style={{fontWeight:600,fontSize:".88rem"}}>{d.name}</div>
+            <div style={{display:"flex",gap:9,fontSize:".68rem",color:"var(--text3)"}}><span>👥{dSC(d.id)}</span><span>👨‍🏫{dTC(d.id)}</span><span>📋{dGC(d.id)}</span></div>
           </div>
-        </>
-      )}
-    </div>
+        ))}</div></div>
+      </>}
+
+      {deptId&&!groupId&&curDept&&<>
+        <div className="bc"><span onClick={()=>{setDeptId(null);}}>განყ.</span><span className="sep">›</span><span className="cur">{curDept.icon} {curDept.name}</span></div>
+        <div className="ph">
+          <h2>{curDept.icon} {curDept.name}</h2>
+          {can(user,"add_student")&&<button className="btn bp bsm" onClick={()=>setAddSt(true)}>➕ მოსწ.</button>}
+        </div>
+        <div className="ct">
+          <div className="sh mb8"><h3>📋 ჯგ.</h3></div>
+          <div className="g3 mb14">{dGr.map(g=>{const t=teachers.find(x=>x.id===g.teacherId),gs=students.filter(s=>s.groupId===g.id);return(
+            <div key={g.id} className="card cl" onClick={()=>navGrp(g)} style={{borderLeft:`3px solid ${curDept.color}`}}>
+              <div className="flb mb8"><div style={{fontWeight:700}}>{g.name}</div><span style={{color:"var(--text3)"}}>›</span></div>
+              <div style={{fontSize:".74rem",color:"var(--text3)",marginBottom:7}}>👨‍🏫 {t?.name||"—"}</div>
+              <div className="flex"><span className="bdg bdg-g">👧{gs.filter(s=>s.gender==="გოგო").length}</span><span className="bdg bdg-b">👦{gs.filter(s=>s.gender==="ბიჭი").length}</span><span className="bdg bdg-c">სულ {gs.length}</span></div>
+            </div>
+          );})}
+          </div>
+          <div className="sh mb8"><h3>👨‍🏫 პედ.</h3></div>
+          <div className="g2 mb14">{teachers.filter(t=>t.deptId===deptId).map(t=>(
+            <div key={t.id} className="tc" onClick={()=>setSelTe(t)}>
+              <div className="ta" style={{background:curDept.color+"30",color:curDept.color}}>{t.name.charAt(0)}</div>
+              <div style={{flex:1,minWidth:0}}><div style={{fontWeight:600,fontSize:".84rem",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.name}</div><div style={{fontSize:".71rem",color:"var(--text2)",marginTop:1}}>{t.subject}</div><div style={{marginTop:4}}><span className="chip">👥{students.filter(s=>s.teacherId===t.id).length}</span></div></div>
+              <span style={{color:"var(--text3)"}}>›</span>
+            </div>
+          ))}</div>
+          <div className="sh mb8"><h3>👥 ყველა ({dSt.length})</h3></div>
+          <SLV students={dSt} groups={groups} teachers={teachers} onStudent={setSelSt}/>
+        </div>
+      </>}
+
+      {deptId&&groupId&&curGrp&&<>
+        <div className="bc"><span onClick={()=>setDeptId(null)}>განყ.</span><span className="sep">›</span><span onClick={()=>setGroupId(null)}>{curDept?.icon} {curDept?.name}</span><span className="sep">›</span><span className="cur">{curGrp.name}</span></div>
+        <div className="ph">
+          <h2>{curGrp.name} — {curDept?.name}</h2>
+          {can(user,"add_student")&&<button className="btn bp bsm" onClick={()=>setAddSt(true)}>➕</button>}
+        </div>
+        <div className="ct">
+          <div className="card mb14" style={{borderLeft:`3px solid ${curDept?.color}`}}>
+            <div className="flex" style={{gap:14,flexWrap:"wrap"}}>
+              <div><div style={{fontSize:".65rem",color:"var(--text3)"}}>პედ.</div><div style={{fontWeight:600,fontSize:".8rem",cursor:"pointer",color:"var(--accent)"}} onClick={()=>setSelTe(teachers.find(t=>t.id===curGrp.teacherId))}>👨‍🏫 {gTName(teachers,curGrp.teacherId)}</div></div>
+              <div style={{width:1,background:"var(--border)"}}/>
+              <div><div style={{fontSize:".65rem",color:"var(--text3)"}}>სულ</div><div style={{fontWeight:700}}>👥{grpSt.length}</div></div>
+              <div><div style={{fontSize:".65rem",color:"var(--text3)"}}>გოგო</div><div style={{color:"var(--pink)",fontWeight:700}}>👧{grpSt.filter(s=>s.gender==="გოგო").length}</div></div>
+              <div><div style={{fontSize:".65rem",color:"var(--text3)"}}>ბიჭი</div><div style={{color:"#60a5fa",fontWeight:700}}>👦{grpSt.filter(s=>s.gender==="ბიჭი").length}</div></div>
+            </div>
+          </div>
+          <SLV students={grpSt} groups={groups} teachers={teachers} onStudent={setSelSt}/>
+        </div>
+      </>}
+    </>}
+
+    {/* TEACHERS */}
+    {page==="teachers"&&<>
+      <div className="ph"><h2>👨‍🏫 პედ.</h2>{can(user,"add_teacher")&&<button className="btn bp bsm" onClick={()=>setAddTe(true)}>➕</button>}</div>
+      <div className="ct">
+        <div className="fb mb14">
+          <span className={`fc${!tDeptFilter?" act":""}`} onClick={()=>setTDeptFilter(null)}>ყველა</span>
+          {DEPARTMENTS.map(d=><span key={d.id} className={`fc${tDeptFilter===d.id?" act":""}`} onClick={()=>setTDeptFilter(d.id)}>{d.icon}</span>)}
+        </div>
+        {([...DEPARTMENTS].sort((a,b)=>dTC(b.id)-dTC(a.id))).filter(d=>!tDeptFilter||d.id===tDeptFilter).map(dept=>{
+          const dts=teachers.filter(t=>t.deptId===dept.id);
+          if(!dts.length)return null;
+          return(
+            <div key={dept.id} style={{marginBottom:18}}>
+              <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:8,padding:"4px 9px",background:dept.color+"18",borderRadius:6,borderLeft:`3px solid ${dept.color}`}}>
+                <span>{dept.icon}</span><span style={{fontWeight:700,color:dept.color,fontSize:".83rem"}}>{dept.name}</span>
+                <span className="bdg" style={{background:dept.color+"22",color:dept.color,marginLeft:"auto"}}>{dts.length}</span>
+              </div>
+              <div className="g2">{dts.map(t=>{
+                const ts=students.filter(s=>s.teacherId===t.id),tg=groups.filter(g=>g.teacherId===t.id);
+                return(<div key={t.id} className="tc" onClick={()=>setSelTe(t)}>
+                  <div className="ta" style={{background:dept.color+"30",color:dept.color}}>{t.name.charAt(0)}</div>
+                  <div style={{flex:1,minWidth:0}}><div style={{fontWeight:600,fontSize:".83rem",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.name}</div><div style={{fontSize:".71rem",color:"var(--text2)",marginTop:1}}>{t.subject}</div><div style={{marginTop:4,display:"flex",gap:4,flexWrap:"wrap"}}><span className="chip">👥{ts.length}</span>{tg.map(g=><span key={g.id} className="chip">{g.name}</span>)}</div></div>
+                  <span style={{color:"var(--text3)"}}>›</span>
+                </div>);
+              })}</div>
+            </div>
+          );
+        })}
+      </div>
+    </>}
+
+    {/* STATS */}
+    {page==="stats"&&<>
+      <div className="ph"><h2>📊 სტატ.</h2>{sv==="list"&&<button className="btn bs bsm" onClick={()=>{setSv("overview");setSf({});}}>← მიმ.</button>}</div>
+      <div className="ct">
+        {sv==="overview"&&<>
+          <div className="g4 mb14">
+            {[
+              {l:"სულ მოსწ.",v:total,c:"var(--accent)",f:{}},
+              {l:"გოგო",v:girls,c:"var(--pink)",f:{gender:"გოგო"}},
+              {l:"ბიჭი",v:boys,c:"#60a5fa",f:{gender:"ბიჭი"}},
+              {l:"ჯგ.",v:groups.length,c:"var(--green)",f:null},
+            ].map((s,i)=>(
+              <div key={i} className="sc" onClick={()=>s.f!==null&&(setSv("list"),setSf(s.f))}>
+                <div style={{fontSize:".69rem",color:"var(--text2)",marginBottom:4}}>{s.l}</div>
+                <div style={{fontSize:"1.65rem",fontWeight:800,color:s.c}}>{s.v}</div>
+              </div>
+            ))}
+          </div>
+          <div className="sh mb8"><h3>📊 განყ. (კლებ.)</h3></div>
+          <div style={{display:"flex",flexDirection:"column",gap:7}}>
+            {sortedD.map((d,idx)=>{const cnt=dSC(d.id),pct=Math.round(cnt/total*100);return(
+              <div key={d.id} style={{display:"flex",alignItems:"center",gap:11,padding:"8px 11px",background:"var(--bg2)",borderRadius:9,cursor:"pointer",border:"1px solid var(--border)",transition:"all .13s"}} onClick={()=>{setSf({deptId:d.id});setSv("list");}}>
+                <span style={{fontSize:".78rem",color:"var(--text3)",minWidth:18,textAlign:"right"}}>{idx+1}.</span>
+                <span style={{fontSize:"1rem",width:24,textAlign:"center"}}>{d.icon}</span>
+                <span style={{minWidth:195,fontSize:".8rem",fontWeight:500}}>{d.name}</span>
+                <div style={{flex:1}}><div className="pb"><div className="pf" style={{width:`${pct*3.5}%`,background:d.color}}/></div></div>
+                <span style={{color:d.color,fontWeight:700,minWidth:25,textAlign:"right"}}>{cnt}</span>
+                <span style={{fontSize:".68rem",color:"var(--text3)",minWidth:28,textAlign:"right"}}>{pct}%</span>
+              </div>
+            );})}
+          </div>
+        </>}
+        {sv==="list"&&<>
+          <div className="fb mb8">
+            <div className="srchw"><span className="si">🔍</span><input placeholder="ძებნა..." value={srch} onChange={e=>setSrch(e.target.value)}/></div>
+            <span className={`fc${!sf.gender?" act":""}`} onClick={()=>setSf(f=>({...f,gender:null}))}>ყველა</span>
+            <span className={`fc${sf.gender==="გოგო"?" act":""}`} onClick={()=>setSf(f=>({...f,gender:"გოგო"}))}>👧</span>
+            <span className={`fc${sf.gender==="ბიჭი"?" act":""}`} onClick={()=>setSf(f=>({...f,gender:"ბიჭი"}))}>👦</span>
+          </div>
+          <div className="fb mb12" style={{marginTop:-4}}>
+            <span className={`fc${!sf.deptId?" act":""}`} onClick={()=>setSf(f=>({...f,deptId:null}))}>ყველა</span>
+            {sortedD.map(d=><span key={d.id} className={`fc${sf.deptId===d.id?" act":""}`} onClick={()=>setSf(f=>({...f,deptId:d.id}))}>{d.icon}</span>)}
+          </div>
+          <div style={{marginBottom:9,color:"var(--text2)",fontSize:".79rem"}}>→ <strong style={{color:"var(--accent)"}}>{fSt.length}</strong> მოსწ.</div>
+          <SLV students={fSt} groups={groups} teachers={teachers} onStudent={setSelSt}/>
+        </>}
+      </div>
+    </>}
+
+    {/* FINANCE */}
+    {page==="finance"&&(can(user,"finance")||can(user,"finance_view"))&&
+      <FinancePage students={students} teachers={teachers} groups={groups} canEdit={can(user,"edit_finance")}/>
+    }
+
+    {/* EVENTS */}
+    {page==="events"&&<>
+      <div className="ph"><h2>🎪 ღონ.</h2>{can(user,"add_event")&&<button className="btn bp bsm" onClick={()=>setAddEv(true)}>➕</button>}</div>
+      <div className="ct">
+        <div className="tabs" style={{marginTop:0}}>{[["all","ყველა"],["current","მიმდ."],["upcoming","მომ."],["past","წარ."],["archive","არქ."]].map(([v,l])=><div key={v} className={`tab${eTab===v?" act":""}`} onClick={()=>setETab(v)}>{l}</div>)}</div>
+        <div className="g2">
+          {fEv.map(ev=>{const depts=DEPARTMENTS.filter(d=>ev.deptIds?.includes(d.id));return(
+            <div key={ev.id} className="ec" onClick={()=>setSelEv(ev)}>
+              <div className={`es ${ev.status}`}>{ev.status==="upcoming"?"🔵":ev.status==="current"?"🟢":ev.status==="past"?"⚪":"🟣"} {SLB[ev.status]}</div>
+              <div style={{fontWeight:700,fontSize:".87rem",marginBottom:6}}>{ev.title}</div>
+              <div style={{fontSize:".74rem",color:"var(--text3)",marginBottom:7}}>📅 {ev.date}{ev.venue?` · 📍 ${ev.venue}`:""}</div>
+              {ev.description&&<div style={{fontSize:".69rem",color:"var(--text3)",marginBottom:7}}>{ev.description}</div>}
+              <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
+                {depts.map(d=><span key={d.id} className="chip">{d.icon} {d.name}</span>)}
+                {ev.performances?.length>0&&<span className="bdg bdg-p">🎭{ev.performances.length}</span>}
+              </div>
+            </div>
+          );})}
+        </div>
+        {!fEv.length&&<div className="empty"><div className="ei">🎪</div>ღონ. არ არის</div>}
+      </div>
+    </>}
   </div>
+</div>
 
-  {/* MODALS */}
-  {selectedStudent && (
-    <StudentModal
-      student={selectedStudent}
-      teachers={teachers}
-      groups={groups}
-      departments={DEPARTMENTS}
-      onSave={saveStudent}
-      onDelete={deleteStudent}
-      onClose={() => setSelectedStudent(null)}
-    />
-  )}
-  {selectedTeacher && (
-    <TeacherModal
-      teacher={selectedTeacher}
-      departments={DEPARTMENTS}
-      groups={groups}
-      students={students}
-      onSave={saveTeacher}
-      onDelete={deleteTeacher}
-      onClose={() => setSelectedTeacher(null)}
-    />
-  )}
-  {showAddStudent && (
-    <AddStudentModal
-      teachers={teachers}
-      groups={groups}
-      departments={DEPARTMENTS}
-      onAdd={addStudent}
-      onClose={() => setShowAddStudent(false)}
-      defaultDeptId={activeDeptId}
-    />
-  )}
-  {showAddTeacher && (
-    <AddTeacherModal
-      departments={DEPARTMENTS}
-      onAdd={addTeacher}
-      onClose={() => setShowAddTeacher(false)}
-    />
-  )}
-  {showAddEvent && (
-    <EventModal
-      event={null}
-      isNew={true}
-      departments={DEPARTMENTS}
-      teachers={teachers}
-      groups={groups}
-      students={students}
-      onSave={saveEvent}
-      onDelete={deleteEvent}
-      onClose={() => setShowAddEvent(false)}
-    />
-  )}
-  {selectedEvent && (
-    <EventModal
-      event={selectedEvent}
-      isNew={false}
-      departments={DEPARTMENTS}
-      teachers={teachers}
-      groups={groups}
-      students={students}
-      onSave={saveEvent}
-      onDelete={deleteEvent}
-      onClose={() => setSelectedEvent(null)}
-    />
-  )}
-</>
+{/* AI */}
+<AIPanel students={students} teachers={teachers} groups={groups} isOpen={aiOpen} onToggle={()=>setAiOpen(o=>!o)}/>
+
+{/* MODALS */}
+{selSt&&<StudentModal student={selSt} teachers={teachers} groups={groups} onSave={saveSt} onDelete={delSt} onClose={()=>setSelSt(null)}/>}
+{selTe&&<TeacherModal teacher={selTe} groups={groups} students={students} onSave={saveTe} onDelete={delTe} onClose={()=>setSelTe(null)} onStudentClick={s=>setSelSt(s)} onGroupNav={g=>navGrp(g)}/>}
+{addSt&&<AddStudentModal teachers={teachers} groups={groups} onAdd={s=>setStudents(ss=>[...ss,s])} onClose={()=>setAddSt(false)} defaultDeptId={deptId}/>}
+{addTe&&<AddTeacherModal onAdd={t=>setTeachers(tt=>[...tt,t])} onClose={()=>setAddTe(false)}/>}
+{addEv&&<EventModal event={null} isNew departments={DEPARTMENTS} teachers={teachers} groups={groups} students={students} onSave={saveEv} onDelete={delEv} onClose={()=>setAddEv(false)}/>}
+{selEv&&<EventModal event={selEv} isNew={false} departments={DEPARTMENTS} teachers={teachers} groups={groups} students={students} onSave={saveEv} onDelete={delEv} onClose={()=>setSelEv(null)}/>}
 ```
 
-);
+</>);
 }
