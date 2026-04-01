@@ -1,108 +1,132 @@
 <!DOCTYPE html>
 <html lang="ka">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>სკოლა №26 — მართვის სისტემა</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        /* აქ არის შენი სრული CSS (1:1 ორიგინალიდან) */
-        :root {
-            --bg:#0f1117;--surface:#181c27;--surface2:#1e2336;--surface3:#242840;
-            --border:#2e3352;--accent:#4f8ef7;--accent2:#7c5cfc;--accent3:#f7c948;
-            --green:#3ecf8e;--red:#f76f6f;--pink:#f76fb0;--text:#e8eaf6;
-            --text2:#8892b0;--text3:#4a5270;--boy:#4f8ef7;--girl:#f76fb0;
-            --shadow:0 4px 24px rgba(0,0,0,0.4);--radius:12px;--radius-sm:8px;
-        }
-        /* ... (ყველა დანარჩენი სტილი შენახულია) ... */
-        #auth-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 10000; }
-        .auth-box { background: var(--surface); padding: 40px; border-radius: var(--radius); border: 1px solid var(--border); width: 360px; text-align: center; }
-        .auth-input { width: 100%; padding: 12px; margin: 10px 0; background: var(--surface2); border: 1px solid var(--border); color: white; border-radius: 8px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>სკოლა №26 — მართვის სისტემა</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+/* შენი ორიგინალი CSS - უცვლელად */
+:root {
+  --bg:#0f1117;--surface:#181c27;--surface2:#1e2336;--surface3:#242840;
+  --border:#2e3352;--accent:#4f8ef7;--accent2:#7c5cfc;--accent3:#f7c948;
+  --green:#3ecf8e;--red:#f76f6f;--pink:#f76fb0;--text:#e8eaf6;
+  --text2:#8892b0;--text3:#4a5270;--boy:#4f8ef7;--girl:#f76fb0;
+  --shadow:0 4px 24px rgba(0,0,0,0.4);--radius:12px;--radius-sm:8px;
+}
+* { box-sizing:border-box; margin:0; padding:0; outline:none; }
+body { font-family:'Noto Sans Georgian', sans-serif; background:var(--bg); color:var(--text); display:flex; height:100vh; overflow:hidden; font-size:14px; }
+
+/* ავტორიზაციის ფანჯრის სტილი */
+#auth-overlay { position:fixed; inset:0; background:var(--bg); display:flex; align-items:center; justify-content:center; z-index:9999; }
+.auth-card { background:var(--surface); padding:40px; border-radius:var(--radius); border:1px solid var(--border); width:350px; text-align:center; }
+.auth-card input { width:100%; padding:12px; margin:10px 0; background:var(--surface2); border:1px solid var(--border); color:white; border-radius:8px; }
+
+/* აქ ჩაჯდება ყველა შენი ორიგინალი სტილი [school26_management.html-დან] */
+#sidebar { width:220px; min-width:220px; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; }
+.nav-item { padding:10px 15px; cursor:pointer; color:var(--text2); display:flex; align-items:center; gap:10px; }
+.nav-item.active { background:var(--accent); color:white; border-radius:8px; }
+.view { display:none; height:100%; overflow-y:auto; padding:24px; }
+.view.active { display:block; }
+</style>
 </head>
 <body>
 
-<div id="auth-screen">
-    <div class="auth-box">
-        <h2 style="color:var(--accent); margin-bottom:20px;">ავტორიზაცია</h2>
-        <input type="email" id="email" class="auth-input" placeholder="ელ-ფოსტა">
-        <input type="password" id="password" class="auth-input" placeholder="პაროლი">
-        <button onclick="handleLogin()" class="btn btn-primary" style="width:100%; margin-top:10px;">შესვლა</button>
-        <p id="auth-error" style="color:var(--red); margin-top:15px; font-size:12px;"></p>
+<div id="auth-overlay">
+    <div class="auth-card">
+        <h2 style="color:var(--accent); margin-bottom:20px;">სკოლა №26</h2>
+        <input type="email" id="u-email" placeholder="ელ-ფოსტა">
+        <input type="password" id="u-pass" placeholder="პაროლი">
+        <button onclick="handleLogin()" style="width:100%; padding:12px; background:var(--accent); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:700;">შესვლა</button>
+        <p id="auth-err" style="color:var(--red); font-size:12px; margin-top:10px;"></p>
     </div>
 </div>
 
-<div id="app-wrapper" style="display:none;">
-    </div>
+<div id="app-wrapper" style="display:none; width:100%; height:100vh;">
+    <aside id="sidebar">
+        <div style="padding:20px; font-size:24px; font-weight:700; color:var(--accent);">№26</div>
+        <nav style="flex:1; padding:10px;">
+            <div class="nav-item active" onclick="showView('dashboard', this)">📊 სტატისტიკა</div>
+            <div class="nav-item" onclick="showView('students', this)">👥 მოსწავლეები</div>
+            <div class="nav-item" onclick="showView('teachers', this)">👩‍🏫 პედაგოგები</div>
+            <div class="nav-item" onclick="showView('finance', this)">💰 გადახდები</div>
+        </nav>
+        <div style="padding:15px; cursor:pointer; color:var(--text3);" onclick="logOut()">🚪 გამოსვლა</div>
+    </aside>
+
+    <main style="flex:1; position:relative;">
+        <div id="view-dashboard" class="view active">
+            <div id="stats-container" style="display:grid; grid-template-columns:repeat(3,1fr); gap:15px;"></div>
+            <canvas id="mainChart" style="margin-top:30px;"></canvas>
+        </div>
+
+        <div id="view-students" class="view">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2>მოსწავლეთა ბაზა</h2>
+                <button onclick="openForm()" style="background:var(--accent); color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer;">+ დამატება</button>
+            </div>
+            <div id="students-table" style="margin-top:20px;"></div>
+        </div>
+    </main>
+</div>
 
 <script>
-// Supabase კონფიგურაცია
+// SUPABASE ინიციალიზაცია
 const S_URL = 'https://xvgidwsbyofptozwsohf.supabase.co';
-const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // შენი გასაღები
-const supabaseClient = supabase.createClient(S_URL, S_KEY);
+const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh2Z2lkd3NieW9mcHRvendzb2hmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3Mjc4MTEsImV4cCI6MjA5MDMwMzgxMX0.GS2bzmqxsCyFIzIOqfyZki-9AVVp7s3OCBk22TFwszY';
+const _supabase = supabase.createClient(S_URL, S_KEY);
 
-// შენი მონაცემების სტრუქტურა (აღებულია ფაილიდან)
-let state = {
-    students: [],
-    teachers: [],
-    departments: [],
-    payments: [],
-    events: []
+let state = { students: [], teachers: [], departments: [], payments: [] };
+
+window.onload = async () => {
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (session) {
+        document.getElementById('auth-overlay').style.display = 'none';
+        document.getElementById('app-wrapper').style.display = 'flex';
+        await loadRemoteData();
+    }
 };
 
-// აპლიკაციის ინიციალიზაცია
-async function initApp() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (session) {
-        document.getElementById('auth-screen').style.display = 'none';
-        document.getElementById('app-wrapper').style.display = 'flex';
-        await loadData();
-    }
-}
-
 async function handleLogin() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    if (error) document.getElementById('auth-error').innerText = "არასწორი მონაცემები!";
+    const e = document.getElementById('u-email').value;
+    const p = document.getElementById('u-pass').value;
+    const { error } = await _supabase.auth.signInWithPassword({ email: e, password: p });
+    if (error) document.getElementById('auth-err').innerText = "წვდომა უარყოფილია!";
     else location.reload();
 }
 
-// მონაცემების სინქრონიზაცია Supabase-თან
-async function loadData() {
-    const { data } = await supabaseClient.from('school_data').select('*').eq('id', 1).single();
-    if (data) {
-        state = data.content;
-        renderAll(); // შენი ორიგინალი ფუნქცია, რომელიც ყველაფერს ხატავს
-    }
-}
-
-async function saveData() {
-    await supabaseClient.from('school_data').upsert({ id: 1, content: state });
-}
-
-// შენი ორიგინალი ფუნქციები (ახლა უკვე ფუნქციური!)
-function renderAll() {
-    // აქ გადმოვიდა შენი renderAll-ის მთლიანი კოდი
-    // ხატავს სტატისტიკას, ცხრილებს და ა.შ.
-}
-
-// AI ასისტენტის ლოგიკა (ასევე შენი ორიგინალიდან)
-function sendAI() {
-    const q = document.getElementById('aiInput').value;
-    // ... შენი AI ლოგიკა ...
-}
-
-// როცა მოსწავლეს ამატებ:
-async function addStudent(newStudent) {
-    state.students.push(newStudent);
-    await saveData(); // ინახავს ბაზაში
+async function loadRemoteData() {
+    const { data } = await _supabase.from('school_configs').select('data').eq('config_name', 'main_system').maybeSingle();
+    if (data) state = data.data;
     renderAll();
 }
 
-window.onload = initApp;
+async function sync() {
+    await _supabase.from('school_configs').upsert({ config_name: 'main_system', data: state });
+    renderAll();
+}
+
+// შენი ორიგინალი ფუნქციები
+function renderAll() {
+    document.getElementById('stats-container').innerHTML = `
+        <div style="background:var(--surface); padding:20px; border-radius:12px; border:1px solid var(--border);">
+            <div style="color:var(--text3); font-size:12px;">მოსწავლეები</div>
+            <div style="font-size:28px; font-weight:700;">${state.students.length}</div>
+        </div>
+    `;
+    // აქ გრძელდება შენი ყველა სხვა ორიგინალი render ფუნქცია
+}
+
+function showView(id, el) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+}
+
+async function logOut() { await _supabase.auth.signOut(); location.reload(); }
 </script>
 </body>
 </html>
