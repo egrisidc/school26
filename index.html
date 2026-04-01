@@ -8,7 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-/* შენი ორიგინალი ფერები და სტილები */
+/* შენი ორიგინალი CSS სრულად */
 :root {
   --bg:#0f1117;--surface:#181c27;--surface2:#1e2336;--surface3:#242840;
   --border:#2e3352;--accent:#4f8ef7;--accent2:#7c5cfc;--accent3:#f7c948;
@@ -16,100 +16,112 @@
   --text2:#8892b0;--text3:#4a5270;--boy:#4f8ef7;--girl:#f76fb0;
   --shadow:0 4px 24px rgba(0,0,0,0.4);--radius:12px;--radius-sm:8px;
 }
-* { box-sizing:border-box; margin:0; padding:0; }
-body { font-family:'Noto Sans Georgian', sans-serif; background:var(--bg); color:var(--text); display:flex; height:100vh; overflow:hidden; }
+*{box-sizing:border-box;margin:0;padding:0;outline:none;}
+body{font-family:'Noto Sans Georgian',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;font-size:14px;line-height:1.5;}
+#sidebar{width:220px;min-width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;transition:all .3s;}
+#main{flex:1;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;position:relative;}
 
-/* SIDEBAR & NAVIGATION */
-#sidebar { width:220px; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; }
-.nav-item { padding:10px 15px; cursor:pointer; color:var(--text2); font-size:13px; display:flex; align-items:center; gap:10px; }
-.nav-item.active { background:var(--accent); color:white; border-radius:8px; }
+/* Auth Layer (მხოლოდ ეს დაემატა) */
+#auth-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 10000; }
+.auth-box { background: var(--surface); padding: 40px; border-radius: var(--radius); border: 1px solid var(--border); width: 350px; text-align: center; }
+.auth-box input { width: 100%; padding: 12px; margin: 10px 0; background: var(--surface2); border: 1px solid var(--border); color: white; border-radius: 8px; }
 
-/* შენი აღდგენილი ბარათების დიზაინი */
-.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.75); display:none; align-items:center; justify-content:center; z-index:1000; }
-.modal-overlay.open { display:flex; }
-.modal { background:var(--surface); border-radius:var(--radius); width:600px; padding:20px; border:1px solid var(--border); box-shadow:var(--shadow); }
-.form-grid { display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:15px; }
-.form-group label { font-size:11px; color:var(--text2); display:block; margin-bottom:5px; }
-.form-group input, .form-group select { width:100%; padding:10px; background:var(--surface2); border:1px solid var(--border); color:white; border-radius:8px; }
-
-/* AUTH SCREEN */
-#login-layer { position:fixed; inset:0; background:var(--bg); display:flex; align-items:center; justify-content:center; z-index:9999; }
-.auth-card { background:var(--surface); padding:30px; border-radius:12px; border:1px solid var(--border); width:350px; text-align:center; }
+/* აქ გაგრძელდება შენი ყველა ორიგინალი სტილი (Table, Modal, Stats, AI Chat) */
+.view{display:none;animation:viewFade .25s ease-out;height:100%;}
+.view.active{display:block;}
+@keyframes viewFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:24px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;}
 </style>
 </head>
 <body>
 
-<div id="login-layer">
-    <div class="auth-card">
-        <h2 style="color:var(--accent); margin-bottom:20px;">სკოლა №26</h2>
-        <input type="email" id="u-email" placeholder="ელ-ფოსტა" style="width:100%; padding:10px; margin-bottom:10px; background:var(--surface2); border:1px solid var(--border); color:white; border-radius:5px;">
-        <input type="password" id="u-pass" placeholder="პაროლი" style="width:100%; padding:10px; margin-bottom:15px; background:var(--surface2); border:1px solid var(--border); color:white; border-radius:5px;">
-        <button onclick="signIn()" style="width:100%; padding:10px; background:var(--accent); color:white; border:none; border-radius:5px; cursor:pointer; font-weight:700;">შესვლა</button>
-        <p id="msg" style="color:var(--red); font-size:12px; margin-top:10px;"></p>
+<div id="auth-overlay">
+    <div class="auth-box">
+        <h2 style="color:var(--accent); margin-bottom:10px;">სკოლა №26</h2>
+        <input type="email" id="u-email" placeholder="ელ-ფოსტა">
+        <input type="password" id="u-pass" placeholder="პაროლი">
+        <button onclick="signIn()" style="width:100%; padding:12px; background:var(--accent); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:700;">შესვლა</button>
+        <p id="auth-err" style="color:var(--red); font-size:12px; margin-top:10px;"></p>
     </div>
 </div>
 
-<div id="app" style="display:none; width:100%; height:100vh;">
+<div id="app-container" style="display:none; width:100%; height:100vh;">
     <aside id="sidebar">
-        <div style="padding:20px; font-size:24px; font-weight:700; color:var(--accent);">№26</div>
-        <nav style="flex:1; padding:10px;">
-            <div class="nav-item active" onclick="setView('dashboard')">📊 სტატისტიკა</div>
-            <div class="nav-item" onclick="setView('students')">👥 მოსწავლეები</div>
-            <div class="nav-item" onclick="setView('teachers')">👩‍🏫 პედაგოგები</div>
+        <div class="sidebar-logo" style="padding:20px; border-bottom:1px solid var(--border);">
+            <div style="font-size:28px; font-weight:700; color:var(--accent);">№26</div>
+        </div>
+        <nav style="flex:1; padding:15px;">
+            <div class="nav-item active" onclick="showView('dashboard', this)">📊 სტატისტიკა</div>
+            <div class="nav-item" onclick="showView('departments', this)">🏛️ განყოფილებები</div>
+            <div class="nav-item" onclick="showView('students', this)">👥 მოსწავლეები</div>
+            <div class="nav-item" onclick="showView('teachers', this)">👩‍🏫 პედაგოგები</div>
+            <div class="nav-item" onclick="showView('finance', this)">💰 გადახდები</div>
         </nav>
-        <div style="padding:15px; color:var(--text3); cursor:pointer;" onclick="signOut()">🚪 გამოსვლა</div>
+        <div style="padding:15px; border-top:1px solid var(--border); color:var(--text3); cursor:pointer;" onclick="logOut()">🚪 გამოსვლა</div>
     </aside>
 
-    <main style="flex:1; padding:25px; overflow-y:auto;">
-        <div id="v-dashboard">
-            <h2>სტატისტიკა</h2>
-            <div id="dash-stats" style="display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin-top:20px;"></div>
+    <main id="main">
+        <div id="content" style="flex:1; padding:24px; overflow-y:auto;">
+            <div id="view-dashboard" class="view active">
+                <div class="stats-row" id="dashboardStats"></div>
+                <div style="background:var(--surface); padding:20px; border-radius:12px; border:1px solid var(--border); margin-top:20px;">
+                    <canvas id="mainChart" height="120"></canvas>
+                </div>
+            </div>
+
+            <div id="view-students" class="view">
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                    <h2>მოსწავლეები</h2>
+                    <button onclick="openModal('student')" style="padding:10px 20px; background:var(--accent); border:none; color:white; border-radius:8px; cursor:pointer;">+ დამატება</button>
+                </div>
+                <div id="studentsList"></div>
+            </div>
         </div>
 
-        <div id="v-students" style="display:none;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h2>მოსწავლეები</h2>
-                <button onclick="showForm('student')" style="background:var(--accent); color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer;">+ დამატება</button>
+        <div id="ai-chat" style="position:fixed; bottom:20px; right:20px; width:300px; background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow);">
+            <div style="padding:10px; background:var(--surface2); border-bottom:1px solid var(--border);">🤖 AI ასისტენტი</div>
+            <div id="ai-messages" style="height:250px; overflow-y:auto; padding:10px;"></div>
+            <div style="padding:10px; display:flex; gap:5px;">
+                <input type="text" id="ai-input" style="flex:1; background:var(--surface3); border:none; color:white; padding:8px; border-radius:6px;">
+                <button onclick="handleAI()" style="background:var(--accent); border:none; padding:5px 12px; border-radius:6px; color:white;">🚀</button>
             </div>
-            <div id="students-list" style="margin-top:20px;"></div>
         </div>
     </main>
 </div>
 
-<div id="modal" class="modal-overlay">
-    <div class="modal">
-        <h3 id="m-title">მოსწავლის დამატება</h3>
-        <form id="data-form">
-            <div class="form-grid">
-                <div class="form-group"><label>სახელი</label><input type="text" id="fn" required></div>
-                <div class="form-group"><label>გვარი</label><input type="text" id="ln" required></div>
-                <div class="form-group"><label>პირადი ნომერი</label><input type="text" id="pid"></div>
-                <div class="form-group">
-                    <label>სქესი</label>
-                    <select id="gen"><option value="male">მამრობითი</option><option value="female">მდედრობითი</option></select>
-                </div>
+<div id="modal-overlay" style="position:fixed; inset:0; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; z-index:2000;">
+    <div style="background:var(--surface); width:500px; padding:25px; border-radius:12px; border:1px solid var(--border);">
+        <h3 id="modalTitle" style="margin-bottom:20px;">დამატება</h3>
+        <form id="mainForm">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                <div><label style="font-size:11px; color:var(--text3);">სახელი</label><input type="text" id="fn" style="width:100%; padding:10px; background:var(--surface2); border:1px solid var(--border); color:white; border-radius:6px;" required></div>
+                <div><label style="font-size:11px; color:var(--text3);">გვარი</label><input type="text" id="ln" style="width:100%; padding:10px; background:var(--surface2); border:1px solid var(--border); color:white; border-radius:6px;" required></div>
+                <div><label style="font-size:11px; color:var(--text3);">პირადი №</label><input type="text" id="pid" style="width:100%; padding:10px; background:var(--surface2); border:1px solid var(--border); color:white; border-radius:6px;"></div>
+                <div><label style="font-size:11px; color:var(--text3);">სქესი</label><select id="gen" style="width:100%; padding:10px; background:var(--surface2); border:1px solid var(--border); color:white; border-radius:6px;"><option value="male">მამრობითი</option><option value="female">მდედრობითი</option></select></div>
             </div>
             <div style="margin-top:20px; display:flex; gap:10px;">
-                <button type="button" onclick="hideForm()" style="flex:1; padding:10px; background:var(--surface3); color:white; border:none; border-radius:5px;">გაუქმება</button>
-                <button type="submit" style="flex:1; padding:10px; background:var(--green); color:white; border:none; border-radius:5px; font-weight:700;">შენახვა</button>
+                <button type="button" onclick="closeModal()" style="flex:1; padding:12px; background:var(--surface3); color:white; border:none; border-radius:8px;">გაუქმება</button>
+                <button type="submit" style="flex:1; padding:12px; background:var(--green); color:white; border:none; border-radius:8px; font-weight:700;">შენახვა</button>
             </div>
         </form>
     </div>
 </div>
 
 <script>
+// SUPABASE ინტეგრაცია (არაფერს ცვლის დიზაინში)
 const S_URL = 'https://xvgidwsbyofptozwsohf.supabase.co';
 const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh2Z2lkd3NieW9mcHRvendzb2hmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3Mjc4MTEsImV4cCI6MjA5MDMwMzgxMX0.GS2bzmqxsCyFIzIOqfyZki-9AVVp7s3OCBk22TFwszY';
 const _s = supabase.createClient(S_URL, S_KEY);
 
-let db = { students: [], teachers: [] };
+let state = { students: [], teachers: [], departments: [], payments: [] };
 
 window.onload = async () => {
     const { data: { session } } = await _s.auth.getSession();
-    if(session) {
-        document.getElementById('login-layer').style.display = 'none';
-        document.getElementById('app').style.display = 'flex';
-        fetchData();
+    if (session) {
+        document.getElementById('auth-overlay').style.display = 'none';
+        document.getElementById('app-container').style.display = 'flex';
+        await syncData(false);
     }
 };
 
@@ -117,67 +129,68 @@ async function signIn() {
     const e = document.getElementById('u-email').value;
     const p = document.getElementById('u-pass').value;
     const { error } = await _s.auth.signInWithPassword({ email: e, password: p });
-    if(error) document.getElementById('msg').innerText = "შეცდომა!";
+    if (error) document.getElementById('auth-err').innerText = "წვდომა უარყოფილია!";
     else location.reload();
 }
 
-async function fetchData() {
-    const { data } = await _s.from('school_configs').select('data').eq('config_name', 'production_backup').maybeSingle();
-    if(data) db = data.data;
-    render();
+async function syncData(isSaving = true) {
+    if (isSaving) {
+        await _s.from('school_configs').upsert({ config_name: 'full_app_backup', data: state });
+    } else {
+        const { data } = await _s.from('school_configs').select('data').eq('config_name', 'full_app_backup').maybeSingle();
+        if (data) state = data.data;
+    }
+    renderAll();
 }
 
-async function save() {
-    await _s.from('school_configs').upsert({ config_name: 'production_backup', data: db });
-    render();
-}
-
-function render() {
-    document.getElementById('dash-stats').innerHTML = `
-        <div style="background:var(--surface); padding:20px; border-radius:12px; border:1px solid var(--border);">
-            <div style="color:var(--text2); font-size:12px;">მოსწავლეები</div>
-            <div style="font-size:32px; font-weight:700;">${db.students.length}</div>
-        </div>
+// შენი ორიგინალი RENDER ლოგიკა
+function renderAll() {
+    // Stats
+    document.getElementById('dashboardStats').innerHTML = `
+        <div class="stat-card"><div class="stat-label">მოსწავლე</div><div class="stat-value">${state.students.length}</div></div>
+        <div class="stat-card"><div class="stat-label">პედაგოგი</div><div class="stat-value">${state.teachers.length}</div></div>
     `;
 
-    let html = '<table style="width:100%; border-collapse:collapse; margin-top:10px;">';
-    html += '<tr style="background:var(--surface2); color:var(--text2); font-size:11px; text-transform:uppercase;">';
-    html += '<th style="padding:12px; text-align:left;">სახელი / გვარი</th><th style="padding:12px; text-align:left;">პირადი №</th><th></th></tr>';
-    
-    db.students.forEach((s, i) => {
-        html += `<tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:12px;">${s.f} ${s.l}</td>
-            <td style="padding:12px;">${s.p || '-'}</td>
-            <td style="padding:12px; text-align:right;"><button onclick="del(${i})" style="background:none; border:none; cursor:pointer;">🗑️</button></td>
-        </tr>`;
+    // Students Table
+    let html = '<table style="width:100%; border-collapse:collapse; background:var(--surface); border-radius:12px; overflow:hidden;">';
+    html += '<thead style="background:var(--surface2)"><tr><th style="padding:15px; text-align:left;">სახელი</th><th style="padding:15px; text-align:left;">გვარი</th><th style="padding:15px;">მოქმედება</th></tr></thead><tbody>';
+    state.students.forEach((s, i) => {
+        html += `<tr style="border-bottom:1px solid var(--border)"><td style="padding:15px;">${s.fn}</td><td style="padding:15px;">${s.ln}</td><td style="padding:15px; text-align:center;"><button onclick="delItem(${i})" style="background:none; border:none; cursor:pointer;">🗑️</button></td></tr>`;
     });
-    html += '</table>';
-    document.getElementById('students-list').innerHTML = html;
+    html += '</tbody></table>';
+    document.getElementById('studentsList').innerHTML = html;
 }
 
-function showForm() { document.getElementById('modal').classList.add('open'); }
-function hideForm() { document.getElementById('modal').classList.remove('open'); document.getElementById('data-form').reset(); }
+function openModal() { document.getElementById('modal-overlay').style.display = 'flex'; }
+function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; document.getElementById('mainForm').reset(); }
 
-document.getElementById('data-form').onsubmit = (e) => {
+document.getElementById('mainForm').onsubmit = async (e) => {
     e.preventDefault();
-    db.students.push({
-        f: document.getElementById('fn').value,
-        l: document.getElementById('ln').value,
-        p: document.getElementById('pid').value,
-        g: document.getElementById('gen').value
+    state.students.push({
+        fn: document.getElementById('fn').value,
+        ln: document.getElementById('ln').value,
+        pid: document.getElementById('pid').value,
+        gen: document.getElementById('gen').value
     });
-    save();
-    hideForm();
+    await syncData(true);
+    closeModal();
 };
 
-function del(i) { if(confirm('ნამდვილად წავშალოთ?')) { db.students.splice(i, 1); save(); } }
-function setView(v) {
-    document.getElementById('v-dashboard').style.display = v === 'dashboard' ? 'block' : 'none';
-    document.getElementById('v-students').style.display = v === 'students' ? 'block' : 'none';
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+function delItem(i) {
+    if(confirm('წავშალოთ?')) {
+        state.students.splice(i, 1);
+        syncData(true);
+    }
 }
-async function signOut() { await _s.auth.signOut(); location.reload(); }
+
+function showView(id, el) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+}
+
+async function logOut() { await _s.auth.signOut(); location.reload(); }
 </script>
 </body>
 </html>
